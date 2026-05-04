@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Separator } from "../../shared/ui/seporator/Separator";
@@ -8,10 +8,11 @@ export const AppHeader = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [openAdminSubMenu, setOpenAdminSubMenu] = useState(false);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
 
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const { user, logout } = useAuth();
     const isLoggedIn = !!user;
     const isAdmin = user?.organizationCode === '19000'
 
@@ -26,6 +27,12 @@ export const AppHeader = () => {
     const closeDropdown = () => {
         setIsDropdownOpen(false);
         setOpenAdminSubMenu(false);
+    }
+
+    const handleExitButton = async () => {
+        await logout();
+        closeDropdown();
+        navigate("/login");
     }
 
     useEffect(() => {
@@ -52,7 +59,7 @@ export const AppHeader = () => {
 
     return (
         <header className={style.app_header}>
-            <div className={style.lower_header}>
+            <div className={style.container}>
                 <div
                     className={style.logo}>
                     <Link
@@ -214,10 +221,7 @@ export const AppHeader = () => {
                                                         justifyContent: 'space-between',
                                                         fontWeight: '500'
                                                     }}
-                                                    onClick={() => {
-                                                        logout();
-                                                        closeDropdown();
-                                                    }}>
+                                                    onClick={handleExitButton}>
                                                     Выйти
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.333 13.667L6 10.333L9.333 7M6 10.333h9.167a3.333 3.333 0 0 1 0 6.667h-.834" />
