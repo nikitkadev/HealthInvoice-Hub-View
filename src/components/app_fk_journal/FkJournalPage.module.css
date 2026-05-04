@@ -1,0 +1,148 @@
+.control_panel {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid VAR(--border-light);
+    border-radius: .8rem;
+    padding: .5rem 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--bg-primary);
+}
+
+.control_panel_container_actions {
+    display: flex;
+    gap: 2rem
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 1px solid var(--border-light);
+    border-radius: .5rem;
+    height: 2.5rem;
+    gap: .5rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.th,
+.td {
+    text-align: left;
+    padding: .3rem 0 .3rem 1rem;
+    color: var(--text-primary);
+
+    font-size: 0.9rem;
+    padding: .6rem 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    border-bottom: 1px solid var(--border-light);
+}
+
+.thCenter,
+.tdCenter {
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+
+    border-bottom: 1px solid var(--border-light);
+}
+
+.container {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.table_container {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+
+    border-radius: .8rem;
+    border: 1px solid var(--border-light);
+    background-color: var(--bg-primary);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-selected-card-light) transparent;
+}
+
+.journal_table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    table-layout: fixed;
+}
+
+.table_button {
+    border: none;
+    background: none;
+}
+
+.thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--table-head-color-light);
+}
+
+.contextMenu {
+    position: fixed;
+    background: white;
+    border: 1px solid var(--border-light-menu-context);
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 13rem;
+    overflow: hidden;
+    padding: .4rem;
+
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.contextMenu button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: .5rem .5rem;
+    border: none;
+    border-radius: .5rem;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 400;
+
+    transition: 0.1s ease;
+}
+
+.contextMenu button:hover {
+    background: var(--bg-hover);
+}
+
+.context_menu_header {
+    padding: .5rem;
+}
+
+.tr_body {
+    cursor: pointer;
+}
+
+.tr_body:hover {
+    background-color: var(--bg-app-light);
+    transition: 0.2s ease;
+}

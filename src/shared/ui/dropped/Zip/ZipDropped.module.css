@@ -1,0 +1,70 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.dropZone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 12rem;
+    width: 100%;
+    border: 2px dashed var(--border-light);
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--table-head-color-light);
+}
+
+.dropZone:hover {
+    border: 2px dashed var(--text-primary);
+    background: rgb(245, 245, 245);
+}
+
+.dropZone.dragging {
+    border-color: var(--journal-smo-success-status-bg);
+    background: rgba(29, 255, 142, 0.1);
+}
+
+.dropZone.loading {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.defaultText {
+    color: var(--text-secondary);
+    font-size: 1rem;
+
+    text-wrap: nowrap;
+    overflow: hidden;
+}
+
+.dragText {
+    color: var(--journal-smo-success-status-bg);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.loadingText {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-light);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,16 @@
+.container {
+    margin: 5rem auto;
+    width: 30rem;
+    background-color: var(--bg-primary);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.h3 {
+    font-size: 1.5rem;
+}
+
+.p {
+    color: black;
+    text-align: left;
+}
