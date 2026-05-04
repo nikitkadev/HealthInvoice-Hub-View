@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useAuth } from "../app_auth/auth_service/AuthContext";
+import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Separator } from "../../shared/ui/seporator/Separator";
 import style from './AppHeader.module.css';
@@ -58,7 +58,7 @@ export const AppHeader = () => {
                     <Link
                         to="/"
                         className={style.logo_link}>
-                        <span>HealthInvoice Hub v1.0.0</span>
+                        <span>HealthInvoice Hub V1.0.0</span>
                     </Link>
                 </div>
                 {isLoggedIn && (

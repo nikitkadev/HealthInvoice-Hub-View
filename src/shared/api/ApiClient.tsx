@@ -42,13 +42,6 @@ class ApiClient {
             throw new Error(`HTTP ${response.status}`);
         }
 
-        const contentType = response.headers.get('content-type');
-        const contentLength = response.headers.get('content-length');
-
-        if (response.status === 204 || contentLength === '0' || !contentType?.includes('application/json')) {
-            return;
-        }
-
         return await response.json() as T;
     }
 

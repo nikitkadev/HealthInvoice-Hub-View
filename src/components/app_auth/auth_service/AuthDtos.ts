@@ -3,10 +3,6 @@ export interface LoginCredentials {
     password: string;
 }
 
-export interface LoginResponse{
-    isSuccessAuth: boolean;
-}
-
 export interface UserInfo {
     uid: number;
     lastActivity: Date;
@@ -20,4 +16,12 @@ export interface UserInfo {
     organizationName: string;
     sessionStart: string;
     sessionEnd: string;
+}
+
+export interface LoginResult {
+    isSuccess: boolean;
+    isAcceptedPersonalPolicy: boolean;
+    username: string;
+    organizationCode: string;
+    clientMessage: string;
 }

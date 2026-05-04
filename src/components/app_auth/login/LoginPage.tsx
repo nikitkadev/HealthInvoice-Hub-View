@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../auth_service/AuthContext';
+import { useAuth } from '../auth_service/AuthProvider';
 import { Separator } from '../../../shared/ui/seporator/Separator';
 import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 
 import styles from './LoginPage.module.css';
+import { toast } from 'react-toastify';
 
 export const LoginPage = () => {
 
@@ -29,25 +30,22 @@ export const LoginPage = () => {
         setIsSubmitting(true);
         setIsWrongData(false);
 
-        try {
-            const user = await login({ username, password });
+        const loginResult = await login({ username, password });
 
-            if (!user) {
-                setIsWrongData(true);
+        if (loginResult) {
+
+            if (loginResult.isSuccess) {
+
+                loginResult.isAcceptedPersonalPolicy ? navigate("/") : navigate("/consent");
+                toast.success(loginResult.clientMessage ?? "Добро пожаловать в HealthInvoice Hub!");
+
                 return;
             }
 
-            if (!user.isAcceptedPersonalData) {
-                navigate('/consent');
-            } else {
-                navigate('/');
-            }
-        } catch (error: any) {
-            console.error("Login error:", error);
+            toast.error(loginResult.clientMessage ?? "Ошибка в логине или пароле!");
         }
-        finally {
-            setIsSubmitting(false);
-        }
+
+        setIsSubmitting(false);
     };
 
     const handleValidationError = (e: React.InvalidEvent<HTMLInputElement>, fieldName: string) => {

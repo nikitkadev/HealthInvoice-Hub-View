@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "../app_auth/auth_service/AuthContext";
+import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useJournal } from "../app_mainjournal/JournalContext";
 import { api } from "../../shared/api/ApiClient";
 
