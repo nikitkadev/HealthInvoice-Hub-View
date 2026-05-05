@@ -24,6 +24,15 @@ interface JournalResponse {
     pageSize: number;
 }
 
+export interface JournalFilters {
+    organizationCode: string;
+    schetNumber: string;
+    username: string;
+    filename: string;
+    dateFrom: string;
+    dateTo: string;
+}
+
 export const useJournalData = () => {
     const { user } = useAuth();
     const { journalType } = useJournal();
@@ -37,10 +46,19 @@ export const useJournalData = () => {
         totalItems: 0
     });
 
+    const [filters, setFilters] = useState<JournalFilters>({
+        organizationCode: '',
+        schetNumber: '',
+        username: '',
+        filename: '',
+        dateFrom: '',
+        dateTo: ''
+    });
+
     useEffect(() => {
         setPagination(prev => ({
             ...prev,
-            currentPage: 1  
+            currentPage: 1
         }));
     }, [journalType]);
 
@@ -48,12 +66,22 @@ export const useJournalData = () => {
         try {
             setLoading(true);
 
-            const response = await api.get<JournalResponse>('/journal/lk/fetch', {
-                organizationCode: user?.organizationCode ?? '',
+            const params: Record<string, string> = {
+                organizationCode: (filters.organizationCode || user?.organizationCode) ?? '',
                 journalType: journalType.toString(),
                 page: pagination.currentPage.toString(),
                 pageSize: pagination.pageSize.toString()
-            });
+            };
+
+            if (filters.schetNumber) params.schetNumber = filters.schetNumber;
+            if (filters.username) params.username = filters.username;
+            if (filters.filename) params.filename = filters.filename;
+            if (filters.dateFrom) params.dateFrom = filters.dateFrom;
+            if (filters.dateTo) params.dateTo = filters.dateTo;
+
+            console.log(filters);
+
+            const response = await api.get<JournalResponse>('/journal/lk/fetch', params);
 
             if (response) {
                 setData(response.items);
@@ -67,7 +95,8 @@ export const useJournalData = () => {
         } finally {
             setLoading(false);
         }
-    }, [journalType, pagination.currentPage, pagination.pageSize]);
+    }, [journalType, pagination.currentPage, pagination.pageSize, filters]);
+
 
     useEffect(() => {
         fetchData();
@@ -82,12 +111,26 @@ export const useJournalData = () => {
         setPagination(prev => ({ ...prev, pageSize: size, currentPage: 1 }));
     };
 
+    const resetFilters = () => {
+        setFilters({
+            organizationCode: '',
+            schetNumber: '',
+            username: '',
+            filename: '',
+            dateFrom: '',
+            dateTo: ''
+        });
+    }
+
     return {
         data,
         isLoading,
         pagination,
         goToPage,
         setPageSize,
-        refreshData: fetchData
+        refreshData: fetchData,
+        filters,
+        onChangeFilter: setFilters,
+        resetFilters
     }
 }

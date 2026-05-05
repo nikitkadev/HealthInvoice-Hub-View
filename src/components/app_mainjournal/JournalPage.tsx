@@ -10,12 +10,13 @@ import { Modal } from '../../shared/ui/modal/Modal';
 import { ZipDropped } from '../../shared/ui/dropped/Zip/ZipDropped';
 import { api } from '../../shared/api/ApiClient';
 import { useJournal } from './JournalContext';
-import dayjs from 'dayjs';
-import styles from './JournalPage.module.css';
 import { FkJournalPage } from '../app_fk_journal/FkJournalPage';
 import { Separator } from '../../shared/ui/seporator/Separator';
+import styles from './JournalPage.module.css';
+import dayjs from 'dayjs';
 
 export const JournalPage = () => {
+
     const [rowContextMenu, setRowContextMenu] = useState<{
         visible: boolean;
         x: number;
@@ -38,7 +39,10 @@ export const JournalPage = () => {
         pagination,
         goToPage,
         setPageSize,
-        refreshData
+        refreshData,
+        filters,
+        onChangeFilter,
+        resetFilters
     } = useJournalData();
 
     const [checkedInvoices, setCheckedInvoices] = useState<InvoiceSummaryValidationResult[]>([]);
@@ -193,8 +197,9 @@ export const JournalPage = () => {
     const handleRemoving = async () => {
         setIsRemoving(true);
         try {
-            await api.post('/invoices/remove', {
-                schetUids: selected,
+
+            await api.postWithoutContent('/invoices/remove', {
+                schetUids: selected.map(f => f.schetUid),
                 journalType: journalType
             });
 
@@ -203,6 +208,7 @@ export const JournalPage = () => {
             toast.success("Выбранные счета успешно удалены!");
         }
         catch (error) {
+            console.log(error);
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
         }
         finally {
@@ -217,7 +223,7 @@ export const JournalPage = () => {
             const schetUids: number[] = [];
             schetUids.push(rowContextMenu.schetUid);
 
-            await api.post('/invoices/remove', {
+            await api.postWithoutContent('/invoices/remove', {
                 schetUids: schetUids,
                 journalType: journalType
             });
@@ -225,7 +231,8 @@ export const JournalPage = () => {
             refreshData();
             toast.success("Выбранные счета успешно удалены!");
         }
-        catch {
+        catch (error) {
+            console.log(error);
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
         }
         finally {
@@ -301,7 +308,7 @@ export const JournalPage = () => {
                 return;
             }
 
-            await api.post('/invoices/upsert', {
+            await api.postWithoutContent('/invoices/upsert', {
                 items: filesToSend,
                 journalType: journalType
             });
@@ -402,6 +409,10 @@ export const JournalPage = () => {
     return (
         <>
             <ControlPanel
+                filters={filters}
+                onFilterChange={onChangeFilter}
+                onApply={refreshData}
+                onReset={resetFilters}
                 onFkJournalOpen={handleOpenJournalFkModal}
                 onRefresh={handleRefresh}
                 onUpload={handleUploadClick}

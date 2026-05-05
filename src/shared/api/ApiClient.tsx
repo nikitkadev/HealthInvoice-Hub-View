@@ -45,6 +45,36 @@ class ApiClient {
         return await response.json() as T;
     }
 
+    async requestWithoutContent(endpoint: string, options: RequestOptions = {}) {
+        const { method = 'GET', params, body, isFormData = false } = options;
+        const url = new URL(`${this.BaseUrl}${endpoint}`);
+
+        if (params) {
+            Object.entries(params).forEach(([key, value]) => {
+                url.searchParams.set(key, value);
+            });
+        }
+
+        const headers: HeadersInit = {};
+
+        if (body && !isFormData) {
+            headers['Content-Type'] = 'application/json';
+        }
+
+        const response = await fetch(url.toString(), {
+            method,
+            credentials: 'include',
+            headers,
+            body: body ? (isFormData ? body : JSON.stringify(body)) : undefined
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        return;
+    }
+
     async downloadFormatValidationReportFile(endpoint: string, filename: string, journalType: number) {
 
         const url = new URL(`${this.BaseUrl}${endpoint}`);
@@ -130,6 +160,10 @@ class ApiClient {
 
     postFormData<T = any>(endpoint: string, formData: FormData) {
         return this.request<T>(endpoint, { method: 'POST', body: formData, isFormData: true });
+    }
+
+    async postWithoutContent(endpoint: string, body?: any): Promise<void> {
+        await this.requestWithoutContent(endpoint, { method: 'POST', body });
     }
 
 }

@@ -11,15 +11,12 @@ export const PublicOnlyRoute = ({ children }: PublicOnlyRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        console.log("PublicOnlyRoute: isLoading, показываем Loader");
-        return <LoaderBlock text="..." />;
+        return <LoaderBlock text="Готовимся к дейвану грани спасения..." />;
     }
 
     if (user && user.isAcceptedPersonalData) {
-        console.log("PublicOnlyRoute: редирект на /");
         return <Navigate to="/" replace />;
     }
 
-    console.log("PublicOnlyRoute: показываем детей");
     return <>{children}</>;
 }

@@ -3,6 +3,7 @@ import { useJournal } from './JournalContext';
 import styles from './ControlPanel.module.css';
 import { Pagination } from '../../shared/ui/pagination/Pagination';
 import { Separator } from '../../shared/ui/seporator/Separator';
+import { LogicControlJournalFilters } from '../../shared/ui/filters/LogicControlJournalFilters';
 
 interface ControlPanelProps {
     onFkJournalOpen: () => void;
@@ -16,9 +17,24 @@ interface ControlPanelProps {
         pageSize: number;
         totalItems: number;
     };
+    filters: {
+        organizationCode: string;
+        schetNumber: string;
+        username: string;
+        filename: string;
+        dateFrom: string;
+        dateTo: string;
+    };
+    onFilterChange: (updater: (prev: any) => any) => void;
+    onApply: () => void;
+    onReset: () => void;
 }
 
 export const ControlPanel = ({
+    filters,
+    onFilterChange,
+    onApply,
+    onReset,
     onFkJournalOpen,
     onRefresh,
     onUpload,
@@ -54,8 +70,14 @@ export const ControlPanel = ({
                         onPageChange={goToPage}
                         onPageSizeChange={setPageSize}
                     />
+                    <LogicControlJournalFilters
+                        filters={filters}
+                        onApply={onApply}
+                        onReset={onReset}
+                        onFilterChange={onFilterChange} />
                 </div>
             </div>
+
             <div className={styles.container_action}>
                 <button
                     className={styles.button_with_text_and_icon}
