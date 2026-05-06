@@ -1,17 +1,18 @@
 import type { InvoiceSummaryValidationResult } from './UploadJournalTypes';
 import React, { useEffect, useState } from 'react';
-import { Checkbox } from '../../shared/ui/checkbox/Checkbox';
-import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
-import { Status } from '../../shared/ui/status/Status';
-import { ControlPanel } from './ControlPanel';
+import { Checkbox } from '../../../shared/ui/checkbox/Checkbox';
+import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
+import { Status } from '../../../shared/ui/status/Status';
+import { ControlPanel } from './../control_panel/ControlPanel';
 import { useJournalData, type JournalRecord } from './JournalData';
 import { toast } from 'react-toastify';
-import { Modal } from '../../shared/ui/modal/Modal';
-import { ZipDropped } from '../../shared/ui/dropped/Zip/ZipDropped';
-import { api } from '../../shared/api/ApiClient';
+import { Modal } from '../../../shared/ui/modal/Modal';
+import { ZipDropped } from '../../../shared/ui/dropped/Zip/ZipDropped';
+import { api } from '../../../shared/api/ApiClient';
 import { useJournal } from './JournalContext';
-import { FkJournalPage } from '../app_fk_journal/FkJournalPage';
-import { Separator } from '../../shared/ui/seporator/Separator';
+import { FkJournalPage } from '../../app_fk_journal/FkJournalPage';
+import { Separator } from '../../../shared/ui/seporator/Separator';
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import styles from './JournalPage.module.css';
 import dayjs from 'dayjs';
 
@@ -44,6 +45,20 @@ export const JournalPage = () => {
         onChangeFilter,
         resetFilters
     } = useJournalData();
+
+    const { user } = useAuth();
+
+    const isAdmin = user?.organizationCode === '19000';
+
+    const handleViewErrors = () => {
+        setRowContextMenu(prev => ({ ...prev, visible: false }));
+        window.open(`/errors/${rowContextMenu.schetUid}?journalType=${journalType}`, '_blank');
+    };
+
+    const handleViewErrorsWithOneSelected = (selected: JournalRecord) => {
+        setRowContextMenu(prev => ({ ...prev, visible: false }));
+        window.open(`/errors/${selected.schetUid}?journalType=${journalType}`, '_blank');
+    };
 
     const [checkedInvoices, setCheckedInvoices] = useState<InvoiceSummaryValidationResult[]>([]);
     const [selected, setSelected] = useState<JournalRecord[]>([]);
@@ -393,6 +408,16 @@ export const JournalPage = () => {
         }
     }
 
+    const applyFilters = () => {
+        setSelected([]);
+        refreshData();
+    }
+
+    const clearFilters = () => {
+        setSelected([]);
+        resetFilters();
+    }
+
     if (isLoading) {
         return <LoaderBlock text='Накидываем Голгороту...' />
     }
@@ -409,10 +434,11 @@ export const JournalPage = () => {
     return (
         <>
             <ControlPanel
+                isAdmin={isAdmin}
                 filters={filters}
                 onFilterChange={onChangeFilter}
-                onApply={refreshData}
-                onReset={resetFilters}
+                onApply={applyFilters}
+                onReset={clearFilters}
                 onFkJournalOpen={handleOpenJournalFkModal}
                 onRefresh={handleRefresh}
                 onUpload={handleUploadClick}
@@ -607,7 +633,26 @@ export const JournalPage = () => {
                                 <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
 
                                 {(selectedCount === 0 && rowContextMenu.status === -1) && (
-                                    <button onClick={() => console.log("Пук")}>
+                                    <button onClick={handleViewErrors}>
+                                        Просмотреть ошибки
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1"
+                                                d="m9 8l-4 4l4 4m6-8l4 4l-4 4" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {(selectedCount === 1 && selected[0].status === -1) && (
+                                    <button onClick={() => handleViewErrorsWithOneSelected(selected[0])}>
                                         Просмотреть ошибки
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"

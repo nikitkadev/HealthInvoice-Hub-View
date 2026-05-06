@@ -8,7 +8,7 @@ class AuthService {
     }
 
     async logout() {
-        await api.post("/auth/logout");
+        await api.postWithoutContent("/auth/logout");
     }
 
     async getCurrentUser(): Promise<UserInfo | null> {

@@ -6,12 +6,13 @@ import { ProfilePage } from "./components/app_profile/ProfilePage";
 import { ProtectedRoute } from "./components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "./components/app_protectedroutes/PublicOnlyRoute";
 import { RControlPage } from "./components/app_admin/rcontrol/RControlPage";
-import { JournalPage } from "./components/app_mainjournal/JournalPage";
+import { JournalPage } from "./components/app_lk_journal/general/JournalPage";
 import { UserControlPage } from "./components/app_admin/users/UserControlPage";
 import { PersonalDataPage } from "./components/app_personal/PersonalDataPage";
 import { AdminOnlyRoute } from "./components/app_protectedroutes/AdminOnlyRoute";
 import { Docs } from "./components/app_docs/Docs";
 import { LoginPage } from "./components/app_auth/login/LoginPage";
+import { LkJournalErrorsPage } from "./components/errors/LkJournalErrorsPage";
 
 export const router = createBrowserRouter(
     [
@@ -78,6 +79,10 @@ export const router = createBrowserRouter(
                             </ProtectedRoute>
                         </AdminOnlyRoute>
                     )
+                },
+                {
+                    path: 'errors/:schetUid',
+                    element: <LkJournalErrorsPage />
                 }
             ]
 

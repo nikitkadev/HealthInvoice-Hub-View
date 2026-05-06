@@ -65,7 +65,7 @@ export const AppHeader = () => {
                     <Link
                         to="/"
                         className={style.logo_link}>
-                        <span>HealthInvoice Hub V1.0.0</span>
+                        <span>HealthInvoice Hub V1.0.1</span>
                     </Link>
                 </div>
                 {isLoggedIn && (

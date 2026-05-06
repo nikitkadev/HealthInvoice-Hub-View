@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { api } from '../../shared/api/ApiClient';
+import { api } from '../../../shared/api/ApiClient';
 import { useJournal } from "./JournalContext";
-import { useAuth } from "../app_auth/auth_service/AuthProvider";
+import { useAuth } from "../../app_auth/auth_service/AuthProvider";
 
 export interface JournalRecord {
     uid: number;

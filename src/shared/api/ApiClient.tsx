@@ -10,8 +10,8 @@ class ApiClient {
     private BaseUrl: string;
 
     constructor() {
-        this.BaseUrl = 'http://localhost:8090/healthinvoice/api';
-        //this.BaseUrl = 'http://healthinvoice.hub:8089/healthinvoice/api';
+        //this.BaseUrl = 'http://localhost:8090/healthinvoice/api';
+        this.BaseUrl = 'http://healthinvoice.hub:8089/healthinvoice/api';
     }
 
     async request<T = any>(endpoint: string, options: RequestOptions = {}) {

@@ -1,9 +1,9 @@
-import { JournalToggle } from '../../shared/ui/toggle/JournalToggle';
-import { useJournal } from './JournalContext';
+import { JournalToggle } from '../../../shared/ui/toggle/JournalToggle';
+import { useJournal } from '../../app_lk_journal/general/JournalContext';
 import styles from './ControlPanel.module.css';
-import { Pagination } from '../../shared/ui/pagination/Pagination';
-import { Separator } from '../../shared/ui/seporator/Separator';
-import { LogicControlJournalFilters } from '../../shared/ui/filters/LogicControlJournalFilters';
+import { Pagination } from '../../../shared/ui/pagination/Pagination';
+import { Separator } from '../../../shared/ui/seporator/Separator';
+import { LogicControlJournalFilters } from '../../../shared/ui/filters/LogicControlJournalFilters';
 
 interface ControlPanelProps {
     onFkJournalOpen: () => void;
@@ -11,6 +11,7 @@ interface ControlPanelProps {
     onRefresh: () => void;
     goToPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
+    isAdmin: boolean;
     pagination?: {
         currentPage: number;
         totalPages: number;
@@ -40,7 +41,8 @@ export const ControlPanel = ({
     onUpload,
     pagination,
     goToPage,
-    setPageSize
+    setPageSize,
+    isAdmin
 }: ControlPanelProps) => {
 
     const {
@@ -70,11 +72,13 @@ export const ControlPanel = ({
                         onPageChange={goToPage}
                         onPageSizeChange={setPageSize}
                     />
-                    <LogicControlJournalFilters
-                        filters={filters}
-                        onApply={onApply}
-                        onReset={onReset}
-                        onFilterChange={onFilterChange} />
+                    {isAdmin && (
+                        <LogicControlJournalFilters
+                            filters={filters}
+                            onApply={onApply}
+                            onReset={onReset}
+                            onFilterChange={onFilterChange} />
+                    )}
                 </div>
             </div>
 

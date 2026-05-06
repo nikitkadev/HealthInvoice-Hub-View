@@ -10,7 +10,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        console.log("Пук в протектеде");
         return <LoaderBlock text="Велскейтим через траллей до базы данных..." />;
     }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../../shared/api/ApiClient';
-import { useJournal } from '../../app_mainjournal/JournalContext';
+import { useJournal } from '../../app_lk_journal/general/JournalContext';
 import dayjs from 'dayjs';
 import styles from './RControlPage.module.css';
 import { RControlControlPanel } from './control_panel/RControlControlPanel';

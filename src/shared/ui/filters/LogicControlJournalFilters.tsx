@@ -130,7 +130,8 @@ export const LogicControlJournalFilters = ({
                         left: filtersMenu.posX - 100
                     }}
                     className={styles.filters_container}>
-                    <span>Великая фильтрация</span>
+                    <span>Величайшая фильтрация журнала ФЛК</span>
+                    <Separator size='xs' orientation='horizontal' type='line' color='var(--app-background)' />
                     <div className={styles.filter_line}>
                         <div className={styles.label_with_input}>
                             <label>Код МО</label>

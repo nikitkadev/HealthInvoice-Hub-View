@@ -11,7 +11,7 @@ export const PersonalDataPage = () => {
 
     const handleAccept = async () => {
         try {
-            await api.post('/auth/accept_pers');
+            await api.postWithoutContent('/auth/accept_pers');
             navigate('/');
             toast.success("Добро пожаловать!");
         }
