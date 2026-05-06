@@ -75,10 +75,8 @@ export const UserControlPage = () => {
         const last = dayjs(lastActivity);
         const now = dayjs();
 
-
         const diffMinutes = now.diff(last, 'minutes');
-
-        return diffMinutes < 1;
+        return diffMinutes < 5;
     }
 
     useEffect(() => {

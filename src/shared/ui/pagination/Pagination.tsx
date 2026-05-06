@@ -22,9 +22,7 @@ export const Pagination = ({
 
     return (
         <div className={styles.container}>
-            <div className={styles.info}>
-                Показано {startItem} - {endItem} из {totalItems} записей
-            </div>
+
 
             <div className={styles.controls}>
                 <button
@@ -62,6 +60,9 @@ export const Pagination = ({
                     <option className={styles.option} value={50}>50</option>
                     <option className={styles.option} value={100}>100</option>
                 </select>
+                <div className={styles.info}>
+                    Показано {startItem} - {endItem} из {totalItems} записей
+                </div>
             </div>
         </div>
     );

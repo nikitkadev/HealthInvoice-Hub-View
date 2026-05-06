@@ -73,11 +73,14 @@ export const ControlPanel = ({
                         onPageSizeChange={setPageSize}
                     />
                     {isAdmin && (
-                        <LogicControlJournalFilters
-                            filters={filters}
-                            onApply={onApply}
-                            onReset={onReset}
-                            onFilterChange={onFilterChange} />
+                        <>
+                            <Separator type='line' orientation='vertical' size='xs' color="var(--border-light)" />
+                            <LogicControlJournalFilters
+                                filters={filters}
+                                onApply={onApply}
+                                onReset={onReset}
+                                onFilterChange={onFilterChange} />
+                        </>
                     )}
                 </div>
             </div>

@@ -223,7 +223,6 @@ export const JournalPage = () => {
             toast.success("Выбранные счета успешно удалены!");
         }
         catch (error) {
-            console.log(error);
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
         }
         finally {
@@ -247,7 +246,6 @@ export const JournalPage = () => {
             toast.success("Выбранные счета успешно удалены!");
         }
         catch (error) {
-            console.log(error);
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
         }
         finally {
@@ -344,13 +342,13 @@ export const JournalPage = () => {
         setIsSending(true);
 
         try {
-            await api.post('/invoices/logic-control', {
-                schetUids: selected,
+            await api.postWithoutContent('/invoices/logic-control', {
+                schetUids: selected.map(x => x.schetUid),
                 journalType: journalType
             });
             setSelected([]);
             refreshData();
-            toast.success("Выбранные счета успешно отправлена на МЭК!");
+            toast.success("Выбранные счета успешно отправлены на МЭК!");
         }
         catch (error) {
             toast.error("Произошал ошибка отправки счетов на МЭК");
@@ -367,13 +365,13 @@ export const JournalPage = () => {
             const schetUids: number[] = [];
             schetUids.push(rowContextMenu.schetUid);
 
-            await api.post('/invoices/logic-control', {
+            await api.postWithoutContent('/invoices/logic-control', {
                 schetUids: schetUids,
                 journalType: journalType
             });
 
             refreshData();
-            toast.success("Выбранные счета успешно удалены!");
+            toast.success("Счет отправлен на МЭК!");
         }
         catch {
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
@@ -419,7 +417,7 @@ export const JournalPage = () => {
     }
 
     if (isLoading) {
-        return <LoaderBlock text='Накидываем Голгороту...' />
+        return <LoaderBlock text='Отбиваем резонанс на кнопках...' />
     }
 
     const hasSuccess = checkedInvoices.some(f => f.isSuccess || f.willRewrite);
@@ -453,7 +451,7 @@ export const JournalPage = () => {
 
                     {(isSending || isRemoving) ? (
                         <div className={styles.loaderWrapper}>
-                            <LoaderBlock text='Дамажим Варприста с гробов...' />
+                            <LoaderBlock text='Кидаем лайтсейбер в сторону мобчиков...' />
                         </div>
                     ) : (
                         <table className={styles.journal_table}>

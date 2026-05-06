@@ -6,7 +6,7 @@ export const useHeartbeat = (intervalMs: number = 30000) => {
     useEffect(() => {
         const sendHeartbeat = async () => {
             try {
-                await api.post('/auth/heartbeat');
+                await api.postWithoutContent('/auth/heartbeat');
             } catch (error: any) {
                 if (location.pathname !== "/login") {
                     window.location.href = '/login';

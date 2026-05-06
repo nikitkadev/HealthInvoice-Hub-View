@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Separator } from "../../shared/ui/seporator/Separator";
-import style from './AppHeader.module.css';
+import styles from './AppHeader.module.css';
 
 export const AppHeader = () => {
 
@@ -58,13 +58,13 @@ export const AppHeader = () => {
     }, [isDropdownOpen]);
 
     return (
-        <header className={style.app_header}>
-            <div className={style.container}>
+        <header className={styles.app_header}>
+            <div className={styles.container}>
                 <div
-                    className={style.logo}>
+                    className={styles.logo}>
                     <Link
                         to="/"
-                        className={style.logo_link}>
+                        className={styles.logo_link}>
                         <span>HealthInvoice Hub V1.0.1</span>
                     </Link>
                 </div>
@@ -75,7 +75,6 @@ export const AppHeader = () => {
                         position: 'relative',
                     }} ref={dropdownRef}>
                         <button
-                            className="dropdown_menu_button"
                             onClick={toggleDropdown}
                             aria-expanded={isDropdownOpen}
                             aria-label="Меню"
@@ -93,33 +92,24 @@ export const AppHeader = () => {
                                     d="M18 7H6m12 10H6m12-5H6" />
                             </svg>
                         </button>
-
                         {isDropdownOpen && (
-                            <div className="dropdown_menu_content">
+                            <div className={styles.dropdown_menu_container}>
                                 <ul>
                                     {isLoggedIn && (
                                         <>
                                             <li>
                                                 <Link to="/profile" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Профиль
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.5 17.5L5 11m0 0v4.5M5 11h4.5m3-4.5L19 13m0 0V8.5m0 4.5h-4.5" />
                                                         </svg>
-
                                                     </div>
                                                 </Link>
-
                                             </li>
                                             <li>
                                                 <Link to="/journal" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Журнал ФЛК
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -143,12 +133,7 @@ export const AppHeader = () => {
                                                     <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
                                                     <li>
                                                         <button
-                                                            className={openAdminSubMenu ? "focus_category" : ""}
-                                                            style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                fontWeight: '500'
-                                                            }}
+                                                            className={openAdminSubMenu ? `${styles.focus_category}` : ""}
                                                             onClick={() => toggleSubAdminMenu()}>
                                                             Админ панель
                                                             <svg
@@ -165,7 +150,6 @@ export const AppHeader = () => {
                                                             </svg>
                                                         </button>
                                                     </li>
-
                                                 </>
                                             )}
                                             <li>
@@ -173,10 +157,7 @@ export const AppHeader = () => {
                                             </li>
                                             <li>
                                                 <Link to="/docs" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Инструкция
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                             <g fill="none" stroke="currentColor" stroke-width="1.5">
@@ -238,7 +219,7 @@ export const AppHeader = () => {
                             </div>
                         )}
                         {openAdminSubMenu && (
-                            <div className="admin_sub_menu_content">
+                            <div className={styles.admin_sub_menu_container}>
                                 <ul>
                                     <li>
                                         <Link to="/admin/users_control" onClick={closeDropdown}>

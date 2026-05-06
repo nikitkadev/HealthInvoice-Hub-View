@@ -6,8 +6,12 @@ import { JournalProvider } from './components/app_lk_journal/general/JournalCont
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import { useHeartbeat } from './shared/hooks/useHeartbeat';
 
 export function App() {
+
+  useHeartbeat(30000);
+
   return (
     <>
       <JournalProvider>

@@ -11,7 +11,7 @@ export const PublicOnlyRoute = ({ children }: PublicOnlyRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <LoaderBlock text="Готовимся к дейвану грани спасения..." />;
+        return <LoaderBlock text="Готовимся к дейвану Грани Спасения..." />;
     }
 
     if (user && user.isAcceptedPersonalData) {

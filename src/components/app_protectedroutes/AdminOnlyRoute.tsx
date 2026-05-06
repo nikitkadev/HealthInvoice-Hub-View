@@ -11,7 +11,7 @@ export const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <LoaderBlock text="Проверяем ваш билд на Войд Штормера..." />;
+        return <LoaderBlock text="Проверяем ваш билд с лакипенсами..." />;
     }
 
     if (!user) {

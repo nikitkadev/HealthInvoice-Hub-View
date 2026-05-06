@@ -53,7 +53,7 @@ export const LkJournalErrorsPage = () => {
     return (
         <>
             {isLoading ? (
-                <LoaderBlock text='Пук-пук' size='small' />
+                <LoaderBlock text='Ожидаем пантеон рейдов...' size='small' />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.table_container}>
