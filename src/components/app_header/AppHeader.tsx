@@ -65,7 +65,7 @@ export const AppHeader = () => {
                     <Link
                         to="/"
                         className={styles.logo_link}>
-                        <span>HealthInvoice Hub V1.0.1</span>
+                        <span>HealthInvoice Hub V1.0.2</span>
                     </Link>
                 </div>
                 {isLoggedIn && (
@@ -223,10 +223,7 @@ export const AppHeader = () => {
                                 <ul>
                                     <li>
                                         <Link to="/admin/users_control" onClick={closeDropdown}>
-                                            <div style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between'
-                                            }}>
+                                            <div className={styles.menu_line}>
                                                 Пользователи
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                     <g
@@ -238,17 +235,13 @@ export const AppHeader = () => {
                                                         <path stroke-linecap="round" d="M15.556 10.222a1.778 1.778 0 1 0 0-3.555M17.5 13c3.5 1.5 3 5 .5 5.5" />
                                                     </g>
                                                 </svg>
-
                                             </div>
                                         </Link>
 
                                     </li>
                                     <li>
                                         <Link to="/admin/rcontrol" onClick={closeDropdown}>
-                                            <div style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between'
-                                            }}>
+                                            <div className={styles.menu_line}>
                                                 RContol Веб
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"

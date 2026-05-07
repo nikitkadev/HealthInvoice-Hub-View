@@ -1,19 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { api } from '../../../shared/api/ApiClient';
 import { useJournal } from '../../app_lk_journal/general/JournalContext';
 import dayjs from 'dayjs';
 import styles from './RControlPage.module.css';
 import { RControlControlPanel } from './control_panel/RControlControlPanel';
-
-interface MedOrganization {
-    codeMo: string;
-    nameMo: string;
-}
-
-interface Periods {
-    year: number;
-    month: number;
-}
 
 interface InvoiceShortly {
     status: number;
@@ -72,82 +62,42 @@ interface Case {
 }
 
 export const RControlPage = () => {
-
-    const monthNames = [
-        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ];
-
-    const [orgs, setOrg] = useState<MedOrganization[]>([]);
-    const [periods, setPeriods] = useState<Periods[]>([]);
     const [invoicesShortly, setInvoiceShortly] = useState<InvoiceShortly[]>([]);
     const [finishedCases, setFinishedCases] = useState<FinishedCase[]>([]);
     const [cases, setCases] = useState<Case[]>([]);
-
-    const [selectedOrg, setSelectedOrg] = useState<MedOrganization | null>(null);
-    const [selectedPeriod, setSelectedPeriod] = useState<Periods | null>(null);
     const [selectedInvoiceShortlyRecord, setSelectedInvoiceShortlyRecord] = useState<InvoiceShortly | null>(null);
     const [selectedFinishedCase, setSelectedFinishedCase] = useState<FinishedCase | null>(null);
     const [invoiceSummary, setInvoiceSummary] = useState<InvoiceSummary | null>(null);
-
     const [showServiceInfo, setShowService] = useState(false);
 
     const { journalType } = useJournal();
 
-    useEffect(() => {
-        const fetchOrgs = async () => {
-            setPeriods([]);
-            setInvoiceShortly([]);
 
-            try {
-                const response = await api.get<MedOrganization[]>('/admin/rcontrol/medorg', {
-                    journalType: journalType.toString()
-                });
+    const handleApplyFilters = async (codeMo: string, year: string, month: string) => {
 
-                if (response) {
-                    setOrg(response);
-                }
-            }
-            catch {
-                console.debug("Ошибка при попытке получить организации");
-            }
-        }
-
-        fetchOrgs();
-
-    }, [])
-
-
-    const fetchPeriods = async (codeMo: string) => {
-        const response = await api.get<Periods[]>('/admin/rcontrol/periods', {
-            codeMo: codeMo,
-            journalType: journalType.toString()
-        });
-
-        if (response) {
-            setPeriods(response);
-        }
-    }
-    const fetchInvoiceShortly = async (period: Periods) => {
         setInvoiceShortly([]);
+        setFinishedCases([]);
+        setCases([]);
+        setInvoiceSummary(null);
 
         try {
             const response = await api.get<InvoiceShortly[]>('/admin/rcontrol/invoices_shortly', {
-                codeMo: selectedOrg?.codeMo ?? "",
-                year: period.year.toString(),
-                month: period.month.toString(),
+                codeMo,
+                year,
+                month,
                 journalType: journalType.toString()
-            })
+            });
 
             if (response) {
                 setInvoiceShortly(response);
             }
+        } catch (error) {
+            console.error('Ошибка загрузки данных:', error);
         }
-        catch {
-            console.debug("Ошибка при попытке извлечь краткую информацию о счете");
-        }
-    }
+    };
+
     const fetchInvoiceSummary = async (schetUid: number) => {
+
         setInvoiceSummary(null);
 
         try {
@@ -200,44 +150,9 @@ export const RControlPage = () => {
     }
 
 
-    const handleOrgClick = (org: MedOrganization) => {
-
-        setPeriods([]);
-        setInvoiceShortly([]);
-        setFinishedCases([]);
-        setCases([]);
-
-        setInvoiceSummary(null);
-        setSelectedFinishedCase(null);
-        setSelectedInvoiceShortlyRecord(null);
-        setSelectedPeriod(null);
-
-        setShowService(false);
-        setSelectedOrg(org);
-
-        fetchPeriods(org.codeMo);
-    }
-
-    const handlePeriodClick = (period: Periods) => {
-
-        setCases([]);
-        setFinishedCases([]);
-
-        setInvoiceSummary(null);
-        setSelectedFinishedCase(null);
-        setSelectedInvoiceShortlyRecord(null);
-
-        setSelectedPeriod(period);
-        setShowService(false);
-
-        fetchInvoiceShortly(period);
-    }
     const handleInvoiceShortlyClick = (invoiceShortly: InvoiceShortly) => {
-
         setCases([]);
-
         setSelectedFinishedCase(null);
-
         setSelectedInvoiceShortlyRecord(invoiceShortly);
 
         fetchInvoiceSummary(invoiceShortly.schetUid);
@@ -258,83 +173,56 @@ export const RControlPage = () => {
     const invoicesShortlyIsNotEmpty = invoicesShortly.length > 0;
 
     return (
-        <>
-            <RControlControlPanel />
-            <div className={styles.container}>
-                <div className={styles.column_mo_container}>
-                    <div className={styles.title}>Организации</div>
-                    <div className={styles.column_mo}>
-                        {orgs.map(org => {
-                            const isSelected = selectedOrg?.codeMo === org.codeMo;
-                            return (
-                                <div
-                                    className={`${styles.card} ${isSelected ? styles.cardSelected : ''}`}
-                                    onClick={() => handleOrgClick(org)}>
-                                    <div className={styles.info_container}>
-                                        <label className={styles.label}>{org.codeMo}</label>
-                                        <p className={styles.p} title={org.nameMo}>{org.nameMo}</p>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-                <div className={styles.column_period_container}>
-                    <div className={styles.title}>Периоды</div>
-                    <div className={styles.column_period}>
-                        {periods.map(period => {
-                            const isSelected = selectedPeriod === period;
-
-                            return (
-                                <div
-                                    className={`${styles.card} ${isSelected ? styles.cardSelected : ''}`}
-                                    onClick={() => handlePeriodClick(period)}>
-                                    <div className={styles.info_container}>
-                                        <label className={styles.label}>{period.year}</label>
-                                        <p className={styles.p}>{monthNames[period.month - 1]}</p>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
+        <div className={styles.container}>
+            <div className={styles.panel_container}>
+                <RControlControlPanel
+                    onApplyFilters={handleApplyFilters} />
+            </div>
+            <div className={styles.output_container}>
                 <div className={styles.column_invoice_shortly}>
                     <div className={styles.title}>Кратко о счетах</div>
                     <div className={`${styles.invoice_shortly_table_container} ${invoicesShortlyIsNotEmpty ? styles.table_is_not_empty : ''}`}>
-                        <div className={styles.tableWrapper}>
-                            <table className={styles.table}>
-                                <thead className={styles.thead}>
-                                    <tr className={styles.tr}>
-                                        <th className={styles.th}>Статус</th>
-                                        <th className={styles.th}>№ счета</th>
-                                        <th className={styles.th}>Дата счета</th>
-                                        <th className={styles.th}>Сумма, руб.</th>
-                                        <th className={styles.th}>Случаев</th>
+                        <table className={styles.table}>
+                            <colgroup>
+                                <col style={{ width: '18px' }} />
+                                <col style={{ width: '16px' }} />
+                                <col style={{ width: '20px' }} />
+                                <col style={{ width: '14px' }} />
+                                <col style={{ width: '12px' }} />
+                            </colgroup>
+                            <thead className={styles.thead}>
+                                <tr className={styles.tr}>
+                                    <th className={styles.th}>№ счета</th>
+                                    <th className={styles.th}>Дата счета</th>
+                                    <th className={styles.th}>Сумма, руб.</th>
+                                    <th className={styles.th}>Случаев</th>
+                                    <th className={styles.th}>Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {invoicesShortlyIsNotEmpty ? (
+                                    invoicesShortly.map(invoice => {
+                                        const isSelected = selectedInvoiceShortlyRecord === invoice;
+                                        return (
+                                            <tr
+                                                className={`${styles.tr_body} ${isSelected ? styles.selected_invoice_row : ''}`}
+                                                onClick={() => handleInvoiceShortlyClick(invoice)}>
+                                                <td
+                                                    title={invoice.nSchet}
+                                                    className={styles.td}>{invoice.nSchet}</td>
+                                                <td className={styles.td}>{dayjs(invoice.dSchet).format('DD.MM.YYYY')}</td>
+                                                <td className={styles.td}>{invoice.summav}</td>
+                                                <td className={styles.td}>{invoice.sdZ ?? "-"}</td>
+                                                <td className={styles.td}>{invoice.status}</td>
+                                            </tr>
+                                        )
+                                    })) : (
+                                    <tr>
+                                        <td colSpan={5} className={styles.empty_data}>Нет данных</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {invoicesShortlyIsNotEmpty ? (
-                                        invoicesShortly.map(invoice => {
-                                            const isSelected = selectedInvoiceShortlyRecord === invoice;
-                                            return (
-                                                <tr
-                                                    className={`${styles.tr_body} ${isSelected ? styles.selected_invoice_row : ''}`}
-                                                    onClick={() => handleInvoiceShortlyClick(invoice)}>
-                                                    <td className={styles.td}>{invoice.status}</td>
-                                                    <td className={styles.td}>{invoice.nSchet}</td>
-                                                    <td className={styles.td}>{dayjs(invoice.dSchet).format('DD.MM.YYYY')}</td>
-                                                    <td className={styles.td}>{invoice.summav}</td>
-                                                    <td className={styles.td}>{invoice.sdZ ?? "-"}</td>
-                                                </tr>
-                                            )
-                                        })) : (
-                                        <tr>
-                                            <td colSpan={5} className={styles.empty_data}>Нет данных</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                )}
+                            </tbody>
+                        </table>
                     </div>
                     <div className={`${styles.invoice_shortly_summary} ${invoiceSummary !== null ? styles.active_summary : ''}`}>
                         {invoiceSummary ? (
@@ -439,8 +327,23 @@ export const RControlPage = () => {
                     <div className={`${styles.finished_cases_table_container} ${selectedInvoiceShortlyRecord !== null ? styles.active_summary : ''}`}>
                         <div className={styles.tableWrapper}>
                             <table className={styles.table}>
+                                <colgroup>
+                                    <col style={{ width: '6px' }} />
+                                    <col style={{ width: '10px' }} />
+                                    <col style={{ width: '10px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '8px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                </colgroup>
                                 <thead className={styles.thead}>
                                     <tr className={styles.tr}>
+                                        <th className={styles.th}>№</th>
                                         <th className={styles.th}>№ Позиции</th>
                                         <th className={styles.th}>№ Записи</th>
                                         <th className={styles.th}>Фамилия</th>
@@ -456,12 +359,13 @@ export const RControlPage = () => {
                                 </thead>
                                 <tbody>
                                     {finishedCases.length > 0 ? (
-                                        finishedCases.map((finished) => {
+                                        finishedCases.map((finished, index) => {
                                             const isSelected = finished === selectedFinishedCase;
 
                                             return (
                                                 <tr className={`${styles.tr_body} ${isSelected ? styles.selected_invoice_row : ''}`}
                                                     onClick={() => handleFinishedCaseClick(finished)}>
+                                                    <td className={styles.td}>{index + 1}</td>
                                                     <td className={styles.td}>{finished.positionNumber}</td>
                                                     <td className={styles.td}>{finished.recordNumber}</td>
                                                     <td className={styles.td}>{finished.surname}</td>
@@ -477,7 +381,7 @@ export const RControlPage = () => {
                                             )
                                         })) : (
                                         <tr>
-                                            <td colSpan={11} className={styles.empty_data}>Нет данных</td>
+                                            <td colSpan={12} className={styles.empty_data}>Нет данных</td>
                                         </tr>
                                     )}
                                 </tbody>
@@ -487,13 +391,26 @@ export const RControlPage = () => {
                     <div className={`${styles.case_table_container} ${selectedFinishedCase !== null ? styles.active_summary : ''}`}>
                         <div className={styles.tableWrapper}>
                             <table className={styles.table}>
+                                <colgroup>
+                                    <col style={{ width: '8px' }} />
+                                    <col style={{ width: '6px' }} />
+                                    <col style={{ width: '10px' }} />
+                                    <col style={{ width: '10px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '8px' }} />
+                                    <col style={{ width: '8px' }} />
+                                    <col style={{ width: '8px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                    <col style={{ width: '12px' }} />
+                                </colgroup>
                                 <thead className={styles.thead}>
                                     <tr className={styles.tr}>
                                         <th className={styles.th}>Профиль</th>
                                         <th className={styles.th}>Дет.</th>
                                         <th className={styles.th}>Специальность</th>
                                         <th className={styles.th}>Начало лечения</th>
-                                        <th className={styles.th}>Окончания лечения</th>
+                                        <th className={styles.th}>Окончание лечения</th>
                                         <th className={styles.th}>Диагноз</th>
                                         <th className={styles.th}>Количество</th>
                                         <th className={styles.th}>Тариф</th>
@@ -541,7 +458,8 @@ export const RControlPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+
+        </div>
 
     )
 }
