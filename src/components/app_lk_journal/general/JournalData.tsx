@@ -33,11 +33,19 @@ export interface JournalFilters {
     dateTo: string;
 }
 
+type SortDiraction = 'asc' | 'desc' | null;
+
+export interface SortState {
+    column: string;
+    direction: SortDiraction;
+}
+
 export const useJournalData = () => {
     const { user } = useAuth();
     const { journalType } = useJournal();
     const [data, setData] = useState<JournalRecord[]>([]);
     const [isLoading, setLoading] = useState(false);
+    const [sort, setSort] = useState<SortState>({ column: 'uploade_date', direction: 'desc' })
 
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -55,6 +63,29 @@ export const useJournalData = () => {
         dateTo: ''
     });
 
+    const handleSort = (column: string) => {
+        setSort(prev => {
+            if (prev.column !== column) {
+                return { column, direction: 'desc' };
+            }
+
+            if (prev.column === column) {
+                return { column, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
+            }
+
+            if (prev.direction === 'asc') {
+                return { column, direction: 'desc' };
+            }
+
+            if (prev.direction === 'desc') {
+                return { column, direction: null };
+            }
+
+            return { column, direction: 'asc' };
+        });
+    };
+
+
     useEffect(() => {
         setPagination(prev => ({
             ...prev,
@@ -70,7 +101,9 @@ export const useJournalData = () => {
                 organizationCode: (filters.organizationCode || user?.organizationCode) ?? '',
                 journalType: journalType.toString(),
                 page: pagination.currentPage.toString(),
-                pageSize: pagination.pageSize.toString()
+                pageSize: pagination.pageSize.toString(),
+                sortBy: sort.column,
+                direction: sort.direction?.toString() ?? ''
             };
 
             if (filters.schetNumber) params.schetNumber = filters.schetNumber;
@@ -93,7 +126,7 @@ export const useJournalData = () => {
         } finally {
             setLoading(false);
         }
-    }, [journalType, pagination.currentPage, pagination.pageSize, filters]);
+    }, [journalType, pagination.currentPage, pagination.pageSize, filters, sort]);
 
 
     useEffect(() => {
@@ -129,6 +162,8 @@ export const useJournalData = () => {
         refreshData: fetchData,
         filters,
         onChangeFilter: setFilters,
-        resetFilters
+        resetFilters,
+        handleSort,
+        sort
     }
 }

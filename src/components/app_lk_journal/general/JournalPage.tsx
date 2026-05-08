@@ -15,6 +15,8 @@ import { Separator } from '../../../shared/ui/seporator/Separator';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import styles from './JournalPage.module.css';
 import dayjs from 'dayjs';
+import { SortIcon } from '../../../shared/ui/icons/SortIcon';
+
 
 export const JournalPage = () => {
 
@@ -43,7 +45,9 @@ export const JournalPage = () => {
         refreshData,
         filters,
         onChangeFilter,
-        resetFilters
+        resetFilters,
+        handleSort,
+        sort
     } = useJournalData();
 
     const { user } = useAuth();
@@ -460,7 +464,7 @@ export const JournalPage = () => {
                                 <col style={{ width: '2.5rem' }} />
                                 <col style={{ width: '8rem' }} />
                                 <col style={{ width: '12rem' }} />
-                                <col style={{ width: '11rem' }} />
+                                <col style={{ width: '10rem' }} />
                                 <col style={{ width: '5rem' }} />
                                 <col style={{ width: '8rem' }} />
                                 <col style={{ width: '10rem' }} />
@@ -477,15 +481,87 @@ export const JournalPage = () => {
                                             onChange={handleSelectAll} />
                                     </th>
                                     <th className={styles.th}>№</th>
-                                    <th className={styles.th}>Дата загрузки</th>
-                                    <th className={styles.th}>Загрузил</th>
-                                    <th className={styles.th}>Имя файла</th>
-                                    <th className={styles.th}>Код МО</th>
-                                    <th className={styles.th}>Номер счета</th>
-                                    <th className={styles.th}>Дата выставления счета</th>
-                                    <th className={styles.th}>Обработано записей</th>
-                                    <th className={styles.th}>Ошибочных записей</th>
-                                    <th className={styles.thCenter}>Статус МЭК</th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Дата загрузки
+                                            <button
+                                                onClick={() => handleSort("uploade_date")}>
+                                                <SortIcon column='uploade_date' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Загрузил
+                                            <button
+                                                onClick={() => handleSort("uploader")}>
+                                                <SortIcon column='uploader' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Имя файла
+                                            <button
+                                                onClick={() => handleSort("filename")}>
+                                                <SortIcon column='filename' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Код МО
+                                            <button
+                                                onClick={() => handleSort("organization_code")}>
+                                                <SortIcon column='organization_code' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Номер счета
+                                            <button
+                                                onClick={() => handleSort("nschet")}>
+                                                <SortIcon column='nschet' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Дата выставления
+                                            <button
+                                                onClick={() => handleSort("dschet")}>
+                                                <SortIcon column='dschet' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Обработано
+                                            <button
+                                                onClick={() => handleSort("count_sdz")}>
+                                                <SortIcon column='count_sdz' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Ошибочных
+                                            <button
+                                                onClick={() => handleSort("count_error")}>
+                                                <SortIcon column='count_error' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.thCenter}>
+                                        <div className={styles.th_sort_center}>
+                                            Статус МЭК
+                                            <button
+                                                onClick={() => handleSort("status_mek")}>
+                                                <SortIcon column='status_mek' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
                                     <th className={styles.th}></th>
                                 </tr>
                             </thead>
@@ -709,8 +785,6 @@ export const JournalPage = () => {
                                         </svg>
                                     </button>
                                 )}
-
-
                             </>
                         </div>
                     )}
