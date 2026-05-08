@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authService } from "./AuthService";
-import type { LoginCredentials, UserInfo } from "./AuthDtos";
+import type { LoginCredentials, LoginResult, UserInfo } from "./AuthDtos";
 
 interface AuthContextType {
     user: UserInfo | null;
     isLoading: boolean;
-    login: (credentials: LoginCredentials) => Promise<UserInfo | null>;
+    login: (credentials: LoginCredentials) => Promise<LoginResult | null>;
     logout: () => Promise<void>;
-    checkSession: () => void;
 }
+
 interface Props {
     children: ReactNode
 }
@@ -16,7 +16,6 @@ interface Props {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: Props) => {
-
     const [user, setUser] = useState<UserInfo | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -25,6 +24,7 @@ export const AuthProvider = ({ children }: Props) => {
     }, []);
 
     const checkSession = async () => {
+        setIsLoading(true);
         try {
             const userInfo = await authService.getCurrentUser();
             setUser(userInfo);
@@ -37,14 +37,28 @@ export const AuthProvider = ({ children }: Props) => {
         }
     };
 
-    const login = async (credentials: LoginCredentials): Promise<UserInfo | null> => {
+    const login = async (credentials: LoginCredentials): Promise<LoginResult | null> => {
+
         try {
-            const user = await authService.login(credentials);
-            setUser(user);
-            return user;
+            setIsLoading(true);
+            const loginResult = await authService.login(credentials);
+
+            if (loginResult.isSuccess) {
+                const currentUser = await authService.getCurrentUser();
+
+                if (currentUser) {
+                    setUser(currentUser);
+                    return loginResult;
+                }
+            }
+
+            return loginResult;
 
         } catch (error) {
             return null;
+        }
+        finally {
+            setIsLoading(false);
         }
     };
 
@@ -52,7 +66,7 @@ export const AuthProvider = ({ children }: Props) => {
         setIsLoading(true);
         try {
             await authService.logout();
-            await checkSession();
+            setUser(null);
         }
         finally {
             setIsLoading(false);
@@ -60,7 +74,7 @@ export const AuthProvider = ({ children }: Props) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, logout, login, checkSession }}>
+        <AuthContext.Provider value={{ user, isLoading, logout, login }}>
             {children}
         </AuthContext.Provider>
     );

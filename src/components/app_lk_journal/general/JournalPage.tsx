@@ -1,21 +1,25 @@
 import type { InvoiceSummaryValidationResult } from './UploadJournalTypes';
 import React, { useEffect, useState } from 'react';
-import { Checkbox } from '../../shared/ui/checkbox/Checkbox';
-import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
-import { Status } from '../../shared/ui/status/Status';
-import { ControlPanel } from './ControlPanel';
+import { Checkbox } from '../../../shared/ui/checkbox/Checkbox';
+import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
+import { Status } from '../../../shared/ui/status/Status';
+import { ControlPanel } from './../control_panel/ControlPanel';
 import { useJournalData, type JournalRecord } from './JournalData';
 import { toast } from 'react-toastify';
-import { Modal } from '../../shared/ui/modal/Modal';
-import { ZipDropped } from '../../shared/ui/dropped/Zip/ZipDropped';
-import { api } from '../../shared/api/ApiClient';
+import { Modal } from '../../../shared/ui/modal/Modal';
+import { ZipDropped } from '../../../shared/ui/dropped/Zip/ZipDropped';
+import { api } from '../../../shared/api/ApiClient';
 import { useJournal } from './JournalContext';
-import dayjs from 'dayjs';
+import { FkJournalPage } from '../../app_fk_journal/FkJournalPage';
+import { Separator } from '../../../shared/ui/seporator/Separator';
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import styles from './JournalPage.module.css';
-import { FkJournalPage } from '../app_fk_journal/FkJournalPage';
-import { Separator } from '../../shared/ui/seporator/Separator';
+import dayjs from 'dayjs';
+import { SortIcon } from '../../../shared/ui/icons/SortIcon';
+
 
 export const JournalPage = () => {
+
     const [rowContextMenu, setRowContextMenu] = useState<{
         visible: boolean;
         x: number;
@@ -38,8 +42,27 @@ export const JournalPage = () => {
         pagination,
         goToPage,
         setPageSize,
-        refreshData
+        refreshData,
+        filters,
+        onChangeFilter,
+        resetFilters,
+        handleSort,
+        sort
     } = useJournalData();
+
+    const { user } = useAuth();
+
+    const isAdmin = user?.organizationCode === '19000';
+
+    const handleViewErrors = () => {
+        setRowContextMenu(prev => ({ ...prev, visible: false }));
+        window.open(`/errors/${rowContextMenu.schetUid}?journalType=${journalType}`, '_blank');
+    };
+
+    const handleViewErrorsWithOneSelected = (selected: JournalRecord) => {
+        setRowContextMenu(prev => ({ ...prev, visible: false }));
+        window.open(`/errors/${selected.schetUid}?journalType=${journalType}`, '_blank');
+    };
 
     const [checkedInvoices, setCheckedInvoices] = useState<InvoiceSummaryValidationResult[]>([]);
     const [selected, setSelected] = useState<JournalRecord[]>([]);
@@ -193,8 +216,9 @@ export const JournalPage = () => {
     const handleRemoving = async () => {
         setIsRemoving(true);
         try {
-            await api.post('/invoices/remove', {
-                schetUids: selected,
+
+            await api.postWithoutContent('/invoices/remove', {
+                schetUids: selected.map(f => f.schetUid),
                 journalType: journalType
             });
 
@@ -217,7 +241,7 @@ export const JournalPage = () => {
             const schetUids: number[] = [];
             schetUids.push(rowContextMenu.schetUid);
 
-            await api.post('/invoices/remove', {
+            await api.postWithoutContent('/invoices/remove', {
                 schetUids: schetUids,
                 journalType: journalType
             });
@@ -225,7 +249,7 @@ export const JournalPage = () => {
             refreshData();
             toast.success("Выбранные счета успешно удалены!");
         }
-        catch {
+        catch (error) {
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
         }
         finally {
@@ -301,7 +325,7 @@ export const JournalPage = () => {
                 return;
             }
 
-            await api.post('/invoices/upsert', {
+            await api.postWithoutContent('/invoices/upsert', {
                 items: filesToSend,
                 journalType: journalType
             });
@@ -322,13 +346,13 @@ export const JournalPage = () => {
         setIsSending(true);
 
         try {
-            await api.post('/invoices/logic-control', {
-                schetUids: selected,
+            await api.postWithoutContent('/invoices/logic-control', {
+                schetUids: selected.map(x => x.schetUid),
                 journalType: journalType
             });
             setSelected([]);
             refreshData();
-            toast.success("Выбранные счета успешно отправлена на МЭК!");
+            toast.success("Выбранные счета успешно отправлены на МЭК!");
         }
         catch (error) {
             toast.error("Произошал ошибка отправки счетов на МЭК");
@@ -345,13 +369,13 @@ export const JournalPage = () => {
             const schetUids: number[] = [];
             schetUids.push(rowContextMenu.schetUid);
 
-            await api.post('/invoices/logic-control', {
+            await api.postWithoutContent('/invoices/logic-control', {
                 schetUids: schetUids,
                 journalType: journalType
             });
 
             refreshData();
-            toast.success("Выбранные счета успешно удалены!");
+            toast.success("Счет отправлен на МЭК!");
         }
         catch {
             toast.error("Внутренняя ошибка.. Обратитесь к разработчику!");
@@ -386,8 +410,18 @@ export const JournalPage = () => {
         }
     }
 
+    const applyFilters = () => {
+        setSelected([]);
+        refreshData();
+    }
+
+    const clearFilters = () => {
+        setSelected([]);
+        resetFilters();
+    }
+
     if (isLoading) {
-        return <LoaderBlock text='Накидываем Голгороту...' />
+        return <LoaderBlock text='Отбиваем резонанс на кнопках...' />
     }
 
     const hasSuccess = checkedInvoices.some(f => f.isSuccess || f.willRewrite);
@@ -402,6 +436,11 @@ export const JournalPage = () => {
     return (
         <>
             <ControlPanel
+                isAdmin={isAdmin}
+                filters={filters}
+                onFilterChange={onChangeFilter}
+                onApply={applyFilters}
+                onReset={clearFilters}
                 onFkJournalOpen={handleOpenJournalFkModal}
                 onRefresh={handleRefresh}
                 onUpload={handleUploadClick}
@@ -416,7 +455,7 @@ export const JournalPage = () => {
 
                     {(isSending || isRemoving) ? (
                         <div className={styles.loaderWrapper}>
-                            <LoaderBlock text='Дамажим Варприста с гробов...' />
+                            <LoaderBlock text='Кидаем лайтсейбер в сторону мобчиков...' />
                         </div>
                     ) : (
                         <table className={styles.journal_table}>
@@ -425,7 +464,7 @@ export const JournalPage = () => {
                                 <col style={{ width: '2.5rem' }} />
                                 <col style={{ width: '8rem' }} />
                                 <col style={{ width: '12rem' }} />
-                                <col style={{ width: '11rem' }} />
+                                <col style={{ width: '10rem' }} />
                                 <col style={{ width: '5rem' }} />
                                 <col style={{ width: '8rem' }} />
                                 <col style={{ width: '10rem' }} />
@@ -442,15 +481,87 @@ export const JournalPage = () => {
                                             onChange={handleSelectAll} />
                                     </th>
                                     <th className={styles.th}>№</th>
-                                    <th className={styles.th}>Дата загрузки</th>
-                                    <th className={styles.th}>Загрузил</th>
-                                    <th className={styles.th}>Имя файла</th>
-                                    <th className={styles.th}>Код МО</th>
-                                    <th className={styles.th}>Номер счета</th>
-                                    <th className={styles.th}>Дата выставления счета</th>
-                                    <th className={styles.th}>Обработано записей</th>
-                                    <th className={styles.th}>Ошибочных записей</th>
-                                    <th className={styles.thCenter}>Статус МЭК</th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Дата загрузки
+                                            <button
+                                                onClick={() => handleSort("uploade_date")}>
+                                                <SortIcon column='uploade_date' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Загрузил
+                                            <button
+                                                onClick={() => handleSort("uploader")}>
+                                                <SortIcon column='uploader' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Имя файла
+                                            <button
+                                                onClick={() => handleSort("filename")}>
+                                                <SortIcon column='filename' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Код МО
+                                            <button
+                                                onClick={() => handleSort("organization_code")}>
+                                                <SortIcon column='organization_code' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Номер счета
+                                            <button
+                                                onClick={() => handleSort("nschet")}>
+                                                <SortIcon column='nschet' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Дата выставления
+                                            <button
+                                                onClick={() => handleSort("dschet")}>
+                                                <SortIcon column='dschet' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Обработано
+                                            <button
+                                                onClick={() => handleSort("count_sdz")}>
+                                                <SortIcon column='count_sdz' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.th}>
+                                        <div className={styles.th_sort}>
+                                            Ошибочных
+                                            <button
+                                                onClick={() => handleSort("count_error")}>
+                                                <SortIcon column='count_error' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
+                                    <th className={styles.thCenter}>
+                                        <div className={styles.th_sort_center}>
+                                            Статус МЭК
+                                            <button
+                                                onClick={() => handleSort("status_mek")}>
+                                                <SortIcon column='status_mek' currentSort={sort} />
+                                            </button>
+                                        </div>
+                                    </th>
                                     <th className={styles.th}></th>
                                 </tr>
                             </thead>
@@ -596,7 +707,26 @@ export const JournalPage = () => {
                                 <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
 
                                 {(selectedCount === 0 && rowContextMenu.status === -1) && (
-                                    <button onClick={() => console.log("Пук")}>
+                                    <button onClick={handleViewErrors}>
+                                        Просмотреть ошибки
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1"
+                                                d="m9 8l-4 4l4 4m6-8l4 4l-4 4" />
+                                        </svg>
+                                    </button>
+                                )}
+
+                                {(selectedCount === 1 && selected[0].status === -1) && (
+                                    <button onClick={() => handleViewErrorsWithOneSelected(selected[0])}>
                                         Просмотреть ошибки
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -655,8 +785,6 @@ export const JournalPage = () => {
                                         </svg>
                                     </button>
                                 )}
-
-
                             </>
                         </div>
                     )}

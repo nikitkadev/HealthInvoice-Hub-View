@@ -1,0 +1,142 @@
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border-light);
+    border-radius: .8rem;
+    background-color: var(--bg-button-light);
+
+    gap: .5rem;
+
+    padding: .5rem 1.5rem;
+
+    font-size: .9rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.button:hover {
+    background-color: rgb(235, 235, 235);
+    border: 1px solid rgb(192, 192, 192);
+
+    transition: ease 0.2s;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.filters_container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+
+    margin-top: 32px;
+    gap: 8px;
+
+    background-color: white;
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px;
+
+    box-shadow: 0px 16px 16px rgb(0, 0, 0, 0.15);
+}
+
+.filters_container span {
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 0;
+    margin: 0;
+}
+
+.filter_line {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 16px;
+}
+
+.label_with_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    gap: 2px;
+
+    flex: 1;
+}
+
+.filter_line label {
+    font-size: 12px;
+    width: 100%;
+
+    color: var(--text-secondary);
+}
+
+.filter_line input {
+    width: 100%;
+
+    padding: 8px;
+    font-size: 12px;
+
+    border: 1px solid var(--app-background);
+    border-radius: 12px;
+
+    background-color: var(--app-background);
+}
+
+.filter_line input::placeholder {
+    color: var(--text-secondary);
+}
+
+.filter_line input:focus {
+    outline: none;
+    border: 1px solid var(--app-border-light);
+    background-color: var(--input-focus-background);
+
+    transition: 0.5s ease;
+}
+
+.filter_line input:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.buttons_container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+}
+
+.buttons_container button {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    background-color: var(--bg-button-light);
+
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+
+    width: 100%;
+    padding: 8px 8px;
+
+}
+
+.button_reset {
+    color: #ff0000 !important;
+    background-color: #ff000021 !important;
+    border: none !important;
+}

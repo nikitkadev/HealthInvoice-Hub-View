@@ -3,7 +3,7 @@ import { Pagination } from '../../shared/ui/pagination/Pagination';
 import { useFkJournalData } from './FkJournalData';
 import { Status } from '../../shared/ui/status/Status';
 import { api } from '../../shared/api/ApiClient';
-import { useJournal } from '../app_mainjournal/JournalContext';
+import { useJournal } from '../app_lk_journal/general/JournalContext';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 

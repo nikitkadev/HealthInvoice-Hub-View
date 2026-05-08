@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "../app_auth/auth_service/AuthContext";
-import { useJournal } from "../app_mainjournal/JournalContext";
+import { useAuth } from "../app_auth/auth_service/AuthProvider";
+import { useJournal } from "../app_lk_journal/general/JournalContext";
 import { api } from "../../shared/api/ApiClient";
 
 export interface FkJournalRecord {

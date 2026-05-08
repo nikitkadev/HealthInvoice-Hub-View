@@ -2,14 +2,25 @@ import styles from './UserControlPanelPage.module.css';
 
 interface UserControlPanelPageProps {
     onUserRefresh: () => void;
+    usersOnline: number;
+    usersTotal: number;
 }
 
 export const UserControlPanelPage = ({
-    onUserRefresh
+    onUserRefresh,
+    usersOnline,
+    usersTotal
 }: UserControlPanelPageProps) => {
     return (
         <>
             <div className={styles.container}>
+                <div className={styles.users_info}>
+                    <span
+                        style={{
+                            color: "rgb(23, 197, 0)"
+                        }}>Сейчас в сети: {usersOnline}</span>
+                    <span>Всего: {usersTotal}</span>
+                </div>
                 <button className={styles.button_icon_only} onClick={onUserRefresh}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                         <g fill="none">

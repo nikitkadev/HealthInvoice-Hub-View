@@ -1,16 +1,16 @@
 import { Outlet } from 'react-router'
 import { AppHeader } from './components/app_header/AppHeader'
 import { Slide, ToastContainer } from 'react-toastify'
-import { JournalProvider } from './components/app_mainjournal/JournalContext'
-import { useHeartbeat } from './shared/hooks/useHeartbeat';
+import { JournalProvider } from './components/app_lk_journal/general/JournalContext'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import { useHeartbeat } from './shared/hooks/useHeartbeat';
 
 export function App() {
 
-  useHeartbeat();
+  useHeartbeat(30000);
 
   return (
     <>

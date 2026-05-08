@@ -263,3 +263,27 @@
 .context_menu_header {
     padding: .5rem;
 }
+
+.th_sort {
+    display: flex;
+    text-align: center;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.thCenter button,
+.th button {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.th_sort_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+}

@@ -78,16 +78,12 @@
   --eror-bg: rgb(255, 233, 233);
 
 
-
-
-
-
-
   --app-background: #f3f3f3;
 
   --app-black: #242424;
   --app-white: #f7f7f7;
   --app-border-light: #ebebeb;
+  --app-border-light-hover: #cacaca;
 
   --input-focus-background: #efefef;
 
@@ -123,23 +119,6 @@
   overflow: hidden;
 }
 
-
-.dropdown_menu_button {
-  padding: .5rem .5rem;
-  border-radius: .8rem;
-  border: 1px solid var(--border-light);
-}
-
-.dropdown_menu_button:hover {
-  border-color: rgb(216, 216, 216);
-  transition: 0.2s ease;
-}
-
-.dropdown_menu_button:active {
-  transform: scale(0.95);
-
-}
-
 .app-content {
   flex: 1;
   overflow: hidden;
@@ -155,91 +134,4 @@ body {
   padding: 0;
   overflow: hidden;
   background-color: var(--bg-app-light) !important;
-}
-
-
-.dropdown_menu:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.admin_sub_menu_content,
-.dropdown_menu_content {
-  position: absolute;
-  background: white;
-  border: 1px solid var(--border-light);
-  border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  font-size: .9rem;
-  font-weight: 500;
-}
-
-.admin_sub_menu_content {
-  z-index: 1001;
-  right: 0;
-  margin: 23.5rem 13rem 0 0;
-  min-width: 13rem;
-  padding: .4rem;
-}
-
-.dropdown_menu_content {
-  top: 100%;
-  right: 0;
-  margin-top: .5rem;
-
-  z-index: 1000;
-  min-width: 13rem;
-  padding: .4rem;
-  overflow: hidden;
-}
-
-.admin_sub_menu_content ul,
-.dropdown_menu_content ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.admin_sub_menu_content li,
-.dropdown_menu_content li {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-}
-
-.admin_sub_menu_content a,
-.admin_sub_menu_content button,
-.dropdown_menu_content a,
-.dropdown_menu_content button {
-  display: block;
-  width: 100%;
-  padding: 10px 16px;
-  text-decoration: none;
-  color: #333;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  font-size: 14px;
-  box-sizing: border-box;
-
-  border-radius: .8rem;
-}
-
-.admin_sub_menu_content a:hover,
-.admin_sub_menu_content button:hover,
-.dropdown_menu_content a:hover,
-.dropdown_menu_content button:hover {
-  background-color: #f5f5f5;
-}
-
-.dropdown_menu_content hr {
-  margin: 4px 0;
-  border: none;
-  border-top: 1px solid #e5e5e5;
-}
-
-.focus_category {
-  background-color: #f5f5f5 !important;
-
 }

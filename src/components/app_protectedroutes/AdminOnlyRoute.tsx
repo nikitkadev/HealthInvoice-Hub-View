@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router';
 import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
-import { useAuth } from '../app_auth/auth_service/AuthContext';
+import { useAuth } from '../app_auth/auth_service/AuthProvider';
 import { NotAdminPage } from '../../shared/ui/error_pages/not_admin/NotAdminPage';
 
 interface AdminOnlyRouteProps {
@@ -11,7 +11,7 @@ export const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <LoaderBlock text="Проверяем ваш билд на Войд Штормера..." />;
+        return <LoaderBlock text="Проверяем ваш билд с лакипенсами..." />;
     }
 
     if (!user) {

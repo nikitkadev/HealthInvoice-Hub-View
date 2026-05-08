@@ -1,7 +1,7 @@
 
 import { Separator } from '../../seporator/Separator';
-import styles from './JsonDropped.module.css';
 import { useCallback, useRef, useState } from "react";
+import styles from './JsonDropped.module.css';
 
 interface JsonDroppedProps {
     onFileDropped: (file: File) => void;

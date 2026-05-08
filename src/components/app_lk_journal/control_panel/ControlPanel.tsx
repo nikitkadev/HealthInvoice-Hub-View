@@ -1,8 +1,9 @@
-import { JournalToggle } from '../../shared/ui/toggle/JournalToggle';
-import { useJournal } from './JournalContext';
+import { JournalToggle } from '../../../shared/ui/toggle/JournalToggle';
+import { useJournal } from '../../app_lk_journal/general/JournalContext';
 import styles from './ControlPanel.module.css';
-import { Pagination } from '../../shared/ui/pagination/Pagination';
-import { Separator } from '../../shared/ui/seporator/Separator';
+import { Pagination } from '../../../shared/ui/pagination/Pagination';
+import { Separator } from '../../../shared/ui/seporator/Separator';
+import { LogicControlJournalFilters } from '../../../shared/ui/filters/LogicControlJournalFilters';
 
 interface ControlPanelProps {
     onFkJournalOpen: () => void;
@@ -10,21 +11,38 @@ interface ControlPanelProps {
     onRefresh: () => void;
     goToPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
+    isAdmin: boolean;
     pagination?: {
         currentPage: number;
         totalPages: number;
         pageSize: number;
         totalItems: number;
     };
+    filters: {
+        organizationCode: string;
+        schetNumber: string;
+        username: string;
+        filename: string;
+        dateFrom: string;
+        dateTo: string;
+    };
+    onFilterChange: (updater: (prev: any) => any) => void;
+    onApply: () => void;
+    onReset: () => void;
 }
 
 export const ControlPanel = ({
+    filters,
+    onFilterChange,
+    onApply,
+    onReset,
     onFkJournalOpen,
     onRefresh,
     onUpload,
     pagination,
     goToPage,
-    setPageSize
+    setPageSize,
+    isAdmin
 }: ControlPanelProps) => {
 
     const {
@@ -54,8 +72,19 @@ export const ControlPanel = ({
                         onPageChange={goToPage}
                         onPageSizeChange={setPageSize}
                     />
+                    {isAdmin && (
+                        <>
+                            <Separator type='line' orientation='vertical' size='xs' color="var(--border-light)" />
+                            <LogicControlJournalFilters
+                                filters={filters}
+                                onApply={onApply}
+                                onReset={onReset}
+                                onFilterChange={onFilterChange} />
+                        </>
+                    )}
                 </div>
             </div>
+
             <div className={styles.container_action}>
                 <button
                     className={styles.button_with_text_and_icon}

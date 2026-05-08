@@ -40,7 +40,7 @@ export const UserControlPage = () => {
         setIsLoading(true);
 
         try {
-            await api.post('/admin/users/remove', user.uid);
+            await api.postWithoutContent('/admin/users/remove', user.uid);
             toast.success("Пользователь успешно удален из приложения");
 
             handlerRefreshUsers();
@@ -75,10 +75,8 @@ export const UserControlPage = () => {
         const last = dayjs(lastActivity);
         const now = dayjs();
 
-
         const diffMinutes = now.diff(last, 'minutes');
-
-        return diffMinutes < 1;
+        return diffMinutes < 5;
     }
 
     useEffect(() => {
@@ -88,7 +86,9 @@ export const UserControlPage = () => {
     return (
         <>
             <UserControlPanelPage
-                onUserRefresh={handlerRefreshUsers} />
+                onUserRefresh={handlerRefreshUsers}
+                usersOnline={appUsers.filter(f => isActive(f.lastActivity)).length}
+                usersTotal={appUsers.length} />
             <JsonDropped onFileDropped={handleBulkRegister} isLoading={isLoading} />
             {isLoading ? (
                 <LoaderBlock text='Пук-пук-пук...' size='medium' />

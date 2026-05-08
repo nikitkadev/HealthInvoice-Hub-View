@@ -1,18 +1,17 @@
 import { useNavigate } from 'react-router';
 import { api } from '../../shared/api/ApiClient';
 import { Separator } from '../../shared/ui/seporator/Separator';
-import { useAuth } from '../app_auth/auth_service/AuthContext';
+import { useAuth } from '../app_auth/auth_service/AuthProvider';
 import styles from './PersonalDataPage.module.css';
 import { toast } from 'react-toastify';
 
 export const PersonalDataPage = () => {
-    const { user, checkSession } = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     const handleAccept = async () => {
         try {
-            await api.post('/auth/accept_pers');
-            checkSession();
+            await api.postWithoutContent('/auth/accept_pers');
             navigate('/');
             toast.success("Добро пожаловать!");
         }

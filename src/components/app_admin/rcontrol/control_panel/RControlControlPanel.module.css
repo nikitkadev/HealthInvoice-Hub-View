@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--app-white);
+    padding: 8px 0 8px 20px;
+    margin-bottom: 8px;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    gap: 16px;
+}
+
+.container span {
+    font-weight: 500;
+    font-size: .9rem;
+}
+
+.select_container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

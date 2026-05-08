@@ -1,17 +1,18 @@
-import { Link } from "react-router";
-import { useAuth } from "../app_auth/auth_service/AuthContext";
+import { Link, useNavigate } from "react-router";
+import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Separator } from "../../shared/ui/seporator/Separator";
-import style from './AppHeader.module.css';
+import styles from './AppHeader.module.css';
 
 export const AppHeader = () => {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [openAdminSubMenu, setOpenAdminSubMenu] = useState(false);
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
 
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const { user, logout } = useAuth();
     const isLoggedIn = !!user;
     const isAdmin = user?.organizationCode === '19000'
 
@@ -26,6 +27,12 @@ export const AppHeader = () => {
     const closeDropdown = () => {
         setIsDropdownOpen(false);
         setOpenAdminSubMenu(false);
+    }
+
+    const handleExitButton = async () => {
+        await logout();
+        closeDropdown();
+        navigate("/login");
     }
 
     useEffect(() => {
@@ -51,14 +58,14 @@ export const AppHeader = () => {
     }, [isDropdownOpen]);
 
     return (
-        <header className={style.app_header}>
-            <div className={style.lower_header}>
+        <header className={styles.app_header}>
+            <div className={styles.container}>
                 <div
-                    className={style.logo}>
+                    className={styles.logo}>
                     <Link
                         to="/"
-                        className={style.logo_link}>
-                        <span>HealthInvoice Hub v1.0.0</span>
+                        className={styles.logo_link}>
+                        <span>HealthInvoice Hub V1.0.3</span>
                     </Link>
                 </div>
                 {isLoggedIn && (
@@ -68,7 +75,6 @@ export const AppHeader = () => {
                         position: 'relative',
                     }} ref={dropdownRef}>
                         <button
-                            className="dropdown_menu_button"
                             onClick={toggleDropdown}
                             aria-expanded={isDropdownOpen}
                             aria-label="Меню"
@@ -86,33 +92,24 @@ export const AppHeader = () => {
                                     d="M18 7H6m12 10H6m12-5H6" />
                             </svg>
                         </button>
-
                         {isDropdownOpen && (
-                            <div className="dropdown_menu_content">
+                            <div className={styles.dropdown_menu_container}>
                                 <ul>
                                     {isLoggedIn && (
                                         <>
                                             <li>
                                                 <Link to="/profile" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Профиль
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M11.5 17.5L5 11m0 0v4.5M5 11h4.5m3-4.5L19 13m0 0V8.5m0 4.5h-4.5" />
                                                         </svg>
-
                                                     </div>
                                                 </Link>
-
                                             </li>
                                             <li>
                                                 <Link to="/journal" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Журнал ФЛК
                                                         <svg
                                                             xmlns="http://www.w3.org/2000/svg"
@@ -136,12 +133,7 @@ export const AppHeader = () => {
                                                     <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
                                                     <li>
                                                         <button
-                                                            className={openAdminSubMenu ? "focus_category" : ""}
-                                                            style={{
-                                                                display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                fontWeight: '500'
-                                                            }}
+                                                            className={openAdminSubMenu ? `${styles.focus_category}` : ""}
                                                             onClick={() => toggleSubAdminMenu()}>
                                                             Админ панель
                                                             <svg
@@ -158,7 +150,6 @@ export const AppHeader = () => {
                                                             </svg>
                                                         </button>
                                                     </li>
-
                                                 </>
                                             )}
                                             <li>
@@ -166,10 +157,7 @@ export const AppHeader = () => {
                                             </li>
                                             <li>
                                                 <Link to="/docs" onClick={closeDropdown}>
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between'
-                                                    }}>
+                                                    <div className={styles.menu_line}>
                                                         Инструкция
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                             <g fill="none" stroke="currentColor" stroke-width="1.5">
@@ -214,10 +202,7 @@ export const AppHeader = () => {
                                                         justifyContent: 'space-between',
                                                         fontWeight: '500'
                                                     }}
-                                                    onClick={() => {
-                                                        logout();
-                                                        closeDropdown();
-                                                    }}>
+                                                    onClick={handleExitButton}>
                                                     Выйти
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.333 13.667L6 10.333L9.333 7M6 10.333h9.167a3.333 3.333 0 0 1 0 6.667h-.834" />
@@ -234,14 +219,11 @@ export const AppHeader = () => {
                             </div>
                         )}
                         {openAdminSubMenu && (
-                            <div className="admin_sub_menu_content">
+                            <div className={styles.admin_sub_menu_container}>
                                 <ul>
                                     <li>
                                         <Link to="/admin/users_control" onClick={closeDropdown}>
-                                            <div style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between'
-                                            }}>
+                                            <div className={styles.menu_line}>
                                                 Пользователи
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                     <g
@@ -253,17 +235,13 @@ export const AppHeader = () => {
                                                         <path stroke-linecap="round" d="M15.556 10.222a1.778 1.778 0 1 0 0-3.555M17.5 13c3.5 1.5 3 5 .5 5.5" />
                                                     </g>
                                                 </svg>
-
                                             </div>
                                         </Link>
 
                                     </li>
                                     <li>
                                         <Link to="/admin/rcontrol" onClick={closeDropdown}>
-                                            <div style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between'
-                                            }}>
+                                            <div className={styles.menu_line}>
                                                 RContol Веб
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"

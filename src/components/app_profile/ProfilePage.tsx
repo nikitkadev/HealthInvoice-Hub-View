@@ -1,6 +1,6 @@
 import { Separator } from "../../shared/ui/seporator/Separator";
 import { LoaderBlock } from "../../shared/ui/loader/LoaderBlock";
-import { useAuth } from "../app_auth/auth_service/AuthContext";
+import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
