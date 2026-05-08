@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { api } from '../../../shared/api/ApiClient';
-import { useJournal } from '../../app_lk_journal/general/JournalContext';
+import { useEffect, useRef, useState } from 'react';
+import { api } from '../../../../shared/api/ApiClient';
+import { useJournal } from '../../../app_lk_journal/general/JournalContext';
 import dayjs from 'dayjs';
 import styles from './RControlPage.module.css';
-import { RControlControlPanel } from './control_panel/RControlControlPanel';
+import { RControlControlPanel } from '../control_panel/RControlControlPanel';
+import { Separator } from '../../../../shared/ui/seporator/Separator';
 
 interface InvoiceShortly {
     status: number;
@@ -69,6 +70,10 @@ export const RControlPage = () => {
     const [selectedFinishedCase, setSelectedFinishedCase] = useState<FinishedCase | null>(null);
     const [invoiceSummary, setInvoiceSummary] = useState<InvoiceSummary | null>(null);
     const [showServiceInfo, setShowService] = useState(false);
+
+    const [isCategoriesMenuOpen, setCategoriesMenuOpen] = useState(false);
+    const categoriesMenuRef = useRef<HTMLDivElement>(null);
+
 
     const { journalType } = useJournal();
 
@@ -148,8 +153,6 @@ export const RControlPage = () => {
             console.debug("Ошибка при попытке извлечь общую информацию о счете");
         }
     }
-
-
     const handleInvoiceShortlyClick = (invoiceShortly: InvoiceShortly) => {
         setCases([]);
         setSelectedFinishedCase(null);
@@ -169,6 +172,23 @@ export const RControlPage = () => {
     const handleHideServiceClick = () => {
         setShowService(false);
     }
+    const toggleMenu = () => setCategoriesMenuOpen(!isCategoriesMenuOpen);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (categoriesMenuRef.current && !categoriesMenuRef.current.contains(event.target as Node)) {
+                setCategoriesMenuOpen(false);
+            }
+        };
+
+        if (isCategoriesMenuOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isCategoriesMenuOpen]);
 
     const invoicesShortlyIsNotEmpty = invoicesShortly.length > 0;
 
@@ -448,18 +468,131 @@ export const RControlPage = () => {
                         </div>
                     </div>
                     <div className={styles.categories_container}>
-                        <div className={styles.dropdown_menu}>
-                            <button className={styles.dropdown_menu_button}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
-                                    <path fill="black" fill-rule="evenodd" d="M42.666 106.667h426.667v42.666H42.666zm0 128H320v42.666H42.666zm426.667 128H42.666v42.666h426.667z" clip-rule="evenodd" />
+                        <div className={styles.categories_container_header}>
+                            <span>Выберите любую категорию</span>
+                            <button
+                                onClick={toggleMenu}
+                                className={styles.dropdown_menu_button}>
+                                Выбрать
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M9 7h10M9 12h10M9 17h10M5 17h-.01M5 12h-.01M5 7h-.01" />
                                 </svg>
                             </button>
+                            {isCategoriesMenuOpen && (
+
+                                <div ref={categoriesMenuRef}
+                                    className={styles.categories_menu}>
+                                    <ul>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Пациент / СМО
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Случаи
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Covid
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Онкозаболевания
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Консилиум
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Услуги
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
+                                        </li>
+                                        <li>
+                                            <button
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: '500'
+                                                }}
+                                            >
+                                                Дополнительно
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
+                                                </svg>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+        </div >
 
     )
 }

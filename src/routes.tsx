@@ -5,7 +5,7 @@ import { AppMainPage } from "./components/app_mainpage/AppMainPage";
 import { ProfilePage } from "./components/app_profile/ProfilePage";
 import { ProtectedRoute } from "./components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "./components/app_protectedroutes/PublicOnlyRoute";
-import { RControlPage } from "./components/app_admin/rcontrol/RControlPage";
+import { RControlPage } from "./components/app_admin/rcontrol/main_field/RControlPage";
 import { JournalPage } from "./components/app_lk_journal/general/JournalPage";
 import { UserControlPage } from "./components/app_admin/users/UserControlPage";
 import { PersonalDataPage } from "./components/app_personal/PersonalDataPage";
