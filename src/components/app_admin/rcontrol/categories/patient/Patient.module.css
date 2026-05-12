@@ -1,0 +1,68 @@
+.container {
+    display: flex;
+    padding: 16px;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+
+    gap: 1rem;
+}
+
+.smo_container,
+.patient_container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    padding: 16px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #ececec;
+    gap: 8px;
+}
+
+.container span {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.container p,
+.container label {
+    font-size: .9rem;
+}
+
+.smo_card,
+.patient_card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+
+    gap: 8px;
+}
+
+.line {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    align-items: start;
+    gap: 8px;
+
+}
+
+.info_block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info_block label {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.info_block p {
+    margin: 0;
+    font-weight: 400;
+    word-break: break-word;
+}

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useAuth } from "../app_auth/auth_service/AuthProvider";
 import { useEffect, useRef, useState } from "react";
 import { Separator } from "../../shared/ui/seporator/Separator";
+import version from "../../../package.json"
 import styles from './AppHeader.module.css';
 
 export const AppHeader = () => {
@@ -65,7 +66,7 @@ export const AppHeader = () => {
                     <Link
                         to="/"
                         className={styles.logo_link}>
-                        <span>HealthInvoice Hub V1.0.3</span>
+                        <span>HealthInvoice Hub v{version.version}</span>
                     </Link>
                 </div>
                 {isLoggedIn && (

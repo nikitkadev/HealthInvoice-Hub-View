@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from '../../../../shared/api/ApiClient';
 import { useJournal } from '../../../app_lk_journal/general/JournalContext';
-import dayjs from 'dayjs';
-import styles from './RControlPage.module.css';
 import { RControlControlPanel } from '../control_panel/RControlControlPanel';
 import { Separator } from '../../../../shared/ui/seporator/Separator';
+import { CategoryRenderer } from '../categories/renderer/CategoryRenderer';
+
+import dayjs from 'dayjs';
+import styles from './RControlPage.module.css';
 
 interface InvoiceShortly {
     status: number;
@@ -62,28 +64,72 @@ interface Case {
     smoSump: number;
 }
 
+type CategoryId = 'patient';
+
 export const RControlPage = () => {
+    const { journalType } = useJournal();
+    const categoriesMenuRef = useRef<HTMLDivElement>(null);
+
+    const [activeCategory, setActiveCategory] = useState<CategoryId | null>(null);
     const [invoicesShortly, setInvoiceShortly] = useState<InvoiceShortly[]>([]);
+    const [invoiceSummary, setInvoiceSummary] = useState<InvoiceSummary | null>(null);
     const [finishedCases, setFinishedCases] = useState<FinishedCase[]>([]);
     const [cases, setCases] = useState<Case[]>([]);
     const [selectedInvoiceShortlyRecord, setSelectedInvoiceShortlyRecord] = useState<InvoiceShortly | null>(null);
     const [selectedFinishedCase, setSelectedFinishedCase] = useState<FinishedCase | null>(null);
-    const [invoiceSummary, setInvoiceSummary] = useState<InvoiceSummary | null>(null);
-    const [showServiceInfo, setShowService] = useState(false);
-
+    const [selectedCase, setSelectedCase] = useState<Case | null>(null);
+    const [isCaseFetching, setIsCaseFetching] = useState(false);
+    const [isFinishedCaseFetching, setIsFinishedCaseFetching] = useState(false);
     const [isCategoriesMenuOpen, setCategoriesMenuOpen] = useState(false);
-    const categoriesMenuRef = useRef<HTMLDivElement>(null);
+    const [conextMenu, setConextMenu] = useState<{
+        visiable: boolean,
+        posX: number
+        posY: number
+    }>({
+        visiable: false,
+        posX: 0,
+        posY: 0
+    })
 
+    useEffect(() => {
+        const handleClickOutside = () => {
+            closeContextMenu();
+        };
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                closeContextMenu();
+            };
+        };
 
-    const { journalType } = useJournal();
+        if (conextMenu.visiable) {
+            document.addEventListener('click', handleClickOutside);
+            document.addEventListener('keydown', handleEscape);
+        }
 
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+            document.removeEventListener('keydown', handleEscape);
+        };
+    }, [conextMenu.visiable]);
+
+    const closeContextMenu = () => setConextMenu(prev => ({ ...prev, visiable: false }))
+
+    const handleClickOnContextMenuArea = (e: React.MouseEvent) => {
+
+        e.preventDefault();
+
+        setConextMenu({
+            visiable: true,
+            posX: e.clientX,
+            posY: e.clientY
+        });
+    }
 
     const handleApplyFilters = async (codeMo: string, year: string, month: string) => {
 
-        setInvoiceShortly([]);
-        setFinishedCases([]);
-        setCases([]);
-        setInvoiceSummary(null);
+        resetData({
+            resetAll: true
+        });
 
         try {
             const response = await api.get<InvoiceShortly[]>('/admin/rcontrol/invoices_shortly', {
@@ -119,7 +165,10 @@ export const RControlPage = () => {
             console.debug("Ошибка при попытке извлечь общую информацию о счете");
         }
     }
+
     const fetchFinishedCases = async (schetUid: number) => {
+
+        setIsFinishedCaseFetching(true);
         setFinishedCases([]);
 
         try {
@@ -135,8 +184,14 @@ export const RControlPage = () => {
         catch {
             console.debug("Ошибка при попытке извлечь общую информацию о счете");
         }
+        finally {
+            setIsFinishedCaseFetching(false);
+        }
     }
+
     const fetchCases = async (zSlUid: number) => {
+
+        setIsCaseFetching(true);
         setCases([]);
 
         try {
@@ -152,27 +207,68 @@ export const RControlPage = () => {
         catch {
             console.debug("Ошибка при попытке извлечь общую информацию о счете");
         }
+        finally {
+            setIsCaseFetching(false);
+        }
     }
-    const handleInvoiceShortlyClick = (invoiceShortly: InvoiceShortly) => {
-        setCases([]);
-        setSelectedFinishedCase(null);
-        setSelectedInvoiceShortlyRecord(invoiceShortly);
 
+    const handleInvoiceShortlyClick = (invoiceShortly: InvoiceShortly) => {
+
+        resetData({
+            resetInvoiceSummary: true,
+            resetFinishedCases: true,
+            resetCases: true,
+            removeCaseSelected: true,
+            removeFinishedCaseSelected: true
+        });
+
+        setSelectedInvoiceShortlyRecord(invoiceShortly);
         fetchInvoiceSummary(invoiceShortly.schetUid);
         fetchFinishedCases(invoiceShortly.schetUid);
     }
-    const handleFinishedCaseClick = (finishedCase: FinishedCase) => {
-        setSelectedFinishedCase(finishedCase);
 
+    const handleFinishedCaseClick = (finishedCase: FinishedCase) => {
+
+        resetData({
+            resetCases: true,
+            removeCaseSelected: true
+        })
+
+        setSelectedFinishedCase(finishedCase);
         fetchCases(finishedCase.zSlUid);
     }
-    const handleShowServiceClick = () => {
-        setShowService(true);
-    }
-    const handleHideServiceClick = () => {
-        setShowService(false);
-    }
-    const toggleMenu = () => setCategoriesMenuOpen(!isCategoriesMenuOpen);
+
+    const resetData = ({
+        resetAll = false,
+        resetInvoiceShortly = false,
+        resetInvoiceSummary = false,
+        resetFinishedCases = false,
+        resetCases = false,
+        removeInvoiceShortlySelected = false,
+        removeFinishedCaseSelected = false,
+        removeCaseSelected = false
+    } = {}) => {
+
+        if (resetAll) {
+            setInvoiceShortly([]);
+            setInvoiceSummary(null);
+            setFinishedCases([]);
+            setCases([]);
+            setSelectedInvoiceShortlyRecord(null);
+            setSelectedFinishedCase(null);
+            setSelectedCase(null);
+            return;
+        }
+
+        if (resetInvoiceShortly) setInvoiceShortly([]);
+        if (resetInvoiceSummary) setInvoiceSummary(null);
+        if (resetFinishedCases) setFinishedCases([]);
+        if (resetCases) setCases([]);
+
+        if (removeInvoiceShortlySelected) setSelectedInvoiceShortlyRecord(null);
+        if (removeFinishedCaseSelected) setSelectedFinishedCase(null);
+        if (removeCaseSelected) setSelectedCase(null);
+    };
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -189,6 +285,12 @@ export const RControlPage = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isCategoriesMenuOpen]);
+
+    useEffect(() => {
+        resetData({
+            resetAll: true
+        })
+    }, [journalType]);
 
     const invoicesShortlyIsNotEmpty = invoicesShortly.length > 0;
 
@@ -252,28 +354,8 @@ export const RControlPage = () => {
                                         display: 'flex',
                                         gap: '.5rem'
                                     }}>
-                                        <label className={styles.label}>Предъявлено:</label>
-                                        <p className={styles.p}>{invoiceSummary.summav} руб.</p>
+                                        <label className={styles.label}>Предъявлено - {invoiceSummary.summav} руб.</label>
                                     </div>
-                                    {!showServiceInfo ? (
-                                        <button
-                                            onClick={handleShowServiceClick}
-                                            className={styles.button}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m19 15l-7-6l-7 6" />
-                                            </svg>
-
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={handleHideServiceClick}
-                                            className={styles.button}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m19 9l-7 6l-7-6" />
-                                            </svg>
-                                        </button>
-
-                                    )}
                                 </div>
                                 <div className={styles.summary_content}>
                                     <div className={styles.tfomsrx_block}>
@@ -320,22 +402,20 @@ export const RControlPage = () => {
                                     </div>
 
                                 </div>
-                                {showServiceInfo && (
-                                    <div className={styles.service_info_container}>
-                                        <div className={styles.service_card_row}>
-                                            <label className={styles.label}>Имя файла</label>
-                                            <p className={styles.p}>{invoiceSummary.filename}</p>
-                                        </div>
-                                        <div className={styles.service_card_row}>
-                                            <label className={styles.label}>UID</label>
-                                            <p className={styles.p}>{invoiceSummary.schetUid}</p>
-                                        </div>
-                                        <div className={styles.service_card_row}>
-                                            <label className={styles.label}>Дата загрузки</label>
-                                            <p className={styles.p}>{dayjs(invoiceSummary.uploadDate).format('DD.MM.YYYY')}</p>
-                                        </div>
+                                <div className={styles.service_info_container}>
+                                    <div className={styles.service_card_row}>
+                                        <label className={styles.label}>Имя файла</label>
+                                        <p className={styles.p}>{invoiceSummary.filename}</p>
                                     </div>
-                                )}
+                                    <div className={styles.service_card_row}>
+                                        <label className={styles.label}>UID</label>
+                                        <p className={styles.p}>{invoiceSummary.schetUid}</p>
+                                    </div>
+                                    <div className={styles.service_card_row}>
+                                        <label className={styles.label}>Дата загрузки</label>
+                                        <p className={styles.p}>{dayjs(invoiceSummary.uploadDate).format('DD.MM.YYYY')}</p>
+                                    </div>
+                                </div>
                             </>
                         ) : (
                             <div className={styles.summary_waiting}>Ожидает выбора счета</div>
@@ -344,7 +424,7 @@ export const RControlPage = () => {
                 </div>
                 <div className={styles.column_main_invoices_block}>
                     <div className={styles.title}>Расширенная информация о счетах</div>
-                    <div className={`${styles.finished_cases_table_container} ${selectedInvoiceShortlyRecord !== null ? styles.active_summary : ''}`}>
+                    <div className={`${styles.finished_cases_table_container} ${finishedCases.length > 0 ? styles.active_summary : ''}`}>
                         <div className={styles.tableWrapper}>
                             <table className={styles.table}>
                                 <colgroup>
@@ -399,16 +479,36 @@ export const RControlPage = () => {
                                                     <td className={styles.td}>{finished.smoSump ?? '-'}</td>
                                                 </tr>
                                             )
-                                        })) : (
-                                        <tr>
-                                            <td colSpan={12} className={styles.empty_data}>Нет данных</td>
-                                        </tr>
-                                    )}
+                                        })) : isFinishedCaseFetching ?
+
+                                        (
+                                            <tr>
+                                                <td colSpan={12} className={styles.empty_data}>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        gap: '8px'
+                                                    }}>
+                                                        Фетчим кейсы законченные
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6.99998C9.1747 6.99987 6.99997 9.24998 7 12C7.00003 14.55 9.02119 17 12 17C14.7712 17 17 14.75 17 12">
+                                                                <animateTransform attributeName="transform" attributeType="XML" dur="560ms" from="0,12,12" repeatCount="indefinite" to="360,12,12" type="rotate" />
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={12} className={styles.empty_data}>Нет данных</td>
+                                            </tr>
+                                        )}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div className={`${styles.case_table_container} ${selectedFinishedCase !== null ? styles.active_summary : ''}`}>
+                    <div className={`${styles.case_table_container} ${cases.length > 0 ? styles.active_summary : ''}`}>
                         <div className={styles.tableWrapper}>
                             <table className={styles.table}>
                                 <colgroup>
@@ -442,8 +542,10 @@ export const RControlPage = () => {
                                 <tbody>
                                     {cases.length > 0 ? (
                                         cases.map((generalCase) => {
+                                            const isSelected = generalCase === selectedCase;
                                             return (
-                                                <tr className={styles.tr}>
+                                                <tr className={`${styles.tr_body} ${isSelected ? styles.selected_invoice_row : ''}`}
+                                                    onClick={() => setSelectedCase(generalCase)}>
                                                     <td className={styles.td}>{generalCase.profil}</td>
                                                     <td className={styles.td}>{generalCase.det}</td>
                                                     <td className={styles.td}>{generalCase.prvs}</td>
@@ -454,43 +556,71 @@ export const RControlPage = () => {
                                                     <td className={styles.td}>{generalCase.tarif}</td>
                                                     <td className={styles.td}>{generalCase.sumM}</td>
                                                     <td className={styles.td}>{generalCase.sump}</td>
-                                                    <td className={styles.td}>{generalCase.smoSump}</td>
+                                                    <td className={styles.td}>{generalCase.smoSump ?? "-"}</td>
                                                 </tr>
                                             )
                                         })
+                                    ) : isCaseFetching ? (
+                                        <tr>
+                                            <td colSpan={11} className={styles.empty_data}>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: '8px'
+                                                }}>
+                                                    Загружаем грязючные случаи
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6.99998C9.1747 6.99987 6.99997 9.24998 7 12C7.00003 14.55 9.02119 17 12 17C14.7712 17 17 14.75 17 12">
+                                                            <animateTransform attributeName="transform" attributeType="XML" dur="560ms" from="0,12,12" repeatCount="indefinite" to="360,12,12" type="rotate" />
+                                                        </path>
+                                                    </svg>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     ) : (
                                         <tr>
-                                            <td colSpan={11} className={styles.empty_data}>Нет данных</td>
+                                            <td colSpan={11} className={styles.empty_data}>
+                                                Нет данных
+                                            </td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div className={styles.categories_container}>
+                    <div className={`${styles.categories_container} ${activeCategory !== null ? styles.active_summary : ''}`}>
                         <div className={styles.categories_container_header}>
-                            <span>Выберите любую категорию</span>
-                            <button
-                                onClick={toggleMenu}
-                                className={styles.dropdown_menu_button}>
-                                Выбрать
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M9 7h10M9 12h10M9 17h10M5 17h-.01M5 12h-.01M5 7h-.01" />
+                            <div className={styles.context_menu_zone}
+                                onContextMenu={handleClickOnContextMenuArea}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="#8a8a8a" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.992 9.5h.01M14.5 5h.01" />
+                                        <path stroke-linecap="round" d="M14.625 5H15a4 4 0 0 1 4 4v.375" />
+                                        <path d="M9.375 5H9a4 4 0 0 0-4 4v.375" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.373 5h.01M5 9.5h.01" />
+                                        <path d="M9.375 19H9a4 4 0 0 1-4-4v-.375" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.373 19h.01M5 14.55h.01" />
+                                        <path stroke-linecap="round" d="M16 13v3m0 3v-3m3 0h-3m0 0h-3" />
+                                    </g>
                                 </svg>
-                            </button>
-                            {isCategoriesMenuOpen && (
-
-                                <div ref={categoriesMenuRef}
-                                    className={styles.categories_menu}>
+                            </div>
+                        </div>
+                        {activeCategory && (
+                            <CategoryRenderer categoryId={activeCategory} />
+                        )}
+                        {conextMenu.visiable && (
+                            <div
+                                className={styles.categories_menu}
+                                style={{
+                                    left: conextMenu.posX,
+                                    top: conextMenu.posY
+                                }}>
+                                {selectedCase ? (
                                     <ul>
                                         <li>
                                             <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                                onClick={() => setActiveCategory('patient')}>
                                                 Пациент / СМО
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -498,13 +628,7 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Случаи
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -512,13 +636,7 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Covid
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -526,13 +644,7 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Онкозаболевания
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -540,13 +652,7 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Консилиум
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -554,13 +660,7 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Услуги
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -571,13 +671,7 @@ export const RControlPage = () => {
                                             <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
                                         </li>
                                         <li>
-                                            <button
-                                                style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'space-between',
-                                                    fontWeight: '500'
-                                                }}
-                                            >
+                                            <button>
                                                 Дополнительно
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
@@ -585,9 +679,13 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                     </ul>
-                                </div>
-                            )}
-                        </div>
+                                ) : (
+                                    <div style={{
+                                        padding: '1rem'
+                                    }}>Бро, выбери случай для начала</div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

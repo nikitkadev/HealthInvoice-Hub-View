@@ -97,7 +97,6 @@ export const RControlControlPanel = ({ onApplyFilters }: ControlPanelProps) => {
                 setLoadingPeriods(false);
             }
         };
-
         fetchPeriods();
     }, [selectedOrg, journalType]);
 
