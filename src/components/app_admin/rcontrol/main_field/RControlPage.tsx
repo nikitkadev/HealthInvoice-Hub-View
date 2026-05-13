@@ -64,7 +64,7 @@ interface Case {
     smoSump: number;
 }
 
-type CategoryId = 'patient';
+type CategoryId = 'patient' | 'cases' | 'covid';
 
 export const RControlPage = () => {
     const { journalType } = useJournal();
@@ -287,6 +287,7 @@ export const RControlPage = () => {
     }, [isCategoriesMenuOpen]);
 
     useEffect(() => {
+        setActiveCategory(null);
         resetData({
             resetAll: true
         })
@@ -628,7 +629,8 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button>
+                                            <button
+                                                onClick={() => setActiveCategory('cases')}>
                                                 Случаи
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -636,7 +638,8 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <button>
+                                            <button
+                                                onClick={() => setActiveCategory('covid')}>
                                                 Covid
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
                                                     <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
@@ -682,7 +685,7 @@ export const RControlPage = () => {
                                 ) : (
                                     <div style={{
                                         padding: '1rem'
-                                    }}>Бро, выбери случай для начала</div>
+                                    }}>Ну ты бык, не?</div>
                                 )}
                             </div>
                         )}

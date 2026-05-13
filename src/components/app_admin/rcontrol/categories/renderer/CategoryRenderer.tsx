@@ -1,9 +1,13 @@
 import { lazy, Suspense } from "react"
 
 const Patient = lazy(() => import('../patient/Patient'));
+const SummaryCases = lazy(() => import('../summaryCases/SummaryCases'));
+const Covid = lazy(() => import('../covid/Covid'));
 
 const categoryMap = {
-    patient: Patient
+    patient: Patient,
+    cases: SummaryCases,
+    covid: Covid
 }
 
 interface CategoryRendererProps {
