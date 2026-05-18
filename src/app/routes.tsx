@@ -1,18 +1,19 @@
 import { createBrowserRouter } from "react-router";
 
 import { App } from "./App";
-import { AppMainPage } from "./components/app_mainpage/AppMainPage";
-import { ProfilePage } from "./components/app_profile/ProfilePage";
-import { ProtectedRoute } from "./components/app_protectedroutes/ProtectedRoute";
-import { PublicOnlyRoute } from "./components/app_protectedroutes/PublicOnlyRoute";
-import { RControlPage } from "./components/app_admin/rcontrol/main_field/RControlPage";
-import { JournalPage } from "./components/app_lk_journal/general/JournalPage";
-import { UserControlPage } from "./components/app_admin/users/UserControlPage";
-import { PersonalDataPage } from "./components/app_personal/PersonalDataPage";
-import { AdminOnlyRoute } from "./components/app_protectedroutes/AdminOnlyRoute";
-import { Docs } from "./components/app_docs/Docs";
-import { LoginPage } from "./components/app_auth/login/LoginPage";
-import { LkJournalErrorsPage } from "./components/errors/LkJournalErrorsPage";
+import { AppMainPage } from "../components/app_mainpage/AppMainPage";
+import { ProfilePage } from "../components/app_profile/ProfilePage";
+import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
+import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
+import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
+import { JournalPage } from "../components/app_lk_journal/general/JournalPage";
+import { UserControlPage } from "../components/app_admin/users/UserControlPage";
+import { PersonalDataPage } from "../components/app_personal/PersonalDataPage";
+import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
+import { Docs } from "../components/app_docs/Docs";
+import { LkJournalErrorsPage } from "../components/errors/LkJournalErrorsPage";
+
+import Login from "../components/pages/Login";
 
 export const router = createBrowserRouter(
     [
@@ -33,7 +34,7 @@ export const router = createBrowserRouter(
                     path: 'login',
                     element: (
                         <PublicOnlyRoute>
-                            <LoginPage />
+                            <Login />
                         </PublicOnlyRoute>),
                 },
                 {

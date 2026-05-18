@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useAuth } from '../auth_service/AuthProvider';
 import { Separator } from '../../../shared/ui/seporator/Separator';
 import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
-
-import styles from './LoginPage.module.css';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
+import styles from './styles.module.scss';
 
-export const LoginPage = () => {
+const Login = () => {
 
     const [validateNotification, setValidateNotification] = useState<{
         visible: boolean,
@@ -58,7 +57,7 @@ export const LoginPage = () => {
     return (
         <>
             {!isSubmitting ? (
-                <div className={`${styles.container}`}>
+                <div className={`${styles.loginRoot}`}>
                     <h1>Вход в ваш аккаунт</h1>
                     <Separator size='xs' type='space' />
                     <p>Введите почту и пароль, выданные для вашей организации.</p>
@@ -126,3 +125,5 @@ export const LoginPage = () => {
         </>
     );
 };
+
+export default Login;

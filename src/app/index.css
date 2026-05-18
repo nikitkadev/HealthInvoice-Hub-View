@@ -103,7 +103,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-app-light);
+  background: var(--background);
   color: var(--text-primary);
 }
 
@@ -133,5 +133,4 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--bg-app-light) !important;
 }
