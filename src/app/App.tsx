@@ -1,11 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import './styles/global.scss';
 
 import { Outlet } from 'react-router'
 import { Slide, ToastContainer } from 'react-toastify'
 import { useHeartbeat } from '../shared/hooks/useHeartbeat';
 import { JournalProvider } from '../components/app_lk_journal/general/JournalContext';
-import { AppHeader } from '../components/app_header/AppHeader';
+import Header from '../components/widgets/Header';
 
 export function App() {
 
@@ -15,7 +16,7 @@ export function App() {
     <>
       <JournalProvider>
         <div className='app'>
-          <AppHeader />
+          <Header />
           <main className='app-content'>
             <Outlet />
           </main>

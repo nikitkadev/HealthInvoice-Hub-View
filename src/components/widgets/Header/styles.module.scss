@@ -1,0 +1,18 @@
+.headerRoot {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+
+    padding: 1.5rem;
+
+    background: var(--default-element-background-color);
+    border: 1px solid var(--default-element-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.05);
+}
+
+.homePageLink {
+    text-decoration: none;
+    color: var(--text-primary);
+}

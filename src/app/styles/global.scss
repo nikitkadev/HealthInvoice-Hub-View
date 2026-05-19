@@ -1,6 +1,104 @@
-@use './themes/light.scss';
-@use './colors.scss';
+@use './colors' as *;
+@use './tokens' as *;
+@use './root-variables' as *;
 
-:root{
-    color: var();
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100lvh;
+
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+body {
+    height: 100vh;
+    height: 100lvh;
+
+    color: var(--text-primary);
+    word-spacing: 0.05em;
+
+    background-color: var(--app-background-color);
+
+    overflow: hidden;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    color: var(--text-primary);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+}
+
+p {
+    font-size: var(--font-size-default);
+    line-height: 1;
+}
+
+label,
+input::placeholder {
+    font-size: var(--font-size-default-very-small);
+    color: var(--gray-400);
+}
+
+input {
+    padding: .6rem .8rem;
+    font-size: .85rem;
+
+    border: none;
+    border-radius: var(--rounding-l);
+    background-color: var(--input-background-color);
+
+}
+
+input:focus {
+    outline: none;
+    border: none;
+    background-color: var(--input-focus-background-color);
+
+    transition: 0.5s ease;
+}
+
+input:focus::placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+
+    gap: .75rem;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    width: 100%;
 }

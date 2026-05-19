@@ -1,0 +1,29 @@
+@use './colors' as *;
+
+:root {
+
+    //App
+    --app-primary-text-color: var(--black);
+    --app-secondary-text-color: var(--gray-500);
+    --app-background-color: var(--gray-150);
+
+    //Elements 
+    --default-element-background-color: var(--gray-50);
+    --default-element-border-color: var(--gray-200);
+    --default-element-text-color: var(--black);
+
+    --input-background-color: var(--gray-100);
+    --input-focus-background-color: var(--gray-150);
+
+    --button-primary-background-color: var(--black);
+    --button-primary-background-hover-color: var(--gray-750);
+
+    //Status
+    --status-success: var(--success);
+    --status-error: var(--error);
+    --status-rewrite: var(--rewrite);
+    --status-processing: var(--processing);
+    --status-warning: var(--warning);
+    --status-pending: var(--pending);
+    --status-fatal: var(--fatal);
+}

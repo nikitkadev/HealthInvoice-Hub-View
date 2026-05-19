@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Separator } from '../../../shared/ui/seporator/Separator';
 import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import styles from './styles.module.scss';
+import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
+import Button from '../../ui/Button/Button';
 
 const Login = () => {
 
@@ -59,20 +60,22 @@ const Login = () => {
             {!isSubmitting ? (
                 <div className={`${styles.loginRoot}`}>
                     <h1>Вход в ваш аккаунт</h1>
-                    <Separator size='xs' type='space' />
+                    <GorizontalSeporator size='sm' type='space' />
                     <p>Введите почту и пароль, выданные для вашей организации.</p>
                     {validateNotification.visible && (
-                        <div className={styles.error_notification}
-                            style={{
-                            }}>{validateNotification.error}</div>
+                        <>
+                            <GorizontalSeporator size='xs' type='space' />
+                            <div className={styles.errorNotification}>
+                                <p>{validateNotification.error}</p>
+                            </div>
+                        </>
                     )}
-                    <Separator size='xs' type='space' />
+                    <GorizontalSeporator size='sm' type='space' />
                     <form
                         onSubmit={handleSubmit}>
-                        <div className={styles.inputs}>
+                        <div className={styles.field}>
                             <label htmlFor="username">Почта</label>
                             <input
-                                className={`${isWrongData ? styles.wrong_data : ""}`}
                                 id="username"
                                 name="email"
                                 type="text"
@@ -81,18 +84,17 @@ const Login = () => {
                                     setUsername(e.target.value)
                                     setValidateNotification(prev => ({ ...prev, visible: false }));
                                     e.currentTarget.setCustomValidity("")
-
-                                    // }}
-                                    // onInvalid={(e) => {
-                                    //     e.currentTarget.setCustomValidity("Вы чуть-чуть ввели не почту :)")
-                                    //     e.preventDefault();
-                                    //     handleValidationError(e, "email")
+                                }}
+                                onInvalid={(e) => {
+                                    e.currentTarget.setCustomValidity("Пожалуйста, укажите почту!")
+                                    e.preventDefault();
+                                    handleValidationError(e, "email")
                                 }}
                                 required
-                                placeholder="tfomsrx@gmail.com"
+                                placeholder="nikitkadev@gmail.com"
                             />
                         </div>
-                        <div className={styles.inputs}>
+                        <div className={styles.field}>
                             <label htmlFor="password">Пароль</label>
                             <input
                                 className={`${styles.input} ${isWrongData ? styles.wrong_data : ""}`}
@@ -107,16 +109,15 @@ const Login = () => {
                                     e.currentTarget.setCustomValidity("")
                                 }}
                                 onInvalid={(e) => {
-                                    e.currentTarget.setCustomValidity("Вы чуть-чуть забыли про пароль :)")
+                                    e.currentTarget.setCustomValidity("Пожалуйста. укажите пароль!")
                                     e.preventDefault();
                                     handleValidationError(e, "email")
                                 }}
                                 required
                             />
                         </div>
-                        <Separator size="xs" type="space" />
-                        <button type="submit">Войти</button>
-
+                        <GorizontalSeporator size="sm" type="line" color='var(--gray-300)' />
+                        <Button type='submit' variant='primary' fullWidth={true}>Войти</Button>
                     </form>
                 </div >
             ) : (
