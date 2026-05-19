@@ -9,7 +9,7 @@ export const Header = () => {
             <Link
                 to="/"
                 className={styles.homePageLink}>
-                <h3>HealthInvoice Hub v{config.version}</h3>
+                <h1>HealthInvoice Hub v{config.version}</h1>
             </Link>
         </header>
     );
