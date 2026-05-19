@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router";
 
 import { App } from "./App";
-import { AppMainPage } from "../components/app_mainpage/AppMainPage";
 import { ProfilePage } from "../components/app_profile/ProfilePage";
 import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
@@ -14,6 +13,7 @@ import { Docs } from "../components/app_docs/Docs";
 import { LkJournalErrorsPage } from "../components/errors/LkJournalErrorsPage";
 
 import Login from "../components/pages/Login";
+import Home from "../components/pages/Home";
 
 export const router = createBrowserRouter(
     [
@@ -26,7 +26,7 @@ export const router = createBrowserRouter(
                     index: true,
                     element: (
                         <ProtectedRoute>
-                            <AppMainPage />
+                            <Home />
                         </ProtectedRoute>
                     )
                 },

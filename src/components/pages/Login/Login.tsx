@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router';
 import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
-import styles from './styles.module.scss';
+
 import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
 import Button from '../../ui/Button/Button';
+
+import styles from './styles.module.scss';
 
 const Login = () => {
 
