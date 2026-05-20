@@ -4,13 +4,11 @@
     align-items: center;
     justify-content: center;
 
-    padding: .6rem .8rem;
     font-size: var(--font-size-default-very-small);
     font-weight: 600;
-    border-radius: var(--rounding-l);
 
     &:active {
-        transform: scale(0.95);
+        transform: scale(0.93);
     }
 
     span,
@@ -21,15 +19,32 @@
 }
 
 .primary {
+    padding: .6rem .8rem;
+
     border: none;
+    border-radius: var(--rounding-l);
     background-color: var(--button-primary-background-color);
     color: var(--white);
 
-    transition: 0.2s ease;
+    transition: 0.3s ease;
 }
 
 .primary:hover {
     background-color: var(--button-primary-background-hover-color);
+}
+
+.secondary {
+    padding: .5rem;
+
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-m);
+    background: none;
+
+    transition: 0.3s ease;
+}
+
+.secondary:hover {
+    background-color: var(--button-secondary-background-hover-color);
 }
 
 .fullWidth {

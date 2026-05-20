@@ -30,7 +30,6 @@ body {
     height: 100lvh;
 
     color: var(--text-primary);
-    word-spacing: 0.05em;
 
     background-color: var(--app-background-color);
 
@@ -54,20 +53,25 @@ p {
 
 h1 {
     font-size: var(--font-size-h1);
-    color: var(--text-primary);
+    font-weight: 600;
+    color: var(--black);
 }
 
 h2 {
     font-size: var(--font-size-h2);
+    font-weight: 600;
+    color: var(--black);
 }
 
 h3 {
     font-size: var(--font-size-h3);
+    color: var(--black);
 }
 
 p {
     font-size: var(--font-size-default);
-    line-height: 1;
+    line-height: 1.1;
+    color: var(--black);
 }
 
 label,
