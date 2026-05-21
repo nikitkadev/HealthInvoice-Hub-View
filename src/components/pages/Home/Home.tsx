@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div className={styles.homeRoot}>
             <h1>Добро пожаловать в HealthInvoice Hub!</h1>
-            <GorizontalSeporator type='line' size='lg' color='var(--gray-400)' />
+            <GorizontalSeporator type='line' size='lg' color='var(--gray-200)' />
             <h2>Дисклеймер </h2>
             <GorizontalSeporator type='space' size='xs' />
             <p>
@@ -24,7 +24,7 @@ const Home = () => {
                 На этом этапе мы как раз ищем узкие места нашей программы.
                 Самым активным выдадим достижение и отдельное место в наших сердцах!
             </p>
-            <GorizontalSeporator type='line' size='lg' color='var(--gray-400)' />
+            <GorizontalSeporator type='line' size='lg' color='var(--gray-200)' />
             <h2>Как начать?</h2>
             <GorizontalSeporator type='space' size='xs' />
             <p className={styles.p}>
@@ -42,7 +42,7 @@ const Home = () => {
                 для нужд нашего фонда, сижу и пишу змейку на домашнюю страницу нашей тестовой плащадки! Но как говорится, с такой работой
                 и не такое начнешь делать..
             </p>
-            <GorizontalSeporator type='line' size='lg' color='var(--gray-400)' />
+            <GorizontalSeporator type='line' size='lg' color='var(--gray-200)' />
             <h2>Связь с нами</h2>
             <GorizontalSeporator type='space' size='xs' />
             <p>

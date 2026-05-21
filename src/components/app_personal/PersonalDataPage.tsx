@@ -13,7 +13,7 @@ export const PersonalDataPage = () => {
         try {
             await api.postWithoutContent('/auth/accept_pers');
             navigate('/');
-            toast.success("Добро пожаловать!");
+            toast.success("Успешный вход!");
         }
         catch (error) {
             toast.error("Произошла ошибка при попытке принять соглашение...");

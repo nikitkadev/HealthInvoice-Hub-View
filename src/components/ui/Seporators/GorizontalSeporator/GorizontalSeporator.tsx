@@ -1,15 +1,15 @@
-import type { SeporatorProps } from '../SeporatorProps';
+import type { SeparatorProps } from '../SeparatorProps';
 import styles from './styles.module.scss';
 
-const GorizontalSeporator = ({
+const GorizontalSeparator = ({
     size = 'xs',
-    color = 'var(--default-element-border-color)',
+    color = 'var(--gray-150)',
     type = 'space'
-}: SeporatorProps) => {
+}: SeparatorProps) => {
     return (
-        <hr className={`${styles.seporator} ${styles[size]} ${styles[type]}`}
+        <div className={`${styles.separator} ${styles[size]} ${styles[type]}`}
             style={{ borderColor: color }} />
     )
 }
 
-export default GorizontalSeporator;
+export default GorizontalSeparator;

@@ -39,7 +39,7 @@ const Login = () => {
             if (loginResult.isSuccess) {
 
                 loginResult.isAcceptedPersonalPolicy ? navigate("/") : navigate("/consent");
-                toast.success(loginResult.clientMessage ?? "Добро пожаловать в HealthInvoice Hub!");
+                toast.success(loginResult.clientMessage ?? "Успешный вход!");
 
                 return;
             }
@@ -118,7 +118,7 @@ const Login = () => {
                                 required
                             />
                         </div>
-                        <GorizontalSeporator size="sm" type="line" color='var(--gray-300)' />
+                        <GorizontalSeporator size="sm" type="line" color='var(--gray-100)' />
                         <Button type='submit' variant='primary' fullWidth={true}>Войти</Button>
                     </form>
                 </div >

@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router";
 
 import { App } from "./App";
-import { ProfilePage } from "../components/app_profile/ProfilePage";
 import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
 import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
@@ -14,6 +13,8 @@ import { LkJournalErrorsPage } from "../components/errors/LkJournalErrorsPage";
 
 import Login from "../components/pages/Login";
 import Home from "../components/pages/Home";
+import Profile from "../components/pages/Profile";
+import Journal from "../components/pages/Journal";
 
 export const router = createBrowserRouter(
     [
@@ -41,7 +42,7 @@ export const router = createBrowserRouter(
                     path: 'profile',
                     element: (
                         <ProtectedRoute>
-                            <ProfilePage />
+                            <Profile />
                         </ProtectedRoute>
                     )
                 },
@@ -50,6 +51,14 @@ export const router = createBrowserRouter(
                     element: (
                         <ProtectedRoute>
                             <JournalPage />
+                        </ProtectedRoute>
+                    )
+                },
+                {
+                    path: 'journal_new',
+                    element: (
+                        <ProtectedRoute>
+                            <Journal />
                         </ProtectedRoute>
                     )
                 },

@@ -32,9 +32,11 @@
 
     li {
         margin: .25rem;
-        padding: .5rem .75rem;
+        padding: .45rem .75rem;
         text-align: left;
         border-radius: var(--rounding-s);
+
+        transition: 0.2s ease-out;
     }
 
     span {
@@ -43,6 +45,25 @@
     }
 
 }
+
+.menuRoot button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 0;
+    width: 100%;
+
+    border: none;
+    background: none;
+}
+
+.menuRoot button:active {
+    transform: scale(1);
+}
+
+
+
 
 .menuTitle {
     color: var(--gray-400) !important;
@@ -68,6 +89,10 @@
 
     text-decoration: none;
     color: var(--black);
+}
+
+.exitSpan {
+    color: var(--error);
 }
 
 li:hover {

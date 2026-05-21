@@ -9,7 +9,7 @@
 
     //Elements 
     --default-element-background-color: var(--white);
-    --default-element-background-hover-color: var(--gray-100);
+    --default-element-background-hover-color: var(--gray-150);
     --default-element-border-color: var(--gray-200);
     --default-element-text-color: var(--black);
 
@@ -18,8 +18,9 @@
 
     --button-primary-background-color: var(--black);
     --button-primary-background-hover-color: var(--gray-750);
+    --button-secondary-background-hover-color: var(--gray-150);
 
-    --button-secondary-background-hover-color: var(--gray-100);
+    --card-background-color: var(--gray-50);
 
     //Status
     --status-success: var(--success);

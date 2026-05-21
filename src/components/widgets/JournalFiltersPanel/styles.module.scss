@@ -1,0 +1,17 @@
+.journalFiltersPanelRoot {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    padding: 1.5rem;
+
+    gap: 1rem;
+
+    border-bottom: 1px solid var(--default-element-border-color);
+}
+
+.journalFiltersPanelRoot input {
+    width: 24rem;
+
+    border: 1px solid var(--default-element-border-color);
+}

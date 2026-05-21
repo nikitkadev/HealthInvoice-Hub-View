@@ -1,0 +1,78 @@
+.toggleGroup {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex;
+    gap: 0 !important;
+}
+
+.toggleGroup :global(.btn) {
+    padding: .6rem 1.5rem;
+    font-size: var(--font-size-default-very-small);
+    font-weight: 600;
+    border: 1px solid var(--default-element-border-color) !important;
+    background: transparent !important;
+    color: var(--black) !important;
+    transition: 0.2s ease !important;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    &:hover {
+        background-color: var(--button-secondary-background-hover-color) !important;
+        border-color: var(--default-element-border-color) !important;
+        z-index: 1;
+    }
+
+    &.active {
+        background: var(--button-primary-background-color) !important;
+        border-color: var(--button-primary-background-color) !important;
+        color: var(--white) !important;
+        z-index: 2;
+
+        &:hover {
+            background-color: var(--button-primary-background-hover-color) !important;
+        }
+    }
+
+    &:focus,
+    &:focus-visible {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+}
+
+.firstChild {
+    border-radius: var(--rounding-m) 0 0 var(--rounding-m) !important;
+    border-right: none !important;
+}
+
+.lastChild {
+    border-radius: 0 var(--rounding-m) var(--rounding-m) 0 !important;
+}
+
+.toggleGroup :global(.btn-check:checked + .btn) {
+    background: var(--button-primary-background-color) !important;
+    border-color: var(--button-primary-background-color) !important;
+    color: var(--white) !important;
+    font-weight: 600 !important;
+    z-index: 2;
+
+    &:hover {
+        background-color: var(--button-primary-background-hover-color) !important;
+    }
+}
+
+.toggleGroup :global(.btn) {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+    }
+}

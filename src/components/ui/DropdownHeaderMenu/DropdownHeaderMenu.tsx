@@ -1,21 +1,52 @@
-import { useState } from "react";
-import { Link } from "react-router";
 import GorizontalSeporator from "../Seporators/GorizontalSeporator";
-import Button from "../Button/Button";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
+import Button from "../Button/Button";
+import { Link } from "react-router";
 
-const DropdownHeaderMenu = () => {
+interface Props {
+    logout: () => void;
+}
+
+const DropdownHeaderMenu = ({ logout }: Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
+    const dropdownHeaderMenuRef = useRef<HTMLDivElement>(null);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownHeaderMenuRef.current && !dropdownHeaderMenuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        const handleClickEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsOpen(false);
+            };
+        }
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('keydown', handleClickEscape);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleClickEscape);
+        }
+    }, [isOpen]);
+
     return (
+
         <div className={styles.dropdownHeaderMenuRoot}>
+
             <Button
-                variant="secondary"
+                variant="icon"
                 fullWidth={false}
                 onClick={toggleOpen}>
                 <svg
@@ -31,12 +62,18 @@ const DropdownHeaderMenu = () => {
                         stroke-width="2" d="M5 17h14M5 12h14M5 7h8" />
                 </svg>
             </Button>
+
             {isOpen && (
-                <div className={styles.menuRoot}>
+                <div
+                    ref={dropdownHeaderMenuRef}
+                    className={styles.menuRoot}
+                    onClick={toggleOpen}>
                     <ul>
+
                         <div className={styles.menuItem}>
                             <span className={styles.menuTitle}>Мой аккаунт</span>
                         </div>
+
                         <li>
                             <Link
                                 to='/profile'
@@ -57,25 +94,39 @@ const DropdownHeaderMenu = () => {
                                 </svg>
                             </Link>
                         </li>
+
                         <li>
-                            <Link
-                                to='/journal'
-                                className={styles.linkItem}>
-                                <span>Выйти</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                                    <path fill="none" stroke="var(--black)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m12 15l3-3m0 0l-3-3m3 3H4m5-4.751V7.2c0-1.12 0-1.68.218-2.108c.192-.377.497-.682.874-.874C10.52 4 11.08 4 12.2 4h4.6c1.12 0 1.68 0 2.107.218c.377.192.683.497.875.874c.218.427.218.987.218 2.105v9.607c0 1.118 0 1.677-.218 2.104a2 2 0 0 1-.875.874c-.427.218-.986.218-2.104.218h-4.606c-1.118 0-1.678 0-2.105-.218a2 2 0 0 1-.874-.874C9 18.48 9 17.92 9 16.8v-.05" />
+                            <button
+                                onClick={logout}>
+                                <span className={styles.exitSpan}>Выйти</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        fill="none"
+                                        stroke="var(--error)"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.7"
+                                        d="m12 15l3-3m0 0l-3-3m3 3H4m5-4.751V7.2c0-1.12 0-1.68.218-2.108c.192-.377.497-.682.874-.874C10.52 4 11.08 4 12.2 4h4.6c1.12 0 1.68 0 2.107.218c.377.192.683.497.875.874c.218.427.218.987.218 2.105v9.607c0 1.118 0 1.677-.218 2.104a2 2 0 0 1-.875.874c-.427.218-.986.218-2.104.218h-4.606c-1.118 0-1.678 0-2.105-.218a2 2 0 0 1-.874-.874C9 18.48 9 17.92 9 16.8v-.05" />
                                 </svg>
-                            </Link>
+                            </button>
                         </li>
-                        <GorizontalSeporator size="xs" type="line" color="var(--gray-400)" />
+
+                        <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
+
                         <div className={styles.menuItem}>
                             <span className={styles.menuTitle}>Работа со счетами</span>
                         </div>
+
                         <li>
                             <Link
                                 to='/journal'
-                                className={styles.linkItem}>
-                                <span>Журнал ЛК</span>
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
+                                <span>Журнал реестров</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -91,11 +142,13 @@ const DropdownHeaderMenu = () => {
                                 </svg>
                             </Link>
                         </li>
+
                         <li>
                             <Link
-                                to='/journal'
-                                className={styles.linkItem}>
-                                <span>Журнал ФК</span>
+                                to='/journal_new'
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
+                                <span>Новый</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -111,10 +164,12 @@ const DropdownHeaderMenu = () => {
                                 </svg>
                             </Link>
                         </li>
+
                         <li>
                             <Link
                                 to='/docs'
-                                className={styles.linkItem}>
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
                                 <span>Инструкция</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -130,15 +185,13 @@ const DropdownHeaderMenu = () => {
                                 </svg>
                             </Link>
                         </li>
-                        <GorizontalSeporator size="xs" type="line" color="var(--gray-400)" />
-                        <div className={styles.menuItem}>
-                            <span className={styles.menuTitle}>Администрация</span>
-                        </div>
+
                         <li>
                             <Link
                                 to='/admin/rcontrol'
-                                className={styles.linkItem}>
-                                <span>RControl Web</span>
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
+                                <span>RControl Веб</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -154,10 +207,18 @@ const DropdownHeaderMenu = () => {
                                 </svg>
                             </Link>
                         </li>
+
+                        <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
+
+                        <div className={styles.menuItem}>
+                            <span className={styles.menuTitle}>Администрация</span>
+                        </div>
+
                         <li>
                             <Link
                                 to='/admin/users_control'
-                                className={styles.linkItem}>
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
                                 <span>Пользователи</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
