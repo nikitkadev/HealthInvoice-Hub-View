@@ -19,11 +19,20 @@
   --gray-900: #111827;
 
   //Status colors
-  --success: #10b981;
-  --error: #ef4444;
-  --rewrite: #f97316;
-  --processing: #3b82f6;
-  --warning: #f59e0b;
-  --pending: #8b5cf6;
   --fatal: var(--black);
+  --fatal-bg: #2424242d;
+
+  --error: #ef4444;
+  --error-bg: #ef44442d;
+  
+  --success: #0cb47c;
+  --success-bg: #10b9812d;
+
+  --pending: #8b5cf6;
+  --pending-bg: #8b5cf62d;
+
+  --processing: #3b82f6;
+  --processing-bg: #3b82f62d;
+  --rewrite: #f97316;
+  --warning: #f59e0b;
 }

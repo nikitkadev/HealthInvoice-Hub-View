@@ -3,7 +3,13 @@ import Button from '../../ui/Button/Button';
 import JournalTypeToggle from '../../ui/JournalTypeToggle';
 import styles from './styles.module.scss';
 
-const JournalActionPanel = () => {
+interface JournalActionPanelProps {
+    refreshData: () => void;
+}
+
+const JournalActionPanel = ({
+    refreshData
+}: JournalActionPanelProps) => {
 
     const { journalType, setJournalType } = useJournal();
 
@@ -18,7 +24,10 @@ const JournalActionPanel = () => {
                 </div>
                 <div className={styles.buttons}>
 
-                    <Button variant='secondary' fullWidth={false}>
+                    <Button
+                        variant='secondary'
+                        fullWidth={false}
+                        onClick={refreshData}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="22"
@@ -53,9 +62,6 @@ const JournalActionPanel = () => {
                     </Button>
 
                 </div>
-            </div>
-            <div className={styles.filters}>
-
             </div>
         </div>
     )

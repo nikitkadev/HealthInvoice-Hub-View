@@ -4,11 +4,11 @@ import { UserControlPanelPage } from './UserControlPanelPage';
 import { api } from '../../../shared/api/ApiClient';
 import { toast } from 'react-toastify';
 import type { UserInfo } from '../../app_auth/auth_service/AuthDtos';
-import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { JsonDropped } from '../../../shared/ui/dropped/Json/JsonDropped';
 
 import styles from './UserControlPage.module.css';
 import dayjs from 'dayjs';
+import Loader from '../../ui/Loader';
 
 export const UserControlPage = () => {
 
@@ -91,7 +91,7 @@ export const UserControlPage = () => {
                 usersTotal={appUsers.length} />
             <JsonDropped onFileDropped={handleBulkRegister} isLoading={isLoading} />
             {isLoading ? (
-                <LoaderBlock text='Пук-пук-пук...' size='medium' />
+                <Loader size='xs' />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.cardsGrid}>

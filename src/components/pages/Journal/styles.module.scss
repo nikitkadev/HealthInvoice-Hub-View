@@ -4,6 +4,8 @@
     flex: 1;
 
     margin: 1rem;
+    min-height: 0;
+    overflow: hidden;
 
     border-radius: var(--rounding-l);
     background-color: var(--card-background-color);

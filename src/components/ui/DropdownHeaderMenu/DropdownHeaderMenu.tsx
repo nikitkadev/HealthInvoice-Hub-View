@@ -96,6 +96,27 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
                         </li>
 
                         <li>
+                            <Link
+                                to='/docs'
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
+                                <span>Инструкция</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        fill="none"
+                                        stroke="var(--black)"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2" d="M5 14h5v5m9-9h-5V5" />
+                                </svg>
+                            </Link>
+                        </li>
+
+                        <li>
                             <button
                                 onClick={logout}>
                                 <span className={styles.exitSpan}>Выйти</span>
@@ -143,48 +164,11 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
                             </Link>
                         </li>
 
-                        <li>
-                            <Link
-                                to='/journal_new'
-                                className={styles.linkItem}
-                                onClick={toggleOpen}>
-                                <span>Новый</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="22"
-                                    height="22"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        fill="none"
-                                        stroke="var(--black)"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.6"
-                                        d="M7 17L17 7m0 0H9m8 0v8" />
-                                </svg>
-                            </Link>
-                        </li>
+                        <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
 
-                        <li>
-                            <Link
-                                to='/docs'
-                                className={styles.linkItem}
-                                onClick={toggleOpen}>
-                                <span>Инструкция</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="22"
-                                    height="22"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        fill="none"
-                                        stroke="var(--black)"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2" d="M5 14h5v5m9-9h-5V5" />
-                                </svg>
-                            </Link>
-                        </li>
+                        <div className={styles.menuItem}>
+                            <span className={styles.menuTitle}>Администрация</span>
+                        </div>
 
                         <li>
                             <Link
@@ -207,12 +191,6 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
                                 </svg>
                             </Link>
                         </li>
-
-                        <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
-
-                        <div className={styles.menuItem}>
-                            <span className={styles.menuTitle}>Администрация</span>
-                        </div>
 
                         <li>
                             <Link

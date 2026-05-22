@@ -1,0 +1,35 @@
+.statusRoot {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: .15rem;
+    padding: .5rem 2.5rem;
+
+    border-radius: var(--rounding-xl);
+    font-weight: 600;
+}
+
+.fatalError {
+    color: var(--status-fatal);
+    background-color: var(--fatal-bg);
+}
+
+.error {
+    color: var(--status-error);
+    background-color: var(--error-bg);
+}
+
+.success {
+    color: var(--status-success);
+    background-color: var(--success-bg);
+}
+
+.pending {
+    color: var(--status-pending);
+    background-color: var(--pending-bg);
+}
+
+.processing {
+    color: var(--status-processing);
+    background-color: var(--processing-bg);
+}

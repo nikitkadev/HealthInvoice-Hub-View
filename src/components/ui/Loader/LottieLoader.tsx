@@ -1,6 +1,6 @@
 import lottie, { type AnimationItem } from 'lottie-web';
 import { useEffect, useRef } from 'react';
-import styles from './LoaderBlock.module.css';
+import styles from './styles.module.scss';
 
 interface LottieLoaderProps {
     size?: number;

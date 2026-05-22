@@ -21,8 +21,19 @@ export const Pagination = ({
     const endItem = Math.min(currentPage * pageSize, totalItems);
 
     return (
-        <div className={styles.container}>
-
+        <div className={styles.paginationRoot}>
+            
+            <div className={styles.selection}>
+                <select
+                    value={pageSize}
+                    onChange={(e) => onPageSizeChange(Number(e.target.value))}
+                    className={styles.select}
+                >
+                    <option className={styles.option} value={25}>25</option>
+                    <option className={styles.option} value={50}>50</option>
+                    <option className={styles.option} value={100}>100</option>
+                </select>
+            </div>
 
             <div className={styles.controls}>
                 <button
@@ -31,7 +42,6 @@ export const Pagination = ({
                     className={styles.button}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <title>Chevron-left-small SVG Icon</title>
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14 6l-6 6l6 6" />
                     </svg>
                 </button>
@@ -51,15 +61,7 @@ export const Pagination = ({
                     </svg>
                 </button>
 
-                <select
-                    value={pageSize}
-                    onChange={(e) => onPageSizeChange(Number(e.target.value))}
-                    className={styles.select}
-                >
-                    <option className={styles.option} value={25}>25</option>
-                    <option className={styles.option} value={50}>50</option>
-                    <option className={styles.option} value={100}>100</option>
-                </select>
+
                 <div className={styles.info}>
                     Показано {startItem} - {endItem} из {totalItems} записей
                 </div>

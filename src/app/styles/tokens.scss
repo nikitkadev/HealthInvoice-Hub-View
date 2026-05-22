@@ -20,14 +20,14 @@
     --button-primary-background-hover-color: var(--gray-750);
     --button-secondary-background-hover-color: var(--gray-150);
 
-    --card-background-color: var(--gray-50);
+    --card-background-color: var(--white);
 
     //Status
-    --status-success: var(--success);
-    --status-error: var(--error);
-    --status-rewrite: var(--rewrite);
-    --status-processing: var(--processing);
-    --status-warning: var(--warning);
-    --status-pending: var(--pending);
     --status-fatal: var(--fatal);
+    --status-error: var(--error);
+    --status-success: var(--success);
+    --status-pending: var(--pending);
+    --status-processing: var(--processing);
+    --status-rewrite: var(--rewrite);
+    --status-warning: var(--warning);
 }

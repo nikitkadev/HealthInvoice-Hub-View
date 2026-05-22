@@ -1,4 +1,3 @@
-import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
 import { Pagination } from '../../shared/ui/pagination/Pagination';
 import { useFkJournalData } from './FkJournalData';
 import { Status } from '../../shared/ui/status/Status';
@@ -9,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import dayjs from 'dayjs';
 import styles from './FkJournalPage.module.css';
+import Loader from '../ui/Loader';
 
 export const FkJournalPage = () => {
 
@@ -75,7 +75,7 @@ export const FkJournalPage = () => {
     }
 
     if (isLoading) {
-        return <LoaderBlock size='small' text='Ван-фазим сына Орикса с мечей...' />
+        return <Loader size='xs' />
     }
 
     return (

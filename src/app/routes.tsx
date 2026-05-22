@@ -4,7 +4,6 @@ import { App } from "./App";
 import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
 import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
-import { JournalPage } from "../components/app_lk_journal/general/JournalPage";
 import { UserControlPage } from "../components/app_admin/users/UserControlPage";
 import { PersonalDataPage } from "../components/app_personal/PersonalDataPage";
 import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
@@ -48,14 +47,6 @@ export const router = createBrowserRouter(
                 },
                 {
                     path: 'journal',
-                    element: (
-                        <ProtectedRoute>
-                            <JournalPage />
-                        </ProtectedRoute>
-                    )
-                },
-                {
-                    path: 'journal_new',
                     element: (
                         <ProtectedRoute>
                             <Journal />

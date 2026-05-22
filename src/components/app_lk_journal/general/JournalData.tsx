@@ -96,7 +96,6 @@ export const useJournalData = () => {
     const fetchData = useCallback(async () => {
         try {
             setLoading(true);
-
             const params: Record<string, string> = {
                 organizationCode: (filters.organizationCode || user?.organizationCode) ?? '',
                 journalType: journalType.toString(),

@@ -1,7 +1,6 @@
 import type { InvoiceSummaryValidationResult } from './UploadJournalTypes';
 import React, { useEffect, useState } from 'react';
 import { Checkbox } from '../../../shared/ui/checkbox/Checkbox';
-import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { Status } from '../../../shared/ui/status/Status';
 import { ControlPanel } from './../control_panel/ControlPanel';
 import { useJournalData, type JournalRecord } from './JournalData';
@@ -16,6 +15,7 @@ import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import styles from './JournalPage.module.css';
 import dayjs from 'dayjs';
 import { SortIcon } from '../../../shared/ui/icons/SortIcon';
+import Loader from '../../ui/Loader';
 
 
 export const JournalPage = () => {
@@ -421,7 +421,7 @@ export const JournalPage = () => {
     }
 
     if (isLoading) {
-        return <LoaderBlock text='Отбиваем резонанс на кнопках...' />
+        return <Loader size='xs' />
     }
 
     const hasSuccess = checkedInvoices.some(f => f.isSuccess || f.willRewrite);
@@ -455,7 +455,7 @@ export const JournalPage = () => {
 
                     {(isSending || isRemoving) ? (
                         <div className={styles.loaderWrapper}>
-                            <LoaderBlock text='Кидаем лайтсейбер в сторону мобчиков...' />
+                            <Loader size='xs' />
                         </div>
                     ) : (
                         <table className={styles.journal_table}>
@@ -833,7 +833,7 @@ export const JournalPage = () => {
                     isLoading={isUploading} />
                 <div className={styles.modal_table_container}>
                     {isUploading ? (
-                        <LoaderBlock text="Хоум-ранним счета на серверную проверку..." size='small' />
+                        <Loader size='xs' />
                     ) : (
                         <table className={styles.modal_table}>
                             <colgroup>

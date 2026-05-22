@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router';
-import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
 import { useAuth } from '../app_auth/auth_service/AuthProvider';
+import Loader from '../ui/Loader';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
-        return <LoaderBlock text="Велскейтим через траллей до базы данных..." />;
+        return <Loader size='xs' />;
     }
 
     if (!user) {

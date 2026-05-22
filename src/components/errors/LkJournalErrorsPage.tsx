@@ -1,8 +1,8 @@
 import { useParams, useSearchParams } from 'react-router'
 import { useEffect, useState } from 'react';
-import { LoaderBlock } from '../../shared/ui/loader/LoaderBlock';
 import { api } from '../../shared/api/ApiClient';
 import styles from './LkJournalErrorsPage.module.css'
+import Loader from '../ui/Loader';
 
 interface LogicControlDefectDto {
     comment: string;
@@ -53,7 +53,7 @@ export const LkJournalErrorsPage = () => {
     return (
         <>
             {isLoading ? (
-                <LoaderBlock text='Ожидаем пантеон рейдов...' size='small' />
+                <Loader size='xs' />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.table_container}>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 
@@ -8,6 +7,7 @@ import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
 import Button from '../../ui/Button/Button';
 
 import styles from './styles.module.scss';
+import Loader from '../../ui/Loader';
 
 const Login = () => {
 
@@ -123,7 +123,7 @@ const Login = () => {
                     </form>
                 </div >
             ) : (
-                <LoaderBlock text="Проверяем вашу личность в нашей системе..." size='small' />
+                <Loader size='xs' />
             )}
         </>
     );
