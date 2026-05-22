@@ -28,7 +28,7 @@ const JournalTable = ({
     return (
         <div className={styles.journalTableRoot}>
             <div className={styles.recordCount}>
-                <p>Всего записей: {pagination.totalItems}</p>
+                <p>Найдено записей: {pagination.totalItems}</p>
             </div>
             <div className={styles.tableContainer}>
                 <table>

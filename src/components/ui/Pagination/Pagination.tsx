@@ -1,3 +1,4 @@
+import Select from 'react-select';
 import Button from '../Button/Button';
 import styles from './styles.module.scss';
 
@@ -47,20 +48,117 @@ const Pagination = ({
 
     const pageNumbers = getPageNumbers();
 
+    const options = [
+        { value: 25, label: '25' },
+        { value: 50, label: '50' },
+        { value: 100, label: '100' }
+    ];
+
+    const customStyles = {
+        control: (base: any, { isFocused }: any) => ({
+            ...base,
+            backgroundColor: 'var(--input-background-color)',
+            borderColor: isFocused ? 'var(--default-element-border-color)' : 'var(--default-element-border-color)',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderRadius: 'var(--rounding-s)',
+            boxShadow: 'none',
+            minHeight: '36px',
+            '&:hover': {
+                borderColor: 'var(--default-element-border-color)'
+            }
+        }),
+        input: (base: any) => ({
+            ...base,
+            color: 'var(--default-element-text-color)',
+            fontSize: 'var(--font-size-default-small)'
+        }),
+        placeholder: (base: any) => ({
+            ...base,
+            color: 'var(--app-secondary-text-color)',
+            fontSize: 'var(--font-size-default-small)'
+        }),
+        menu: (base: any) => ({
+            ...base,
+            background: 'var(--default-element-background-color)',
+            borderRadius: 'var(--rounding-s)',
+            overflow: 'hidden'
+        }),
+        menuList: (base: any) => ({
+            ...base,
+            padding: '4px',
+            background: 'var(--)'
+        }),
+        option: (base: any, { isFocused, isSelected }: any) => ({
+            ...base,
+            backgroundColor: isSelected
+                ? 'var(--gray-150)'
+                : isFocused
+                    ? 'var(--gray-150)'
+                    : 'transparent',
+            color: isSelected
+                ? 'var(--app-primary-text-color)'
+                : 'var(--default-element-text-color)',
+            cursor: 'pointer',
+            borderRadius: 'var(--rounding-s)',
+            padding: '8px 12px',
+            fontSize: 'var(--font-size-default-small)',
+            '&:active': {
+                backgroundColor: 'var(--gray-200)'
+            }
+        }),
+        singleValue: (base: any) => ({
+            ...base,
+            color: 'var(--default-element-text-color)',
+            fontSize: 'var(--font-size-default-small)'
+
+        }),
+
+        dropdownIndicator: (base: any) => ({
+            ...base,
+            color: 'var(--app-secondary-text-color)',
+            padding: '4px 8px',
+            '&:hover': {
+                color: 'var(--app-primary-text-color)'
+            }
+        }),
+
+        indicatorSeparator: () => ({
+            display: 'none'
+        }),
+
+        clearIndicator: (base: any) => ({
+            ...base,
+            color: 'var(--app-secondary-text-color)',
+            '&:hover': {
+                color: 'var(--status-error)'
+            }
+        }),
+
+        loadingIndicator: (base: any) => ({
+            ...base,
+            color: 'var(--app-secondary-text-color)'
+        }),
+
+        noOptionsMessage: (base: any) => ({
+            ...base,
+            color: 'var(--app-secondary-text-color)',
+            fontSize: 'var(--font-size-default)',
+            padding: '16px'
+        })
+    };
+
     return (
         <div className={styles.paginationRoot}>
 
             <div className={styles.selection}>
                 <p>Показывать по:</p>
-                <select
-                    value={pageSize}
-                    onChange={(e) => onPageSizeChange(Number(e.target.value))}
-                    className={styles.select}
-                >
-                    <option className={styles.option} value={25}>25</option>
-                    <option className={styles.option} value={50}>50</option>
-                    <option className={styles.option} value={100}>100</option>
-                </select>
+
+                <Select value={options.find(opt => opt.value === pageSize)}
+                    onChange={(opt) => onPageSizeChange(opt?.value ?? 25)}
+                    options={options}
+                    menuPlacement='top'
+                    styles={customStyles} />
             </div>
 
             <div className={styles.controls}>

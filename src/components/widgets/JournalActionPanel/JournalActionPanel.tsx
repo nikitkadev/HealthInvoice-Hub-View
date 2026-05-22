@@ -17,7 +17,7 @@ const JournalActionPanel = ({
         <div className={styles.journalPanelRoot}>
             <div className={styles.action}>
                 <div className={styles.toggle}>
-                    <p>Тип реестров:</p>
+                    <p>Тип журнала:</p>
                     <JournalTypeToggle
                         value={journalType}
                         onChange={setJournalType} />
