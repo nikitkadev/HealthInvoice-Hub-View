@@ -7,6 +7,16 @@
     p {
         font-weight: 500;
     }
+
+    tr {
+        cursor: pointer;
+    }
+}
+
+.journalTableRoot tr:hover {
+    background-color: var(--gray-50);
+
+    transition: 0.2s ease;
 }
 
 .pagination,
@@ -51,4 +61,8 @@
     display: flex;
     justify-content: center;
     text-align: center;
+}
+
+.selectedRow {
+    background-color: var(--gray-50);
 }

@@ -1,5 +1,5 @@
 import type React from 'react';
-import styles from './Checkbox.module.css';
+import styles from './styles.module.scss';
 
 interface CheckboxProps {
     onClick?: (e: React.MouseEvent) => void;
@@ -8,7 +8,7 @@ interface CheckboxProps {
     disabled?: boolean;
 }
 
-export const Checkbox = ({
+const Checkbox = ({
     onClick,
     checked,
     onChange,
@@ -17,10 +17,7 @@ export const Checkbox = ({
     return (
         <label
             className={`${styles.checkbox} ${disabled ? styles.disabled : ''}`}
-            onClick={onClick}
-            style={{
-                cursor: 'pointer'
-            }}>
+            onClick={onClick}>
             <input
                 type="checkbox"
                 checked={checked}
@@ -31,4 +28,6 @@ export const Checkbox = ({
             <span className={styles.checkmark}></span>
         </label>
     );
-}
+};
+
+export default Checkbox;

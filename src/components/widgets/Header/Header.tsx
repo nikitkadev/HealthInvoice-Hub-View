@@ -21,7 +21,7 @@ export const Header = () => {
                 className={styles.homePageLink}>
                 <h1>HealthInvoice Hub v{config.version}</h1>
             </Link>
-            {LoggedIn && (
+            {true && (
                 <DropdownHeaderMenu logout={handleLogoutButtonClick} />
             )}
         </header>

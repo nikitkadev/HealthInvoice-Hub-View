@@ -13,9 +13,7 @@ const Journal = () => {
 
             <JournalActionPanel
                 refreshData={refreshData} />
-
             <JournalFiltersPanel />
-            
             <JournalTable
                 pagination={pagination}
                 data={data}

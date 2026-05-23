@@ -4,6 +4,9 @@ import styles from './styles.module.scss';
 import Loader from '../../ui/Loader';
 import Pagination from '../../ui/Pagination';
 import type { JournalRecord } from '../../app_lk_journal/general/JournalData';
+import Checkbox from '../../ui/Checkbox';
+import { useEffect, useState } from 'react';
+import { useJournal } from '../../app_lk_journal/general/JournalContext';
 
 interface JournalTableProps {
     pagination: {
@@ -25,6 +28,32 @@ const JournalTable = ({
     goToPage,
     setPageSize
 }: JournalTableProps) => {
+
+    const [selected, setSelected] = useState<JournalRecord[]>([]);
+    const { journalType } = useJournal();
+
+    const selectAllItems = (checked: boolean) => {
+        if (checked) {
+            setSelected(data);
+            return;
+        }
+
+        setSelected([]);
+    }
+
+    const selectItem = (record: JournalRecord, checked: boolean) => {
+        if (checked) {
+            setSelected(prev => [...prev, record]);
+            return;
+        }
+
+        setSelected(selected.filter(f => f.schetUid !== record.schetUid));
+    }
+
+    useEffect(() => {
+        setSelected([])
+    }, [pagination?.currentPage, pagination?.pageSize, journalType, data])
+
     return (
         <div className={styles.journalTableRoot}>
             <div className={styles.recordCount}>
@@ -33,6 +62,7 @@ const JournalTable = ({
             <div className={styles.tableContainer}>
                 <table>
                     <colgroup>
+                        <col style={{ width: '2.5rem' }} />
                         <col style={{ width: '2.5rem' }} />
                         <col style={{ width: '8rem' }} />
                         <col style={{ width: '12rem' }} />
@@ -46,6 +76,10 @@ const JournalTable = ({
                     </colgroup>
                     <thead className={styles.journa_table_head}>
                         <tr>
+                            <th>
+                                <Checkbox
+                                    onChange={selectAllItems}
+                                    checked={selected.length === data.length} /></th>
                             <th>№</th>
                             <th>Дата загрузки</th>
                             <th>Загрузил</th>
@@ -61,14 +95,25 @@ const JournalTable = ({
                     <tbody>
                         {isLoading ? (
                             <tr>
-                                <td colSpan={10} className={styles.loaderCell}>
+                                <td colSpan={11} className={styles.loaderCell}>
                                     <Loader size='xs' />
                                 </td>
                             </tr>
                         ) : (
                             data.map((item, index) => {
+
+                                const hasChecked = selected.includes(item);
+
                                 return (
-                                    <tr>
+                                    <tr
+                                        onClick={() => selectItem(item, !hasChecked)}
+                                        className={hasChecked ? styles.selectedRow : ''}>
+                                        <td>
+                                            <Checkbox
+                                                checked={hasChecked}
+                                                onChange={(checked) => selectItem(item, checked)}
+                                                onClick={(e) => e.stopPropagation()} />
+                                        </td>
                                         <td className={styles.td}>{index + 1}</td>
                                         <td className={styles.td}>{dayjs(item.uploadDate).format('DD.MM.YYYY HH:mm:ss')}</td>
                                         <td className={styles.td}>{item.uploader}</td>
