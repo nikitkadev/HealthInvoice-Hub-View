@@ -1,12 +1,13 @@
+import type { JournalRecord } from '../../app_lk_journal/general/JournalData';
+import { useJournal } from '../../app_lk_journal/general/JournalContext';
+import React, { useEffect, useState } from 'react';
+import LogicControlJournalContextMenu from '../../ui/ConextMenu/LogicControlJournalContextMenu';
 import dayjs from 'dayjs';
-import Status from '../../ui/Status';
 import styles from './styles.module.scss';
 import Loader from '../../ui/Loader';
 import Pagination from '../../ui/Pagination';
-import type { JournalRecord } from '../../app_lk_journal/general/JournalData';
+import Status from '../../ui/Status';
 import Checkbox from '../../ui/Checkbox';
-import { useEffect, useState } from 'react';
-import { useJournal } from '../../app_lk_journal/general/JournalContext';
 
 interface JournalTableProps {
     pagination: {
@@ -31,6 +32,11 @@ const JournalTable = ({
 
     const [selected, setSelected] = useState<JournalRecord[]>([]);
     const { journalType } = useJournal();
+    const [contextMenu, setContextMenu] = useState({
+        visiable: false,
+        poxX: 0,
+        posY: 0
+    });
 
     const selectAllItems = (checked: boolean) => {
         if (checked) {
@@ -50,9 +56,68 @@ const JournalTable = ({
         setSelected(selected.filter(f => f.schetUid !== record.schetUid));
     }
 
+    const calculateCoordinates = (clientX: number, clientY: number) => {
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const menuWidth = 220;
+        const menuHeight = 170;
+        const padding = 10;
+
+        let adjustedX = clientX;
+        let adjustedY = clientY;
+
+        if (clientX + menuWidth > screenWidth) {
+            adjustedX = clientX - menuWidth - padding;
+        }
+
+        if (clientY + menuHeight > screenHeight) {
+            adjustedY = clientY - menuHeight - padding;
+        }
+
+        return { adjustedX, adjustedY };
+    }
+
+    const openContextMenu = (e: React.MouseEvent) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (selected.length === 0) {
+            return;
+        }
+
+        const { adjustedX, adjustedY } = calculateCoordinates(e.clientX, e.clientY);
+
+        setContextMenu({
+            visiable: true,
+            poxX: adjustedX,
+            posY: adjustedY,
+        });
+
+    }
+
+    const closeContextMenu = () => {
+
+        setContextMenu({
+            visiable: false,
+            poxX: 0,
+            posY: 0,
+        });
+
+    }
+
     useEffect(() => {
         setSelected([])
-    }, [pagination?.currentPage, pagination?.pageSize, journalType, data])
+    }, [pagination?.currentPage, pagination?.pageSize, journalType, data]);
+
+    useEffect(() => {
+        document.addEventListener('click', closeContextMenu);
+
+        return () => {
+            document.removeEventListener('click', closeContextMenu);
+        }
+    })
 
     return (
         <div className={styles.journalTableRoot}>
@@ -107,6 +172,7 @@ const JournalTable = ({
                                 return (
                                     <tr
                                         onClick={() => selectItem(item, !hasChecked)}
+                                        onContextMenu={(e) => openContextMenu(e)}
                                         className={hasChecked ? styles.selectedRow : ''}>
                                         <td>
                                             <Checkbox
@@ -130,6 +196,11 @@ const JournalTable = ({
                         )}
                     </tbody>
                 </table>
+                <LogicControlJournalContextMenu
+                    visiable={contextMenu.visiable}
+                    posX={contextMenu.poxX}
+                    posY={contextMenu.posY}
+                    records={selected} />
             </div>
             <div className={styles.pagination}>
                 <Pagination

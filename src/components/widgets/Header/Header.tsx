@@ -1,9 +1,9 @@
 import { Link } from 'react-router';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 
+import DropdownHeaderMenu from '../../ui/DropdownMenu/DropdownHeaderMenu';
 import config from '../../../../package.json';
 import styles from './styles.module.scss';
-import DropdownHeaderMenu from '../../ui/DropdownHeaderMenu';
 
 export const Header = () => {
 

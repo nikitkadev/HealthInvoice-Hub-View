@@ -1,8 +1,8 @@
-import GorizontalSeporator from "../Seporators/GorizontalSeporator";
 import { useEffect, useRef, useState } from "react";
-import styles from "./styles.module.scss";
-import Button from "../Button/Button";
 import { Link } from "react-router";
+import GorizontalSeporator from "../../Seporators/GorizontalSeporator";
+import styles from "./styles.module.scss";
+import Button from "../../Button/Button";
 
 interface Props {
     logout: () => void;

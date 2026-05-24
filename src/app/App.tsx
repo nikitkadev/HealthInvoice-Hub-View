@@ -9,7 +9,7 @@ import ConfigToast from '../components/ui/ConfigToast';
 
 export function App() {
 
-  useHeartbeat(30000);
+  // useHeartbeat(30000); 
 
   return (
     <JournalProvider>
