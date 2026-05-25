@@ -1,0 +1,136 @@
+.formatCheckReportRoot {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+    margin: 1rem;
+    gap: 1rem;
+
+    border-radius: var(--rounding-s);
+    background-color: var(--card-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.05);
+}
+
+.summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 1rem 0 1rem;
+}
+
+.summaryInfo {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+
+.spanSuccess,
+.spanError,
+.spanRewrite,
+.fatalErrorSuccess {
+    padding: .5rem 1rem;
+    border-radius: var(--rounding-l);
+
+    font-size: var(--font-size-default);
+    font-weight: 500;
+}
+
+.spanSuccess {
+    color: var(--status-success);
+    background-color: var(--success-bg);
+}
+
+.spanError {
+    color: var(--status-error);
+    background-color: var(--error-bg);
+}
+
+.spanRewrite {
+    color: var(--status-rewrite);
+    background-color: var(--rewrite-bg);
+}
+
+.fatalErrorSuccess {
+    color: var(--status-fatal);
+    background-color: var(--fatal-bg);
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    margin-bottom: 1rem;
+    overflow-y: auto;
+    gap: 1rem;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-300) transparent;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+    margin: 0 .5rem 0 1rem;
+
+    border-radius: var(--rounding-s);
+    background-color: var(--gray-50);
+}
+
+
+.static {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.fileIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: .5rem;
+
+    border-radius: var(--rounding-s);
+}
+
+.fileInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.fileInfo span {
+    width: 100%;
+    justify-content: left;
+
+    font-size: var(--font-size-default);
+    font-weight: 500;
+}
+
+.fileStatus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.size {
+    color: var(--gray-400);
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

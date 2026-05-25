@@ -1,7 +1,13 @@
+import type { InvoiceSummaryValidationResult } from '../../app_lk_journal/general/UploadJournalTypes';
+import { useState } from 'react';
 import { useJournal } from '../../app_lk_journal/general/JournalContext';
+import { api } from '../../../shared/api/ApiClient';
+import { ZipDropped } from '../../ui/ZIpDropped/ZipDropped';
 import Button from '../../ui/Button/Button';
+import Drawer from '../../ui/Drawer';
 import JournalTypeToggle from '../../ui/JournalTypeToggle';
 import styles from './styles.module.scss';
+import FormatCheckReport from '../FormatCheckReport';
 
 interface JournalActionPanelProps {
     refreshData: () => void;
@@ -11,7 +17,48 @@ const JournalActionPanel = ({
     refreshData
 }: JournalActionPanelProps) => {
 
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isFormatCheck, setIsFormatCheck] = useState(false);
+    const [checkedFiles, setIsCheckedFiles] = useState<InvoiceSummaryValidationResult[]>([]);
     const { journalType, setJournalType } = useJournal();
+
+    const openDrawer = () => {
+        setIsCheckedFiles([]);
+        setIsDrawerOpen(true);
+    }
+
+    const closeDrawer = () => {
+        setIsCheckedFiles([]);
+        setIsDrawerOpen(false);
+    }
+
+    const handleFilesDropped = async (files: File[]) => {
+
+        setIsFormatCheck(true);
+
+        try {
+            const formData = new FormData();
+
+            formData.append('journalType', journalType.toString());
+
+            files.forEach(file => {
+                formData.append('files', file);
+            });
+
+            const response = await api.postFormData<InvoiceSummaryValidationResult[]>(
+                '/invoices/format-control',
+                formData
+            );
+
+            setIsCheckedFiles(response);
+        }
+        catch {
+
+        }
+        finally {
+            setIsFormatCheck(false);
+        }
+    }
 
     return (
         <div className={styles.journalPanelRoot}>
@@ -44,7 +91,10 @@ const JournalActionPanel = ({
                         Обновить журнал
                     </Button>
 
-                    <Button variant='primary' fullWidth={false}>
+                    <Button
+                        variant='primary'
+                        fullWidth={false}
+                        onClick={openDrawer}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="22"
@@ -63,6 +113,20 @@ const JournalActionPanel = ({
 
                 </div>
             </div>
+            <Drawer
+                title='Окно загрузки счетов'
+                isOpen={isDrawerOpen}
+                onClose={closeDrawer}
+            >
+                <ZipDropped
+                    onFilesDropped={handleFilesDropped}
+                    isLoading={isFormatCheck} />
+
+                <FormatCheckReport
+                    checkedFiles={checkedFiles}
+                    isFormatCheck={isFormatCheck} />
+
+            </Drawer>
         </div>
     )
 };

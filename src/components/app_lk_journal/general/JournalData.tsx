@@ -111,7 +111,7 @@ export const useJournalData = () => {
             if (filters.dateFrom) params.dateFrom = filters.dateFrom;
             if (filters.dateTo) params.dateTo = filters.dateTo;
 
-            const response = await api.get<JournalResponse>('/journal/lk/test_fetch');
+            const response = await api.get<JournalResponse>('/journal/lk/fetch', params);
 
             if (response) {
                 setData(response.items);

@@ -48,7 +48,9 @@ export const router = createBrowserRouter(
                 {
                     path: 'journal',
                     element: (
-                        <Journal />
+                        <ProtectedRoute>
+                            <Journal />
+                        </ProtectedRoute>
                     )
                 },
                 {

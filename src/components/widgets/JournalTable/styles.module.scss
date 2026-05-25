@@ -8,9 +8,11 @@
         font-weight: 500;
     }
 
-    tr {
-        cursor: pointer;
-    }
+
+}
+
+.journalTableRoot tbody tr {
+    cursor: pointer;
 }
 
 .journalTableRoot tr:hover {

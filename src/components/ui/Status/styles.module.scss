@@ -5,7 +5,8 @@
     gap: .15rem;
     padding: .35rem 2rem;
 
-    border-radius: var(--rounding-xl);
+    border-radius: var(--rounding-l);
+    font-size: var(--font-size-default);
     font-weight: 600;
 }
 
@@ -32,4 +33,9 @@
 .processing {
     color: var(--status-processing);
     background-color: var(--processing-bg);
+}
+
+.rewriting {
+    color: var(--status-rewrite);
+    background-color: var(--rewrite-bg);
 }

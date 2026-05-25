@@ -55,8 +55,10 @@
     transition: 0.2s ease;
 }
 
+.icon:hover,
 .secondary:hover {
     background-color: var(--button-secondary-background-hover-color);
+    border-color: var(--gray-300);
 }
 
 .fullWidth {
