@@ -144,10 +144,32 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
 
                         <li>
                             <Link
-                                to='/journal'
+                                to='/journal-lc'
                                 className={styles.linkItem}
                                 onClick={toggleOpen}>
-                                <span>Журнал реестров</span>
+                                <span>Журнал ЛК</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        fill="none"
+                                        stroke="var(--black)"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.6"
+                                        d="M7 17L17 7m0 0H9m8 0v8" />
+                                </svg>
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link
+                                to='/journal-fc'
+                                className={styles.linkItem}
+                                onClick={toggleOpen}>
+                                <span>Журнал ФК</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"

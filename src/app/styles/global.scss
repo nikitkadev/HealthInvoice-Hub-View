@@ -1,10 +1,15 @@
+@use './toast.scss';
+@use './datepicker.scss';
+
 @use './colors' as *;
 @use './tokens' as *;
 @use './root-variables' as *;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import 'react-toastify/dist/ReactToastify.css';
-@import './toast.scss';
+@import 'react-datepicker/dist/react-datepicker.css';
+
+
 
 :root {
     --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -40,7 +45,7 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
+    user-select: auto;
 }
 
 #root {

@@ -1,27 +1,14 @@
+import type { FormatControlJournalRecord, FormatControlJournalRecordResponse } from "./types";
+
 import { useCallback, useEffect, useState } from "react";
-import { useAuth } from "../app_auth/auth_service/AuthProvider";
-import { useJournal } from "../app_lk_journal/general/JournalContext";
-import { api } from "../../shared/api/ApiClient";
+import { useAuth } from "../../app_auth/auth_service/AuthProvider";
+import { useJournal } from "../../app_lk_journal/general/JournalContext";
+import { api } from "../../../shared/api/ApiClient";
 
-export interface FkJournalRecord {
-    uid: number;
-    uploadDate: Date;
-    sourceArchiveFilename: string;
-    organizationCode: string;
-    status: number;
-}
-
-interface JournalResponse {
-    items: FkJournalRecord[];
-    total: number;
-    page: number;
-    pageSize: number;
-}
-
-export const useFkJournalData = () => {
+const useFormatControlJournalData = () => {
     const { user } = useAuth();
     const { journalType } = useJournal();
-    const [data, setData] = useState<FkJournalRecord[]>([]);
+    const [data, setData] = useState<FormatControlJournalRecord[]>([]);
     const [isLoading, setLoading] = useState(false);
 
     const [pagination, setPagination] = useState({
@@ -42,7 +29,7 @@ export const useFkJournalData = () => {
         try {
             setLoading(true);
 
-            const response = await api.get<JournalResponse>('/journal/fk/fetch', {
+            const response = await api.get<FormatControlJournalRecordResponse>('/journal/fk/fetch', {
                 organizationCode: user?.organizationCode ?? '',
                 journalType: journalType.toString(),
                 page: pagination.currentPage.toString(),
@@ -84,4 +71,6 @@ export const useFkJournalData = () => {
         setPageSize,
         refreshData: fetchData
     }
-}
+};
+
+export default useFormatControlJournalData;

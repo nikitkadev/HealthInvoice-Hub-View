@@ -1,40 +1,43 @@
-import type { InvoiceSummaryValidationResult } from '../../app_lk_journal/general/UploadJournalTypes';
-import { useState } from 'react';
-import { useJournal } from '../../app_lk_journal/general/JournalContext';
-import { api } from '../../../shared/api/ApiClient';
-import { ZipDropped } from '../../ui/ZIpDropped/ZipDropped';
-import Button from '../../ui/Button/Button';
-import Drawer from '../../ui/Drawer';
-import JournalTypeToggle from '../../ui/JournalTypeToggle';
-import styles from './styles.module.scss';
-import FormatCheckReport from '../FormatCheckReport';
+import type { InvoiceSummaryValidationResult } from '../../../app_lk_journal/general/UploadJournalTypes';
 
-interface JournalActionPanelProps {
+import { api } from '../../../../shared/api/ApiClient';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { ZipDropped } from '../../../ui/ZIpDropped/ZipDropped';
+
+import Button from '../../../ui/Button/Button';
+import Drawer from '../../../ui/Drawer';
+import styles from './styles.module.scss';
+import FormatCheckReport from '../../FormatCheckReport';
+import JournalTypeToggle from '../../../ui/JournalTypeToggle';
+
+interface LogicControlJournalActionPanellProps {
     refreshData: () => void;
 }
 
-const JournalActionPanel = ({
+const LogicControlJournalActionPanel = ({
     refreshData
-}: JournalActionPanelProps) => {
+}: LogicControlJournalActionPanellProps) => {
 
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [isFormatCheck, setIsFormatCheck] = useState(false);
-    const [checkedFiles, setIsCheckedFiles] = useState<InvoiceSummaryValidationResult[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [checkedFiles, setCheckedFiles] = useState<InvoiceSummaryValidationResult[]>([]);
     const { journalType, setJournalType } = useJournal();
 
     const openDrawer = () => {
-        setIsCheckedFiles([]);
+        setCheckedFiles([]);
         setIsDrawerOpen(true);
     }
 
     const closeDrawer = () => {
-        setIsCheckedFiles([]);
+        setCheckedFiles([]);
         setIsDrawerOpen(false);
     }
 
     const handleFilesDropped = async (files: File[]) => {
 
-        setIsFormatCheck(true);
+        setIsLoading(true);
 
         try {
             const formData = new FormData();
@@ -50,13 +53,49 @@ const JournalActionPanel = ({
                 formData
             );
 
-            setIsCheckedFiles(response);
+            setCheckedFiles(response);
         }
         catch {
 
         }
         finally {
-            setIsFormatCheck(false);
+            setIsLoading(false);
+        }
+    }
+
+    const uploadInvoices = async () => {
+
+        setIsLoading(true);
+
+        try {
+
+            const filesToSend = checkedFiles
+                .filter(file => file.isSuccess)
+                .map(file => ({
+                    filename: file.uploadArchiveFilename,
+                    filePath: file.uploadArchiveFilePath,
+                    schetUid: file.schetUid
+                }));
+
+            if (filesToSend.length === 0) {
+                toast.warning("Нет валидных счетов для записи в базу данных!");
+                return;
+            }
+
+            await api.postWithoutContent('/invoices/upsert', {
+                items: filesToSend,
+                journalType: journalType
+            });
+
+            closeDrawer();
+
+            toast.success("Счета отправлены!");
+        }
+        catch {
+            toast.error("Технические шоколадки!");
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -110,7 +149,6 @@ const JournalActionPanel = ({
                         </svg>
                         Добавить счета
                     </Button>
-
                 </div>
             </div>
             <Drawer
@@ -120,15 +158,16 @@ const JournalActionPanel = ({
             >
                 <ZipDropped
                     onFilesDropped={handleFilesDropped}
-                    isLoading={isFormatCheck} />
+                    isLoading={isLoading} />
 
                 <FormatCheckReport
                     checkedFiles={checkedFiles}
-                    isFormatCheck={isFormatCheck} />
+                    isLoading={isLoading}
+                    uploadInvoices={uploadInvoices} />
 
             </Drawer>
         </div>
     )
 };
 
-export default JournalActionPanel;
+export default LogicControlJournalActionPanel;

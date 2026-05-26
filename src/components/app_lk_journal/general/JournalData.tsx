@@ -27,10 +27,7 @@ interface JournalResponse {
 export interface JournalFilters {
     organizationCode: string;
     schetNumber: string;
-    username: string;
     filename: string;
-    dateFrom: string;
-    dateTo: string;
 }
 
 type SortDiraction = 'asc' | 'desc' | null;
@@ -57,10 +54,7 @@ export const useJournalData = () => {
     const [filters, setFilters] = useState<JournalFilters>({
         organizationCode: '',
         schetNumber: '',
-        username: '',
-        filename: '',
-        dateFrom: '',
-        dateTo: ''
+        filename: ''
     });
 
     const handleSort = (column: string) => {
@@ -94,8 +88,10 @@ export const useJournalData = () => {
     }, [journalType]);
 
     const fetchData = useCallback(async () => {
+
+        setLoading(true);
+
         try {
-            setLoading(true);
             const params: Record<string, string> = {
                 organizationCode: (filters.organizationCode || user?.organizationCode) ?? '',
                 journalType: journalType.toString(),
@@ -106,10 +102,7 @@ export const useJournalData = () => {
             };
 
             if (filters.schetNumber) params.schetNumber = filters.schetNumber;
-            if (filters.username) params.username = filters.username;
             if (filters.filename) params.filename = filters.filename;
-            if (filters.dateFrom) params.dateFrom = filters.dateFrom;
-            if (filters.dateTo) params.dateTo = filters.dateTo;
 
             const response = await api.get<JournalResponse>('/journal/lk/fetch', params);
 
@@ -122,6 +115,7 @@ export const useJournalData = () => {
                 }));
             }
         } catch (err) {
+
         } finally {
             setLoading(false);
         }
@@ -145,10 +139,7 @@ export const useJournalData = () => {
         setFilters({
             organizationCode: '',
             schetNumber: '',
-            username: '',
-            filename: '',
-            dateFrom: '',
-            dateTo: ''
+            filename: ''
         });
     }
 

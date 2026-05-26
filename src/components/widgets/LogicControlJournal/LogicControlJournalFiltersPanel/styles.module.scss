@@ -1,0 +1,42 @@
+.journalFiltersPanelRoot {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1.5rem;
+
+    border-bottom: 1px solid var(--default-element-border-color);
+}
+
+.filters {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+
+    background-color: var(--input-background-color);
+    border-radius: var(--rounding-m);
+}
+
+.filter input {
+    margin: 0;
+    padding: .75rem 0rem;
+
+}
+
+.filter svg {
+    margin: 0 .5rem;
+}
+
+.filter input:focus {
+    background-color: var(--input-background-color);
+}
+
+.actionButton {
+    padding: .75rem 0rem;
+}

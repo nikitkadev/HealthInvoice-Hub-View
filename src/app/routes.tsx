@@ -13,7 +13,8 @@ import { LkJournalErrorsPage } from "../components/errors/LkJournalErrorsPage";
 import Login from "../components/pages/Login";
 import Home from "../components/pages/Home";
 import Profile from "../components/pages/Profile";
-import Journal from "../components/pages/Journal";
+import LogicControlJournal from "../components/pages/LogicControlJournal";
+import FormatControlJournal from "../components/pages/FormatControlJournal/FormatControlJournal";
 
 export const router = createBrowserRouter(
     [
@@ -46,10 +47,18 @@ export const router = createBrowserRouter(
                     )
                 },
                 {
-                    path: 'journal',
+                    path: 'journal-lc',
                     element: (
                         <ProtectedRoute>
-                            <Journal />
+                            <LogicControlJournal />
+                        </ProtectedRoute>
+                    )
+                },
+                {
+                    path: 'journal-fc',
+                    element: (
+                        <ProtectedRoute>
+                            <FormatControlJournal />
                         </ProtectedRoute>
                     )
                 },

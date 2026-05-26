@@ -5,15 +5,17 @@ import Status from '../../ui/Status';
 import styles from './styles.module.scss';
 
 interface FormatCheckReportProps {
-    isFormatCheck: boolean;
+    isLoading: boolean;
     checkedFiles: InvoiceSummaryValidationResult[];
+    uploadInvoices: () => void;
 }
 
 const FormatCheckReport = ({
     checkedFiles,
-    isFormatCheck }: FormatCheckReportProps) => {
+    isLoading,
+    uploadInvoices }: FormatCheckReportProps) => {
 
-    if (isFormatCheck) {
+    if (isLoading) {
         return (
             <div className={styles.loader}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
@@ -58,7 +60,10 @@ const FormatCheckReport = ({
     return (
         <div className={styles.formatCheckReportRoot}>
             <div className={styles.summary}>
-                <Button variant='primary' fullWidth={false}>
+                <Button
+                    variant='primary'
+                    fullWidth={false}
+                    onClick={uploadInvoices}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="22"
@@ -70,8 +75,10 @@ const FormatCheckReport = ({
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             stroke-width="1.8"
-                            d="M14.667 13.667L18 10.333L14.667 7M18 10.333H8.833a3.333 3.333 0 0 0 0 6.667h.834" /></svg>
-                    Отправить счета</Button>
+                            d="M14.667 13.667L18 10.333L14.667 7M18 10.333H8.833a3.333 3.333 0 0 0 0 6.667h.834" />
+                    </svg>
+                    Отправить счета
+                </Button>
                 <div className={styles.summaryInfo}>
                     {successCount !== 0 && (
                         <span className={styles.spanSuccess}>{successCount}</span>

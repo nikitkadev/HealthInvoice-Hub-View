@@ -1,15 +1,16 @@
-import type { JournalRecord } from '../../app_lk_journal/general/JournalData';
-import { useJournal } from '../../app_lk_journal/general/JournalContext';
+import type { JournalRecord } from '../../../app_lk_journal/general/JournalData';
+import { useJournal } from '../../../app_lk_journal/general/JournalContext';
 import React, { useEffect, useState } from 'react';
-import LogicControlJournalContextMenu from '../../ui/ConextMenu/LogicControlJournalContextMenu';
+import LogicControlJournalContextMenu from '../../../ui/ConextMenu/LogicControlJournalContextMenu';
 import dayjs from 'dayjs';
 import styles from './styles.module.scss';
-import Loader from '../../ui/Loader';
-import Pagination from '../../ui/Pagination';
-import Status from '../../ui/Status';
-import Checkbox from '../../ui/Checkbox';
+import Loader from '../../../ui/Loader';
+import Pagination from '../../../ui/Pagination';
+import Status from '../../../ui/Status';
+import Checkbox from '../../../ui/Checkbox';
+import { InvoiceStatus } from '../../../../app/types/InvoiceStatus';
 
-interface JournalTableProps {
+interface LogicControlJournalTableProps {
     pagination: {
         currentPage: number,
         pageSize: number,
@@ -20,15 +21,16 @@ interface JournalTableProps {
     isLoading: boolean,
     goToPage: (page: number) => void;
     setPageSize: (page: number) => void;
+
 }
 
-const JournalTable = ({
+const LogicControlJournalTable = ({
     pagination,
     data,
     isLoading,
     goToPage,
     setPageSize
-}: JournalTableProps) => {
+}: LogicControlJournalTableProps) => {
 
     const [selected, setSelected] = useState<JournalRecord[]>([]);
     const { journalType } = useJournal();
@@ -39,8 +41,9 @@ const JournalTable = ({
     });
 
     const selectAllItems = (checked: boolean) => {
+
         if (checked) {
-            setSelected(data);
+            setSelected(data.filter(item => item.status !== InvoiceStatus.Processing));
             return;
         }
 
@@ -48,6 +51,11 @@ const JournalTable = ({
     }
 
     const selectItem = (record: JournalRecord, checked: boolean) => {
+
+        if (record.status === InvoiceStatus.Processing) {
+            return;
+        }
+
         if (checked) {
             setSelected(prev => [...prev, record]);
             return;
@@ -144,7 +152,8 @@ const JournalTable = ({
                             <th>
                                 <Checkbox
                                     onChange={selectAllItems}
-                                    checked={selected.length === data.length} /></th>
+                                    checked={selected.length === data.filter(item => item.status !== 4).length} />
+                            </th>
                             <th>№</th>
                             <th>Дата загрузки</th>
                             <th>Загрузил</th>
@@ -175,10 +184,12 @@ const JournalTable = ({
                                         onContextMenu={(e) => openContextMenu(e)}
                                         className={hasChecked ? styles.selectedRow : ''}>
                                         <td>
-                                            <Checkbox
-                                                checked={hasChecked}
-                                                onChange={(checked) => selectItem(item, checked)}
-                                                onClick={(e) => e.stopPropagation()} />
+                                            {item.status !== 4 && (
+                                                <Checkbox
+                                                    checked={hasChecked}
+                                                    onChange={(checked) => selectItem(item, checked)}
+                                                    onClick={(e) => e.stopPropagation()} />
+                                            )}
                                         </td>
                                         <td className={styles.td}>{index + 1}</td>
                                         <td className={styles.td}>{dayjs(item.uploadDate).format('DD.MM.YYYY HH:mm:ss')}</td>
@@ -215,4 +226,4 @@ const JournalTable = ({
     )
 };
 
-export default JournalTable;
+export default LogicControlJournalTable;
