@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
@@ -7,7 +7,7 @@ import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
 import Button from '../../ui/Button/Button';
 
 import styles from './styles.module.scss';
-import Loader from '../../ui/Loader';
+import Loader from '../../ui/Loaders/Loader';
 
 const Login = () => {
 
@@ -56,6 +56,10 @@ const Login = () => {
             error: e.currentTarget.validationMessage || `Неверный формат ${fieldName}`,
         });
     }
+
+    useEffect(() => {
+        document.title = "HIH - Вход"
+    }, []);
 
     return (
         <>

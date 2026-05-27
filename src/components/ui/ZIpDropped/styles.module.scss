@@ -3,8 +3,6 @@
     justify-content: center;
 
     margin: 0 1rem;
-
-    box-shadow: 0 .5rem 2rem rgb(0, 0, 0, 0.05);
 }
 
 .dropZone {
@@ -20,13 +18,16 @@
     background-color: var(--card-background-color);
     border: 2px dashed var(--default-element-border-color);
 
-
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .dropZone:hover {
     border: 2px dashed var(--gray-400);
+
+    .defaultText {
+        color: var(--gray-700);
+    }
 }
 
 .dropZone.dragging {
@@ -39,6 +40,7 @@
     opacity: 0.7;
 }
 
+.loadingText,
 .defaultText {
     color: var(--gray-400);
     font-size: var(--font-size-default);

@@ -1,32 +1,18 @@
+import type { LogicControlDefectDto } from './types';
+
 import { useParams, useSearchParams } from 'react-router'
 import { useEffect, useState } from 'react';
-import { api } from '../../shared/api/ApiClient';
-import styles from './LkJournalErrorsPage.module.css'
-import Loader from '../ui/Loader';
+import { api } from '../../../shared/api/ApiClient';
 
-interface LogicControlDefectDto {
-    comment: string;
-    basEl: string;
-    imPol: string;
-    kod: number;
-    nZap: number;
-    idCase: number;
-    slId: string;
-    fam: string;
-    im: string;
-    ot: string;
-    dr: Date;
-    date1: Date;
-    date2: Date;
-    iddokt: string;
-}
+import Loader from '../../ui/Loaders/Loader';
+import styles from './styles.module.scss';
 
-export const LkJournalErrorsPage = () => {
+const LogicControlErrors = () => {
     const [errors, setErrors] = useState<LogicControlDefectDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [searchParams] = useSearchParams();
 
     const { schetUid } = useParams<{ schetUid: string }>();
-    const [searchParams] = useSearchParams();
 
     const journalType = Number(searchParams.get('journalType')) || 1;
 
@@ -50,26 +36,30 @@ export const LkJournalErrorsPage = () => {
         }
     }, [schetUid, journalType]);
 
+    useEffect(() => {
+        document.title = `HIH - Ошибки счета UID: ${schetUid}`
+    }, []);
+
     return (
         <>
             {isLoading ? (
                 <Loader size='xs' />
             ) : (
-                <div className={styles.container}>
-                    <div className={styles.table_container}>
+                <div className={styles.logicControlErrorsRoot}>
+                    <div className={styles.tableContainer}>
                         <table>
                             <colgroup>
-                                <col style={{ width: '16px' }} />
-                                <col style={{ width: '20px' }} />
-                                <col style={{ width: '24px' }} />
-                                <col style={{ width: '30px' }} />
-                                <col style={{ width: '30px' }} />
-                                <col style={{ width: '24px' }} />
-                                <col style={{ width: '80px' }} />
-                                <col style={{ width: '48px' }} />
-                                <col style={{ width: '48px' }} />
-                                <col style={{ width: '48px' }} />
-                                <col style={{ width: '300px' }} />
+                                <col style={{ width: '1.5rem' }} />
+                                <col style={{ width: '2rem' }} />
+                                <col style={{ width: '2rem' }} />
+                                <col style={{ width: '2rem' }} />
+                                <col style={{ width: '2rem' }} />
+                                <col style={{ width: '2rem' }} />
+                                <col style={{ width: '4rem' }} />
+                                <col style={{ width: '3rem' }} />
+                                <col style={{ width: '3rem' }} />
+                                <col style={{ width: '3.5rem' }} />
+                                <col style={{ width: '15rem' }} />
                             </colgroup>
                             <thead>
                                 <tr>
@@ -110,6 +100,7 @@ export const LkJournalErrorsPage = () => {
                 </div >
             )}
         </>
-
     )
-}
+};
+
+export default LogicControlErrors;

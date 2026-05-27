@@ -1,6 +1,6 @@
 import { Navigate } from "react-router";
 import { useAuth } from "../app_auth/auth_service/AuthProvider";
-import Loader from "../ui/Loader";
+import Loader from "../ui/Loaders/Loader";
 
 interface PublicOnlyRouteProps {
     children: React.ReactNode;

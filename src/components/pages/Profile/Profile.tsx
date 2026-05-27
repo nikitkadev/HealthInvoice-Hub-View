@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
 import styles from './styles.module.scss';
@@ -5,6 +6,10 @@ import styles from './styles.module.scss';
 const Profile = () => {
 
     const { user } = useAuth();
+
+    useEffect(() => {
+        document.title = "HIH - Мой профиль";
+    })
 
     return (
         <div className={styles.profileRoot}>

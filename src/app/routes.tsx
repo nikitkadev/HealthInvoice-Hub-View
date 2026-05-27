@@ -8,13 +8,13 @@ import { UserControlPage } from "../components/app_admin/users/UserControlPage";
 import { PersonalDataPage } from "../components/app_personal/PersonalDataPage";
 import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
 import { Docs } from "../components/app_docs/Docs";
-import { LkJournalErrorsPage } from "../components/errors/LkJournalErrorsPage";
 
 import Login from "../components/pages/Login";
 import Home from "../components/pages/Home";
 import Profile from "../components/pages/Profile";
 import LogicControlJournal from "../components/pages/LogicControlJournal";
 import FormatControlJournal from "../components/pages/FormatControlJournal/FormatControlJournal";
+import LogicControlErrors from '../components/pages/LogicControlErrors/LogicControlErrors';
 
 export const router = createBrowserRouter(
     [
@@ -92,7 +92,7 @@ export const router = createBrowserRouter(
                 },
                 {
                     path: 'errors/:schetUid',
-                    element: <LkJournalErrorsPage />
+                    element: <LogicControlErrors />
                 }
             ]
 

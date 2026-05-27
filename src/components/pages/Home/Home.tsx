@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
 import GorizontalSeporator from '../../ui/Seporators/GorizontalSeporator';
 import styles from './styles.module.scss';
 
 const Home = () => {
+
+    useEffect(() => {
+        document.title = "HIH - Домашняя страница"
+    }, []);
+
     return (
         <div className={styles.homeRoot}>
             <h1>Добро пожаловать в HealthInvoice Hub!</h1>

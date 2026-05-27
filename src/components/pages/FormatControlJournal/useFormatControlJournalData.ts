@@ -2,7 +2,7 @@ import type { FormatControlJournalRecord, FormatControlJournalRecordResponse } f
 
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../app_auth/auth_service/AuthProvider";
-import { useJournal } from "../../app_lk_journal/general/JournalContext";
+import { useJournal } from "../../../app/contexts/JournalTypeContext";
 import { api } from "../../../shared/api/ApiClient";
 
 const useFormatControlJournalData = () => {

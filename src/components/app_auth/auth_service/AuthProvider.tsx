@@ -5,6 +5,7 @@ import type { LoginCredentials, LoginResult, UserInfo } from "./AuthDtos";
 interface AuthContextType {
     user: UserInfo | null;
     isLoading: boolean;
+    isAdmin: boolean;
     login: (credentials: LoginCredentials) => Promise<LoginResult | null>;
     logout: () => Promise<void>;
 }
@@ -74,7 +75,13 @@ export const AuthProvider = ({ children }: Props) => {
     }
 
     return (
-        <AuthContext.Provider value={{ user, isLoading, logout, login }}>
+        <AuthContext.Provider value={{
+            user,
+            isLoading,
+            isAdmin: user?.organizationCode === '19000',
+            logout,
+            login
+        }}>
             {children}
         </AuthContext.Provider>
     );

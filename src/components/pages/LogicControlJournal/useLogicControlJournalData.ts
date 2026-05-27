@@ -1,46 +1,14 @@
+import type { LogicControlJournalFilters, LogicControlJournalRecord, LogicControlJournalResponse, SortState } from "./types"
+;
 import { useCallback, useEffect, useState } from "react";
 import { api } from '../../../shared/api/ApiClient';
-import { useJournal } from "./JournalContext";
+import { useJournal } from "../../../app/contexts/JournalTypeContext";
 import { useAuth } from "../../app_auth/auth_service/AuthProvider";
 
-export interface JournalRecord {
-    uid: number;
-    schetUid: number;
-    uploadDate: Date;
-    uploader: string;
-    fileName: string;
-    codeMO: string;
-    nSchet: string;
-    dSchet: Date;
-    countSdZ: number;
-    countError: number;
-    status: number;
-}
-
-interface JournalResponse {
-    items: JournalRecord[];
-    total: number;
-    page: number;
-    pageSize: number;
-}
-
-export interface JournalFilters {
-    organizationCode: string;
-    schetNumber: string;
-    filename: string;
-}
-
-type SortDiraction = 'asc' | 'desc' | null;
-
-export interface SortState {
-    column: string;
-    direction: SortDiraction;
-}
-
-export const useJournalData = () => {
+const useLogicControlJournalData = () => {
     const { user } = useAuth();
     const { journalType } = useJournal();
-    const [data, setData] = useState<JournalRecord[]>([]);
+    const [data, setData] = useState<LogicControlJournalRecord[]>([]);
     const [isLoading, setLoading] = useState(false);
     const [sort, setSort] = useState<SortState>({ column: 'uploade_date', direction: 'desc' })
 
@@ -51,10 +19,8 @@ export const useJournalData = () => {
         totalItems: 0
     });
 
-    const [filters, setFilters] = useState<JournalFilters>({
-        organizationCode: '',
-        schetNumber: '',
-        filename: ''
+    const [filters, setFilters] = useState<LogicControlJournalFilters>({
+        globalFilterTarget: '',
     });
 
     const handleSort = (column: string) => {
@@ -93,7 +59,7 @@ export const useJournalData = () => {
 
         try {
             const params: Record<string, string> = {
-                organizationCode: (filters.organizationCode || user?.organizationCode) ?? '',
+                organizationCode: user?.organizationCode ?? '',
                 journalType: journalType.toString(),
                 page: pagination.currentPage.toString(),
                 pageSize: pagination.pageSize.toString(),
@@ -101,10 +67,9 @@ export const useJournalData = () => {
                 direction: sort.direction?.toString() ?? ''
             };
 
-            if (filters.schetNumber) params.schetNumber = filters.schetNumber;
-            if (filters.filename) params.filename = filters.filename;
+            if (filters.globalFilterTarget) params.globalFilterTarget = filters.globalFilterTarget;
 
-            const response = await api.get<JournalResponse>('/journal/lk/fetch', params);
+            const response = await api.get<LogicControlJournalResponse>('/journal/lk/fetch', params);
 
             if (response) {
                 setData(response.items);
@@ -137,9 +102,7 @@ export const useJournalData = () => {
 
     const resetFilters = () => {
         setFilters({
-            organizationCode: '',
-            schetNumber: '',
-            filename: ''
+            globalFilterTarget: '',
         });
     }
 
@@ -154,6 +117,9 @@ export const useJournalData = () => {
         onChangeFilter: setFilters,
         resetFilters,
         handleSort,
-        sort
+        sort,
+        isApplied: filters.globalFilterTarget !== ''
     }
-}
+};
+
+export default useLogicControlJournalData;

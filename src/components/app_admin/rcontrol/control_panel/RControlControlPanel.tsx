@@ -1,5 +1,5 @@
 import { JournalToggle } from '../../../../shared/ui/toggle/JournalToggle'
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { Separator } from '../../../../shared/ui/seporator/Separator';
 import { useEffect, useState } from 'react';
 

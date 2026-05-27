@@ -1,14 +1,19 @@
-import type { JournalRecord } from '../../../app_lk_journal/general/JournalData';
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import type { LogicControlJournalRecord } from '../../../pages/LogicControlJournal/types';
+
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
+import { InvoiceStatus } from '../../../../app/types/InvoiceStatus';
+import { toast } from 'react-toastify';
+import { api } from '../../../../shared/api/ApiClient';
 import React, { useEffect, useState } from 'react';
-import LogicControlJournalContextMenu from '../../../ui/ConextMenu/LogicControlJournalContextMenu';
-import dayjs from 'dayjs';
-import styles from './styles.module.scss';
-import Loader from '../../../ui/Loader';
+
+import LogicControlJournalContextMenu from '../../../ui/ContextMenu/LogicControlJournalContextMenu';
 import Pagination from '../../../ui/Pagination';
 import Status from '../../../ui/Status';
 import Checkbox from '../../../ui/Checkbox';
-import { InvoiceStatus } from '../../../../app/types/InvoiceStatus';
+import DefaultLoader from '../../../ui/Loaders/DefaultLoader';
+
+import dayjs from 'dayjs';
+import styles from './styles.module.scss';
 
 interface LogicControlJournalTableProps {
     pagination: {
@@ -17,11 +22,11 @@ interface LogicControlJournalTableProps {
         totalPages: number,
         totalItems: number
     },
-    data: JournalRecord[],
+    data: LogicControlJournalRecord[],
     isLoading: boolean,
+    refreshData: () => void;
     goToPage: (page: number) => void;
     setPageSize: (page: number) => void;
-
 }
 
 const LogicControlJournalTable = ({
@@ -29,10 +34,13 @@ const LogicControlJournalTable = ({
     data,
     isLoading,
     goToPage,
-    setPageSize
+    setPageSize,
+    refreshData
 }: LogicControlJournalTableProps) => {
 
-    const [selected, setSelected] = useState<JournalRecord[]>([]);
+    const [selected, setSelected] = useState<LogicControlJournalRecord[]>([]);
+    const [isRemoving, setIsRemoving] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
     const { journalType } = useJournal();
     const [contextMenu, setContextMenu] = useState({
         visiable: false,
@@ -50,7 +58,7 @@ const LogicControlJournalTable = ({
         setSelected([]);
     }
 
-    const selectItem = (record: JournalRecord, checked: boolean) => {
+    const selectItem = (record: LogicControlJournalRecord, checked: boolean) => {
 
         if (record.status === InvoiceStatus.Processing) {
             return;
@@ -115,6 +123,92 @@ const LogicControlJournalTable = ({
 
     }
 
+    const sendInvoicesOnMEC = async () => {
+
+        try {
+
+            await api.postWithoutContent('/invoices/logic-control', {
+                schetUids: selected.map(item => item.schetUid),
+                journalType: journalType
+            });
+
+            refreshData();
+
+            toast.success("Счета поставлены в очередь на МЭК!");
+        }
+        catch {
+            toast.error("Произошла ошибка при отправке счетов на МЭК!");
+        }
+    }
+
+    const removeInvoices = async () => {
+
+        setIsRemoving(true);
+
+        try {
+
+            await api.postWithoutContent('/invoices/remove', {
+                schetUids: selected.map(item => item.schetUid),
+                journalType: journalType
+            });
+
+            refreshData();
+
+            toast.success("Счета удалены!");
+        }
+        catch {
+            toast.error("Произошла ошибка при удаление счетов!");
+        }
+        finally {
+            setIsRemoving(false);
+        }
+    }
+
+    const downloadReport = async () => {
+
+        setIsDownloading(true);
+
+        try {
+
+            const correctInvoice = selected.filter(item => item.status !== InvoiceStatus.Pending);
+
+            if (correctInvoice.length === 0) {
+                toast.warning("Файл ответа доступен только для счетов, прошедших МЭК!");
+                return;
+            }
+
+            await api.downloadControlValidationReportFile(
+                '/report/download-control',
+                correctInvoice[0].schetUid,
+                journalType
+            );
+
+            toast.success("Файл успешно загружен!");
+        }
+        catch {
+            toast.error("Произошла ошибка при скачивание файла ответа МЭК!");
+        }
+        finally {
+            setIsDownloading(false);
+        }
+    }
+
+    const viewErrors = () => {
+        const correctInvoices = selected.filter(item => item.status === InvoiceStatus.Error);
+
+        if (correctInvoices.length === 0) {
+            toast.warning("Выберите счет со статусом \"Ошибки\"!");
+            return;
+        }
+
+        if (selected.length !== 1) {
+            toast.warning("Выберите один счет со статусом  \"Ошибки\"!");
+            return;
+        }
+
+        window.open(`/errors/${selected[0].schetUid}?journalType=${journalType}`, '_blank');
+    }
+
     useEffect(() => {
         setSelected([])
     }, [pagination?.currentPage, pagination?.pageSize, journalType, data]);
@@ -125,7 +219,7 @@ const LogicControlJournalTable = ({
         return () => {
             document.removeEventListener('click', closeContextMenu);
         }
-    })
+    }, [])
 
     return (
         <div className={styles.journalTableRoot}>
@@ -134,6 +228,7 @@ const LogicControlJournalTable = ({
             </div>
             <div className={styles.tableContainer}>
                 <table>
+
                     <colgroup>
                         <col style={{ width: '2.5rem' }} />
                         <col style={{ width: '2.5rem' }} />
@@ -142,11 +237,12 @@ const LogicControlJournalTable = ({
                         <col style={{ width: '10rem' }} />
                         <col style={{ width: '5rem' }} />
                         <col style={{ width: '8rem' }} />
-                        <col style={{ width: '10rem' }} />
-                        <col style={{ width: '5rem' }} />
-                        <col style={{ width: '5rem' }} />
-                        <col style={{ width: '10rem' }} />
+                        <col style={{ width: '8rem' }} />
+                        <col style={{ width: '7rem' }} />
+                        <col style={{ width: '6rem' }} />
+                        <col style={{ width: '8rem' }} />
                     </colgroup>
+
                     <thead className={styles.journa_table_head}>
                         <tr>
                             <th>
@@ -167,28 +263,35 @@ const LogicControlJournalTable = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
-                            <tr>
+                        {isLoading || isRemoving || isDownloading ? (
+                            <tr className={styles.loaderRow}>
                                 <td colSpan={11} className={styles.loaderCell}>
-                                    <Loader size='xs' />
+                                    <DefaultLoader />
+                                </td>
+                            </tr>
+                        ) : data.length === 0 ? (
+                            <tr className={styles.loaderRow}>
+                                <td colSpan={11} className={styles.loaderCell}>
+                                    <span>Данных не найдено</span>
                                 </td>
                             </tr>
                         ) : (
                             data.map((item, index) => {
-
                                 const hasChecked = selected.includes(item);
-
                                 return (
                                     <tr
+                                        key={item.schetUid}
                                         onClick={() => selectItem(item, !hasChecked)}
                                         onContextMenu={(e) => openContextMenu(e)}
-                                        className={hasChecked ? styles.selectedRow : ''}>
+                                        className={hasChecked ? styles.selectedRow : ''}
+                                    >
                                         <td>
-                                            {item.status !== 4 && (
+                                            {item.status !== InvoiceStatus.Processing && (
                                                 <Checkbox
                                                     checked={hasChecked}
                                                     onChange={(checked) => selectItem(item, checked)}
-                                                    onClick={(e) => e.stopPropagation()} />
+                                                    onClick={(e) => e.stopPropagation()}
+                                                />
                                             )}
                                         </td>
                                         <td className={styles.td}>{index + 1}</td>
@@ -211,7 +314,11 @@ const LogicControlJournalTable = ({
                     visiable={contextMenu.visiable}
                     posX={contextMenu.poxX}
                     posY={contextMenu.posY}
-                    records={selected} />
+                    records={selected}
+                    sendInvoicesOnMEC={sendInvoicesOnMEC}
+                    removeInvoices={removeInvoices}
+                    downloadReport={downloadReport}
+                    viewErrors={viewErrors} />
             </div>
             <div className={styles.pagination}>
                 <Pagination

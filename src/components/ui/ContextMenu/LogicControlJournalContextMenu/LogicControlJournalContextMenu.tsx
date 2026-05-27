@@ -1,4 +1,5 @@
-import type { JournalRecord } from '../../../app_lk_journal/general/JournalData';
+import type { LogicControlJournalRecord } from '../../../pages/LogicControlJournal/types';
+
 import GorizontalSeparator from '../../Seporators/GorizontalSeporator';
 import styles from './styles.module.scss';
 
@@ -6,14 +7,22 @@ interface LogicControlJournalContextMenuProps {
     visiable: boolean,
     posX: number,
     posY: number,
-    records: JournalRecord[]
+    records: LogicControlJournalRecord[];
+    sendInvoicesOnMEC: () => void;
+    removeInvoices: () => void;
+    downloadReport: () => void;
+    viewErrors: () => void;
 };
 
 const LogicControlJournalContextMenu = ({
     visiable = true,
     posX = 0,
     posY = 0,
-    records
+    records,
+    sendInvoicesOnMEC,
+    removeInvoices,
+    downloadReport,
+    viewErrors
 }: LogicControlJournalContextMenuProps) => {
 
     if (!visiable) return null;
@@ -24,7 +33,7 @@ const LogicControlJournalContextMenu = ({
                 left: posX,
                 top: posY
             }}
-            className={styles.contextMenuRoot}>
+            className={styles.logicControlJournalContextMenuRoot}>
 
             <ul>
 
@@ -38,16 +47,31 @@ const LogicControlJournalContextMenu = ({
                 </div>
 
                 <li>
-                    <button>
+                    <button
+                        onClick={sendInvoicesOnMEC}>
+
                         <span>Провести МЭК</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
-                            <path fill="none" stroke="var(--black)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m11 11l5-5m0 0l5 5m-5-5v7.803c0 1.118 0 1.677-.218 2.105a2 2 0 0 1-.874.874C14.48 17 13.92 17 12.803 17H3" />
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24">
+                            <path
+                                fill="none"
+                                stroke="var(--black)"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="m11 11l5-5m0 0l5 5m-5-5v7.803c0 1.118 0 1.677-.218 2.105a2 2 0 0 1-.874.874C14.48 17 13.92 17 12.803 17H3" />
                         </svg>
+
                     </button>
                 </li>
 
                 <li>
-                    <button>
+                    <button
+                        onClick={downloadReport}>
                         <span>Скачать ответ МЭК</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +90,8 @@ const LogicControlJournalContextMenu = ({
                 </li>
 
                 <li>
-                    <button>
+                    <button
+                        onClick={viewErrors}>
                         <span>Просмотреть ошибки</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +112,8 @@ const LogicControlJournalContextMenu = ({
                 <GorizontalSeparator size='xs' type='line' />
 
                 <li>
-                    <button>
+                    <button
+                        onClick={removeInvoices}>
                         <span className={styles.exitSpan}>Удалить счета</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

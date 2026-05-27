@@ -1,10 +1,12 @@
-import { useJournalData } from '../../app_lk_journal/general/JournalData';
+import { useEffect } from 'react';
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 
 import LogicControlJournalActionPanel from '../../widgets/LogicControlJournal/LogicControlJournalActionPanel';
 import LogicControlJournalFiltersPanel from '../../widgets/LogicControlJournal/LogicControlJournalFiltersPanel/LogicControlJournalFiltersPanel';
 import LogicControlJournalTable from '../../widgets/LogicControlJournal/LogicControlJournalTable';
 
 import styles from './styles.module.scss';
+import useLogicControlJournalData from './useLogicControlJournalData';
 
 const LogicControlJournal = () => {
 
@@ -16,7 +18,14 @@ const LogicControlJournal = () => {
         setPageSize,
         refreshData,
         resetFilters,
-        onChangeFilter } = useJournalData();
+        onChangeFilter,
+        isApplied } = useLogicControlJournalData();
+
+    const { isAdmin } = useAuth();
+
+    useEffect(() => {
+        document.title = "HIH - Журнал ЛК"
+    }, []);
 
     return (
         <div className={styles.journalRoot}>
@@ -24,13 +33,17 @@ const LogicControlJournal = () => {
             <LogicControlJournalActionPanel
                 refreshData={refreshData} />
 
-            <LogicControlJournalFiltersPanel
-                resetFilters={resetFilters}
-                setFilters={onChangeFilter} />
+            {isAdmin && (
+                <LogicControlJournalFiltersPanel
+                    resetFilters={resetFilters}
+                    setFilters={onChangeFilter}
+                    isApplied={isApplied} />
+            )}
 
             <LogicControlJournalTable
                 pagination={pagination}
                 data={data}
+                refreshData={refreshData}
                 isLoading={isLoading}
                 goToPage={goToPage}
                 setPageSize={setPageSize} />

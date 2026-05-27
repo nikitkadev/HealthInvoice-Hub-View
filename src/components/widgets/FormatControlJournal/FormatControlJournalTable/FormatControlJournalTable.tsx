@@ -1,8 +1,8 @@
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import styles from './styles.module.scss';
-import Loader from '../../../ui/Loader';
+import Loader from '../../../ui/Loaders/Loader';
 import Pagination from '../../../ui/Pagination';
 import Status from '../../../ui/Status';
 import Checkbox from '../../../ui/Checkbox';

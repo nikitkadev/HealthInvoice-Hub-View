@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from '../../../../shared/api/ApiClient';
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { RControlControlPanel } from '../control_panel/RControlControlPanel';
 import { Separator } from '../../../../shared/ui/seporator/Separator';
 import { CategoryRenderer } from '../categories/renderer/CategoryRenderer';

@@ -1,4 +1,4 @@
-import type { SortState } from "../../../components/app_lk_journal/general/JournalData";
+import type { SortState } from "../../../components/pages/LogicControlJournal/types";
 
 export const SortIcon = ({ column, currentSort }: { column: string, currentSort: SortState }) => {
     if (currentSort.column !== column) {

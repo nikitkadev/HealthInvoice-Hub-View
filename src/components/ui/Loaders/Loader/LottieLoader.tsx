@@ -15,7 +15,7 @@ export const LottieLoader = ({ size = 100, className }: LottieLoaderProps) => {
     useEffect(() => {
         let isActive = true;
 
-        import('../../../assets/cube_loader.json')
+        import('../../../../assets/cube_loader.json')
             .then((module) => {
 
                 if (!isActive) return;

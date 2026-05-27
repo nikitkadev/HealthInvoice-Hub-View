@@ -8,7 +8,7 @@ import { JsonDropped } from '../../../shared/ui/dropped/Json/JsonDropped';
 
 import styles from './UserControlPage.module.css';
 import dayjs from 'dayjs';
-import Loader from '../../ui/Loader';
+import Loader from '../../ui/Loaders/Loader';
 
 export const UserControlPage = () => {
 

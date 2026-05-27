@@ -1,4 +1,4 @@
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 
 import Button from '../../../ui/Button/Button';
 import styles from './styles.module.scss';

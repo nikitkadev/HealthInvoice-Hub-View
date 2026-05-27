@@ -1,9 +1,9 @@
-import type { InvoiceSummaryValidationResult } from '../../../app_lk_journal/general/UploadJournalTypes';
+import type { InvoiceSummaryValidationResult } from '../../../pages/LogicControlJournal/types';
 
 import { api } from '../../../../shared/api/ApiClient';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { ZipDropped } from '../../../ui/ZIpDropped/ZipDropped';
 
 import Button from '../../../ui/Button/Button';
