@@ -1,4 +1,3 @@
-import { Separator } from '../../../../../shared/ui/seporator/Separator';
 import styles from '../patient/Patient.module.css';
 
 export const SummaryCases = () => {
@@ -6,7 +5,6 @@ export const SummaryCases = () => {
         <div className={styles.container}>
             <div className={styles.patient_container}>
                 <span>Законченный случай</span>
-                <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                 <div className={styles.patient_card}>
                     <div className={styles.line}>
                         <div className={styles.info_block}>
@@ -36,7 +34,6 @@ export const SummaryCases = () => {
                             <p>13: первичная специализированная медико-санитарная помощь</p>
                         </div>
                     </div>
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
 
                     <div className={styles.line}>
                         <div className={styles.info_block}>
@@ -77,7 +74,6 @@ export const SummaryCases = () => {
                             <p>-</p>
                         </div>
                     </div>
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                     <div className={styles.line}>
                         <div className={styles.info_block}>
                             <label>Форма медицинской помощи</label>
@@ -104,7 +100,6 @@ export const SummaryCases = () => {
 
             <div className={styles.smo_container}>
                 <span>Случай</span>
-                <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                 <div className={styles.smo_card}>
 
                     <div className={styles.line}>
@@ -139,9 +134,6 @@ export const SummaryCases = () => {
                             <p>2.6: Посещение по другим обстоятельствам</p>
                         </div>
                     </div>
-
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
-
                     <div className={styles.line}>
                         <div className={styles.info_block}>
                             <label>Профиль койки</label>
@@ -193,7 +185,6 @@ export const SummaryCases = () => {
                         </div>
                     </div>
 
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
 
                     <div className={styles.line}>
                         <div className={styles.info_block}>
@@ -217,7 +208,6 @@ export const SummaryCases = () => {
                         </div>
                     </div>
 
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
 
                     <div className={styles.line}>
                         <div className={styles.info_block}>

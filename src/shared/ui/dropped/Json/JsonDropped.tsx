@@ -1,5 +1,4 @@
 
-import { Separator } from '../../seporator/Separator';
 import { useCallback, useRef, useState } from "react";
 import styles from './JsonDropped.module.css';
 
@@ -96,7 +95,6 @@ export const JsonDropped = ({ onFileDropped, isLoading = false }: JsonDroppedPro
                     </span>
                 )}
             </div>
-            <Separator type='line' size='xs' color='var(--border-light)' />
         </div>
     );
 };

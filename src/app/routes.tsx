@@ -5,9 +5,7 @@ import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
 import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
 import { UserControlPage } from "../components/app_admin/users/UserControlPage";
-import { PersonalDataPage } from "../components/app_personal/PersonalDataPage";
 import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
-import { Docs } from "../components/app_docs/Docs";
 
 import Login from "../components/pages/Login";
 import Home from "../components/pages/Home";
@@ -64,14 +62,6 @@ export const router = createBrowserRouter(
                     )
                 },
                 {
-                    path: 'docs',
-                    element: (
-                        <ProtectedRoute>
-                            <Docs />
-                        </ProtectedRoute>
-                    )
-                },
-                {
                     path: 'manual',
                     element: (
                         <ProtectedRoute>
@@ -104,13 +94,6 @@ export const router = createBrowserRouter(
                     element: <LogicControlErrors />
                 }
             ]
-
-        },
-        {
-            path: '/consent',
-            element: (
-                <PersonalDataPage />
-            )
         }
     ]
 )

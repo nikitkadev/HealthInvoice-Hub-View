@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { api } from '../../../../shared/api/ApiClient';
 import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { RControlControlPanel } from '../control_panel/RControlControlPanel';
-import { Separator } from '../../../../shared/ui/seporator/Separator';
 import { CategoryRenderer } from '../categories/renderer/CategoryRenderer';
 
 import dayjs from 'dayjs';
@@ -673,7 +672,6 @@ export const RControlPage = () => {
                                             </button>
                                         </li>
                                         <li>
-                                            <Separator type='line' orientation='horizontal' size='xs' color="var(--border-light-menu-context)" />
                                         </li>
                                         <li>
                                             <button>

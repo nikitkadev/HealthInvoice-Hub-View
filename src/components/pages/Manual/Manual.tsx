@@ -3,8 +3,14 @@ import config from '../../../../package.json';
 import GorizontalSeparator from '../../ui/Seporators/GorizontalSeporator';
 import Status from '../../ui/Status';
 import { InvoiceStatus } from '../../../app/types/InvoiceStatus';
+import { useEffect } from 'react';
 
 const Manual = () => {
+
+    useEffect(() => {
+        document.title = "HIH - Инструкция пользования";
+    }, []);
+    
     return (
         <div className={styles.manualRoot}>
             <div className={styles.wrapper}>

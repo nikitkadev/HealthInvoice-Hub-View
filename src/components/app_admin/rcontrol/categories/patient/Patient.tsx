@@ -1,4 +1,3 @@
-import { Separator } from "../../../../../shared/ui/seporator/Separator";
 import styles from "./Patient.module.css";
 
 export const Patient = () => {
@@ -6,7 +5,6 @@ export const Patient = () => {
         <div className={styles.container}>
             <div className={styles.patient_container}>
                 <span>Пациент</span>
-                <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                 <div className={styles.patient_card}>
                     <div className={styles.line}>
                         <div className={styles.info_block}>
@@ -25,7 +23,6 @@ export const Patient = () => {
                             <p>Мужской</p>
                         </div>
                     </div>
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                     <div className={styles.line}>
                         <div className={styles.info_block}>
                             <label>Документ</label>
@@ -53,7 +50,6 @@ export const Patient = () => {
                             <p>Активен</p>
                         </div>
                     </div>
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                     <div className={styles.line}>
                         <div className={styles.info_block}>
                             <label>ФИО представителя</label>
@@ -76,7 +72,6 @@ export const Patient = () => {
 
             <div className={styles.smo_container}>
                 <span>СМО</span>
-                <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
                 <div className={styles.smo_card}>
                     <div className={styles.line}>
                         <div className={styles.info_block}>
@@ -101,9 +96,6 @@ export const Patient = () => {
                         </div>
 
                     </div>
-
-                    <Separator type="line" orientation="horizontal" size="xs" color="#e2e2e2" />
-
                     <div className={styles.line}>
                         <div className={styles.info_block}>
                             <label>Серия полиса</label>

@@ -6,6 +6,7 @@ import FormatControlJournalFiltersPanel from '../../widgets/FormatControlJournal
 import useFormatControlJournalData from './useFormatControlJournalData';
 
 import styles from './styles.module.scss';
+import { useEffect } from 'react';
 
 const FormatControlJournal = () => {
 
@@ -21,6 +22,10 @@ const FormatControlJournal = () => {
         resetFilters } = useFormatControlJournalData();
 
     const { isAdmin } = useAuth();
+
+    useEffect(() => {
+        document.title = "HIH - Журнал ФК";
+    }, []);
 
     return (
         <div className={styles.journalRoot}>

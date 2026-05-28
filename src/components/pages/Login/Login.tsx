@@ -38,7 +38,7 @@ const Login = () => {
 
             if (loginResult.isSuccess) {
 
-                loginResult.isAcceptedPersonalPolicy ? navigate("/") : navigate("/consent");
+                navigate("/");
                 toast.success(loginResult.clientMessage ?? "Успешный вход!");
 
                 return;
