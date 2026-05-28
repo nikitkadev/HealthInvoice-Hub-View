@@ -1,0 +1,70 @@
+.logicControlErrorsRoot {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    min-height: 0;
+    flex: 1;
+    border-radius: var(--rounding-s);
+    border: 1px solid var(--gray-200);
+    background-color: var(--card-background-color);
+    overflow: hidden;
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.1);
+
+}
+
+.tableContainer {
+    flex: 1;
+    min-height: 0;
+    margin: 2rem;
+    overflow: auto;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--rounding-s);
+    scrollbar-width: thin;
+    scrollbar-color: var(--default-element-border-color) transparent;
+}
+
+.tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.tableContainer thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--card-background-color);
+}
+
+.tableContainer th {
+    padding: 1rem;
+    font-size: var(--font-size-default-small);
+    background-color: var(--card-background-color);
+    white-space: nowrap;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.tableContainer td {
+    padding: 1rem;
+    font-size: var(--font-size-default-small);
+    background-color: var(--card-background-color);
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+    vertical-align: top;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.tableContainer td {
+    word-break: break-all;
+}
+
+@media (min-width: 1921px) {
+    .logicControlErrorsRoot {
+        width: 1920px;
+        margin: 1rem auto;
+    }
+}

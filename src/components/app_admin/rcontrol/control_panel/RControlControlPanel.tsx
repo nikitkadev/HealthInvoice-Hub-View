@@ -1,6 +1,4 @@
-import { JournalToggle } from '../../../../shared/ui/toggle/JournalToggle'
-import { useJournal } from '../../../app_lk_journal/general/JournalContext';
-import { Separator } from '../../../../shared/ui/seporator/Separator';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
 import { useEffect, useState } from 'react';
 
 import styles from './RControlControlPanel.module.css'
@@ -32,7 +30,7 @@ export const RControlControlPanel = ({ onApplyFilters }: ControlPanelProps) => {
     const [loadingOrgs, setLoadingOrgs] = useState(false);
     const [loadingPeriods, setLoadingPeriods] = useState(false);
 
-    const { journalType, setJournalType } = useJournal();
+    const { journalType } = useJournal();
 
     const uniqueYears = [...new Set(periods.map(p => p.year.toString()))].map(year => ({
         value: year,
@@ -97,7 +95,6 @@ export const RControlControlPanel = ({ onApplyFilters }: ControlPanelProps) => {
                 setLoadingPeriods(false);
             }
         };
-
         fetchPeriods();
     }, [selectedOrg, journalType]);
 
@@ -199,10 +196,6 @@ export const RControlControlPanel = ({ onApplyFilters }: ControlPanelProps) => {
     return (
         <div className={styles.container}>
             <span>Журнал реестров:</span>
-            <JournalToggle
-                value={journalType}
-                onChange={setJournalType} />
-            <Separator type='line' orientation='vertical' color='var(--border-light)' />
 
             <div className={styles.select_container}>
                 <span>Код организации:</span>

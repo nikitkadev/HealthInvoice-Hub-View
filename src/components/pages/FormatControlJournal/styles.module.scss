@@ -1,0 +1,15 @@
+.journalRoot {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+    width: 60rem;
+    margin: 1rem auto;
+    min-height: 0;
+    overflow: hidden;
+
+    border-radius: var(--rounding-l);
+    background-color: var(--card-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.1);
+}

@@ -1,0 +1,12 @@
+.loaderRoot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.loaderRoot p {
+    font-size: var(--font-size-default);
+    font-weight: 600;
+}

@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Separator } from '../../../shared/ui/seporator/Separator';
 import { UserControlPanelPage } from './UserControlPanelPage';
 import { api } from '../../../shared/api/ApiClient';
 import { toast } from 'react-toastify';
 import type { UserInfo } from '../../app_auth/auth_service/AuthDtos';
-import { LoaderBlock } from '../../../shared/ui/loader/LoaderBlock';
 import { JsonDropped } from '../../../shared/ui/dropped/Json/JsonDropped';
 
 import styles from './UserControlPage.module.css';
 import dayjs from 'dayjs';
+import Loader from '../../ui/Loaders/Loader';
 
 export const UserControlPage = () => {
 
@@ -91,7 +90,7 @@ export const UserControlPage = () => {
                 usersTotal={appUsers.length} />
             <JsonDropped onFileDropped={handleBulkRegister} isLoading={isLoading} />
             {isLoading ? (
-                <LoaderBlock text='Пук-пук-пук...' size='medium' />
+                <Loader size='xs' />
             ) : (
                 <div className={styles.container}>
                     <div className={styles.cardsGrid}>
@@ -134,7 +133,6 @@ export const UserControlPage = () => {
 
 
                                     </div>
-                                    <Separator type='space' size='md' />
                                     <div className={styles.cards_line} style={{ gap: '3rem' }}>
                                         <div className={styles.info_block}>
                                             <label className={styles.card_label}>Имя пользователя</label>
@@ -146,7 +144,6 @@ export const UserControlPage = () => {
                                         </div>
 
                                     </div>
-                                    <Separator type='space' size='xs' />
                                     <div className={styles.cards_line} style={{ gap: '3rem' }}>
                                         <div className={styles.info_block}>
                                             <label className={styles.card_label}>Телефон</label>
@@ -157,7 +154,6 @@ export const UserControlPage = () => {
                                             <p className={styles.card_p}>{item.organizationCode}</p>
                                         </div>
                                     </div>
-                                    <Separator type='space' size='sm' />
                                     <div className={styles.button_container}>
                                         <button className={styles.button}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

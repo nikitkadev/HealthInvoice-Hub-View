@@ -1,0 +1,92 @@
+.journalTableRoot {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+
+    p {
+        font-weight: 500;
+    }
+}
+
+.journalTableRoot tbody tr {
+    cursor: pointer;
+}
+
+.journalTableRoot tbody tr.loaderRow:hover {
+    background-color: transparent !important;
+    cursor: default !important;
+}
+
+.journalTableRoot tr:hover {
+    background-color: var(--gray-50);
+    transition: 0.2s ease;
+}
+
+.loaderRow {
+    text-align: center;
+}
+
+.loaderRow span {
+    font-size: var(--font-size-default);
+    color: var(--gray-500);
+}
+
+.pagination,
+.recordCount {
+    padding: 1.75rem 1.5rem;
+    flex-shrink: 0;
+}
+
+.tableContainer {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+
+    margin: 0 1.5rem;
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-s);
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--default-element-border-color) transparent;
+}
+
+.tableContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.tableContainer th {
+    background-color: var(--card-background-color);
+}
+
+.journa_table_head {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-primary);
+    z-index: 1;
+}
+
+.tdCenter,
+.thCenter {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.selectedRow {
+    background-color: var(--gray-50);
+}
+
+.thSort {
+    display: flex;
+    align-items: center;
+}
+
+.thSortCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

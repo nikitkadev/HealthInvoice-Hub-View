@@ -1,0 +1,19 @@
+.homeRoot {
+
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--spacing-x4);
+    margin: 2.5rem auto;
+    max-width: 45rem;
+
+    border-radius: var(--rounding-l);
+    border: 1px solid var(--default-element-background-color);
+    background: var(--default-element-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.05);
+}
+
+.info {
+    color: var(--gray-500);
+}

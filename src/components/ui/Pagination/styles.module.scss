@@ -1,0 +1,38 @@
+.paginationRoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selection {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: .7rem 1.2rem;
+
+    font-size: var(--font-size-default);
+    border: none;
+    background: none;
+
+}
+
+.active {
+    font-weight: 600;
+
+    background-color: var(--gray-100);
+    border-radius: var(--rounding-s);
+}

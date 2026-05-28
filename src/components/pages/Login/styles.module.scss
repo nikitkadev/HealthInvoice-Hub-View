@@ -1,0 +1,33 @@
+.loginRoot {
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--spacing-x4);
+    margin: 4rem auto;
+    width: 22.5rem;
+
+    border-radius: var(--rounding-xl);
+    border: 1px solid var(--default-element-background-color);
+    background: var(--default-element-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.05);
+}
+
+.loginRoot p {
+    font-size: var(--font-size-default-very-small);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.errorNotification {
+    display: flex;
+    justify-content: left;
+
+    font-size: var(--font-size-default-small);
+
+    color: var(--status-error);
+}

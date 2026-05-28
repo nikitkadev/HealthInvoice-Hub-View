@@ -1,4 +1,3 @@
-import { Separator } from '../../seporator/Separator'
 import styles from './NotAdminPage.module.css'
 
 export const NotAdminPage = () => {
@@ -6,7 +5,6 @@ export const NotAdminPage = () => {
         <div className={styles.container}>
             <div className={styles.wrapper}>
                 <h3 className={styles.h3}>Воу! Интересненько!</h3>
-                <Separator type='space' size='md' />
                 <p className={styles.p}>
                     Эта страница только для администраторов приложения, но я удивлен, что вы смогли сюда попасть.
                     <br /><br />Свяжитесь со мною и скажите секретный код за который можно получить символический приз:
