@@ -7,7 +7,8 @@ interface StatusProps {
 
 const Status = ({ status }: StatusProps) => {
     const statusConfig: Record<number, { text: string; className: string, color: string }> = {
-        [InvoiceStatus.Error]: { text: "Ошибки", className: styles.error, color: "var(--error)" },
+        [InvoiceStatus.LogicControlError]: { text: "Ошибки", className: styles.error, color: "var(--error)" },
+        [InvoiceStatus.FormatControlError]: { text: "Ошибки", className: styles.error, color: "var(--error)" },
         [InvoiceStatus.Fatal]: { text: "Сбой", className: styles.fatalError, color: "var(--black)" },
         [InvoiceStatus.Success]: { text: "Успешно", className: styles.success, color: "var(--success)" },
         [InvoiceStatus.Pending]: { text: "Не проведен", className: styles.pending, color: "var(--pending)" },

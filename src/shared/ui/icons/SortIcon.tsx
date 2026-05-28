@@ -1,6 +1,7 @@
 import type { SortState } from "../../../components/pages/LogicControlJournal/types";
 
 export const SortIcon = ({ column, currentSort }: { column: string, currentSort: SortState }) => {
+
     if (currentSort.column !== column) {
         return (
             <svg
@@ -8,9 +9,7 @@ export const SortIcon = ({ column, currentSort }: { column: string, currentSort:
                 width="22"
                 height="22"
                 viewBox="0 0 24 24">
-                <path
-                    fill="var(--black)"
-                    d="M12 15a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z" />
+                <path fill="var(--black)" d="M12 15a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z" />
             </svg>
         );
     }

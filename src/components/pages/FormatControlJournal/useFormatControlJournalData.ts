@@ -1,4 +1,4 @@
-import type { FormatControlJournalRecord, FormatControlJournalRecordResponse } from "./types";
+import type { FormatControlJournalFilters, FormatControlJournalRecord, FormatControlJournalRecordResponse } from "./types";
 
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../app_auth/auth_service/AuthProvider";
@@ -6,10 +6,13 @@ import { useJournal } from "../../../app/contexts/JournalTypeContext";
 import { api } from "../../../shared/api/ApiClient";
 
 const useFormatControlJournalData = () => {
-    const { user } = useAuth();
-    const { journalType } = useJournal();
     const [data, setData] = useState<FormatControlJournalRecord[]>([]);
     const [isLoading, setLoading] = useState(false);
+    const [filters, setFilters] = useState<FormatControlJournalFilters>({
+        globalFilterTarget: ''
+    });
+    const { user } = useAuth();
+    const { journalType } = useJournal();
 
     const [pagination, setPagination] = useState({
         currentPage: 1,
@@ -29,12 +32,16 @@ const useFormatControlJournalData = () => {
         try {
             setLoading(true);
 
-            const response = await api.get<FormatControlJournalRecordResponse>('/journal/fk/fetch', {
+            const params: Record<string, string> = {
                 organizationCode: user?.organizationCode ?? '',
                 journalType: journalType.toString(),
                 page: pagination.currentPage.toString(),
                 pageSize: pagination.pageSize.toString()
-            });
+            };
+
+            if (filters.globalFilterTarget) params.globalFilterTarget = filters.globalFilterTarget;
+
+            const response = await api.get<FormatControlJournalRecordResponse>('/journal/fk/fetch', params);
 
             if (response) {
                 setData(response.items);
@@ -48,7 +55,7 @@ const useFormatControlJournalData = () => {
         } finally {
             setLoading(false);
         }
-    }, [journalType, pagination.currentPage, pagination.pageSize]);
+    }, [journalType, pagination.currentPage, pagination.pageSize, filters]);
 
     useEffect(() => {
         fetchData();
@@ -63,13 +70,22 @@ const useFormatControlJournalData = () => {
         setPagination(prev => ({ ...prev, pageSize: size, currentPage: 1 }));
     };
 
+    const resetFilters = () => {
+        setFilters({
+            globalFilterTarget: '',
+        });
+    }
+
     return {
         data,
         isLoading,
         pagination,
         goToPage,
         setPageSize,
-        refreshData: fetchData
+        refreshData: fetchData,
+        isApplied: filters.globalFilterTarget !== '',
+        resetFilters,
+        onChangeFilter: setFilters
     }
 };
 

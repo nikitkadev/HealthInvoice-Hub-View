@@ -12,3 +12,7 @@ export interface FormatControlJournalRecordResponse {
     page: number;
     pageSize: number;
 }
+
+export interface FormatControlJournalFilters {
+    globalFilterTarget: string;
+}

@@ -202,7 +202,7 @@ const LogicControlJournalTable = ({
     }
 
     const viewErrors = () => {
-        const correctInvoices = selected.filter(item => item.status === InvoiceStatus.Error);
+        const correctInvoices = selected.filter(item => item.status === InvoiceStatus.LogicControlError);
 
         if (correctInvoices.length === 0) {
             toast.warning("Выберите счет со статусом \"Ошибки\"!");

@@ -3,6 +3,8 @@ import FormatControlJournalTable from '../../widgets/FormatControlJournal/Format
 import useFormatControlJournalData from './useFormatControlJournalData';
 
 import styles from './styles.module.scss';
+import FormatControlJournalFiltersPanel from '../../widgets/FormatControlJournal/FormatControlJournalFiltersPanel';
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 
 const FormatControlJournal = () => {
 
@@ -12,13 +14,26 @@ const FormatControlJournal = () => {
         pagination,
         goToPage,
         setPageSize,
-        isLoading } = useFormatControlJournalData();
+        isLoading,
+        isApplied,
+        onChangeFilter,
+        resetFilters } = useFormatControlJournalData();
+
+    const { isAdmin } = useAuth();
 
     return (
         <div className={styles.journalRoot}>
 
             <FormatControlJournalActionPanel
                 refreshData={refreshData} />
+
+            {isAdmin && (
+                <FormatControlJournalFiltersPanel
+                    isApplied={isApplied}
+                    resetFilters={resetFilters}
+                    setFilters={onChangeFilter} />
+            )}
+
 
             <FormatControlJournalTable
                 data={data}

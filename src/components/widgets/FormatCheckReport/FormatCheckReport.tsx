@@ -63,7 +63,7 @@ const FormatCheckReport = ({
         }
 
         if (!record.isSuccess) {
-            return InvoiceStatus.Error;
+            return InvoiceStatus.LogicControlError;
         }
 
         return InvoiceStatus.Unknown
