@@ -329,23 +329,11 @@ const LogicControlJournalTable = ({
                             <th>
                                 <div className={styles.thSort}>
                                     Обработано
-                                    <Button
-                                        variant='sorting'
-                                        fullWidth={false}
-                                        onClick={() => handleSort('count_sdz')}>
-                                        <SortIcon column='count_sdz' currentSort={sort} />
-                                    </Button>
                                 </div>
                             </th>
                             <th>
                                 <div className={styles.thSort}>
                                     Ошибочных
-                                    <Button
-                                        variant='sorting'
-                                        fullWidth={false}
-                                        onClick={() => handleSort('count_error')}>
-                                        <SortIcon column='count_error' currentSort={sort} />
-                                    </Button>
                                 </div>
                             </th>
                             <th>
@@ -370,7 +358,7 @@ const LogicControlJournalTable = ({
                             </tr>
                         ) : data.length === 0 ? (
                             <tr className={styles.loaderRow}>
-                                <td colSpan={11} className={styles.loaderCell}>
+                                <td colSpan={11}>
                                     <span>Данных не найдено</span>
                                 </td>
                             </tr>

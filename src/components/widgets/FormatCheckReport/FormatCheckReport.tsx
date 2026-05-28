@@ -3,9 +3,9 @@ import { InvoiceStatus } from '../../../app/types/InvoiceStatus';
 import type { InvoiceSummaryValidationResult } from '../../pages/LogicControlJournal/types';
 
 import Button from '../../ui/Button/Button';
-import FormatCheckReportContextMenu from '../../ui/ContextMenu/FormatCheckReportContextMenu';
 import DefaultLoader from '../../ui/Loaders/DefaultLoader';
 import GorizontalSeparator from '../../ui/Seporators/GorizontalSeporator';
+import FormatControlJournalContextMenu from '../../ui/ContextMenu/FormatControlJournalContextMenu';
 
 import Status from '../../ui/Status';
 import styles from './styles.module.scss';
@@ -217,7 +217,7 @@ const FormatCheckReport = ({
                         )}
                     </div>
                 ))}
-                <FormatCheckReportContextMenu
+                <FormatControlJournalContextMenu
                     visiable={conextMenu.visiable}
                     posX={conextMenu.posX}
                     posY={conextMenu.posY}

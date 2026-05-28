@@ -1,6 +1,6 @@
 import styles from './styles.module.scss';
 
-interface FormatCheckReportContextMenuProps {
+interface FormatControlJournalContextMenuProps {
     visiable: boolean;
     posX: number;
     posY: number;
@@ -8,13 +8,13 @@ interface FormatCheckReportContextMenuProps {
     downloadReport: () => void;
 };
 
-const FormatCheckReportContextMenu = ({
+const FormatControlJournalContextMenu = ({
     visiable,
     posX,
     posY,
     downloadReport,
     selectedFilename
-}: FormatCheckReportContextMenuProps) => {
+}: FormatControlJournalContextMenuProps) => {
 
     if (!visiable) {
         return null;
@@ -57,4 +57,4 @@ const FormatCheckReportContextMenu = ({
     )
 };
 
-export default FormatCheckReportContextMenu;
+export default FormatControlJournalContextMenu;

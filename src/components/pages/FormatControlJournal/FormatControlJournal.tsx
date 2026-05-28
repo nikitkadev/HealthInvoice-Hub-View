@@ -1,10 +1,11 @@
+import { useAuth } from '../../app_auth/auth_service/AuthProvider';
+
 import FormatControlJournalActionPanel from '../../widgets/FormatControlJournal/FormatControlJournalActionPanel';
 import FormatControlJournalTable from '../../widgets/FormatControlJournal/FormatControlJournalTable';
+import FormatControlJournalFiltersPanel from '../../widgets/FormatControlJournal/FormatControlJournalFiltersPanel';
 import useFormatControlJournalData from './useFormatControlJournalData';
 
 import styles from './styles.module.scss';
-import FormatControlJournalFiltersPanel from '../../widgets/FormatControlJournal/FormatControlJournalFiltersPanel';
-import { useAuth } from '../../app_auth/auth_service/AuthProvider';
 
 const FormatControlJournal = () => {
 
@@ -33,7 +34,6 @@ const FormatControlJournal = () => {
                     resetFilters={resetFilters}
                     setFilters={onChangeFilter} />
             )}
-
 
             <FormatControlJournalTable
                 data={data}

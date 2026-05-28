@@ -6,6 +6,11 @@ import DefaultLoader from '../../../ui/Loaders/DefaultLoader';
 
 import dayjs from 'dayjs';
 import styles from './styles.module.scss';
+import FormatControlJournalContextMenu from '../../../ui/ContextMenu/FormatControlJournalContextMenu';
+import { useCallback, useEffect, useState } from 'react';
+import { api } from '../../../../shared/api/ApiClient';
+import { useJournal } from '../../../../app/contexts/JournalTypeContext';
+import { toast } from 'react-toastify';
 
 interface FormatControlJournalTableProps {
     pagination: {
@@ -28,6 +33,75 @@ const FormatControlJournalTable = ({
     goToPage,
     setPageSize
 }: FormatControlJournalTableProps) => {
+
+    const [isDownloading, setIsDownloading] = useState(false);
+    const [conextMenu, setContextMenu] = useState<
+        {
+            visiable: boolean,
+            posX: number,
+            posY: number,
+            selectedInvoiceFilename: string,
+
+        }>({
+            visiable: false,
+            posX: 0,
+            posY: 0,
+            selectedInvoiceFilename: ''
+        });
+
+    const { journalType } = useJournal();
+
+    const downloadReport = async () => {
+
+        setIsDownloading(true);
+
+        try {
+
+            closeContextMenu();
+
+            await api.downloadFormatValidationReportFile(
+                '/report/download-format',
+                conextMenu.selectedInvoiceFilename,
+                journalType);
+
+            toast.success("Файл успешно загружен!");
+        }
+        catch {
+            toast.error("Произошла ошибка при скачивание файла ответа ФК!");
+        }
+        finally {
+            setIsDownloading(false);
+        }
+    }
+
+    const openContextMenu = (e: React.MouseEvent, record: FormatControlJournalRecord) => {
+
+        e.preventDefault();
+
+        setContextMenu({
+            visiable: true,
+            posX: e.clientX,
+            posY: e.clientY,
+            selectedInvoiceFilename: record.sourceArchiveFilename
+        });
+    };
+
+    const closeContextMenu = useCallback(() => {
+        setContextMenu({
+            visiable: false,
+            posX: 0,
+            posY: 0,
+            selectedInvoiceFilename: ''
+        });
+    }, []);
+
+    useEffect(() => {
+        document.addEventListener('click', closeContextMenu);
+
+        return () => {
+            document.removeEventListener('click', closeContextMenu);
+        }
+    }, []);
 
     return (
         <div className={styles.journalTableRoot}>
@@ -53,16 +127,23 @@ const FormatControlJournalTable = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading ? (
-                            <tr>
-                                <td colSpan={6} className={styles.loaderCell}>
+                        {isLoading || isDownloading ? (
+                            <tr className={styles.loaderRow}>
+                                <td colSpan={5}>
                                     <DefaultLoader />
+                                </td>
+                            </tr>
+                        ) : data.length === 0 ? (
+                            <tr className={styles.loaderRow}>
+                                <td colSpan={5}>
+                                    <span>Данных не найдено</span>
                                 </td>
                             </tr>
                         ) : (
                             data.map((item, index) => {
                                 return (
-                                    <tr>
+                                    <tr
+                                        onContextMenu={(e) => openContextMenu(e, item)}>
                                         <td className={styles.td}>{index + 1}</td>
                                         <td className={styles.td}>{item.sourceArchiveFilename}</td>
                                         <td className={styles.td}>{dayjs(item.uploadDate).format('DD.MM.YYYY HH:mm:ss')}</td>
@@ -74,6 +155,12 @@ const FormatControlJournalTable = ({
                         )}
                     </tbody>
                 </table>
+                <FormatControlJournalContextMenu
+                    downloadReport={downloadReport}
+                    posX={conextMenu.posX}
+                    posY={conextMenu.posY}
+                    visiable={conextMenu.visiable}
+                    selectedFilename={conextMenu.selectedInvoiceFilename} />
             </div>
 
             <div className={styles.pagination}>
@@ -85,7 +172,7 @@ const FormatControlJournalTable = ({
                     onPageChange={goToPage}
                     onPageSizeChange={setPageSize} />
             </div>
-            
+
         </div>
     )
 };
