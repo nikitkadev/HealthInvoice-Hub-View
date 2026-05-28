@@ -296,12 +296,6 @@ const LogicControlJournalTable = ({
                             <th>
                                 <div className={styles.thSort}>
                                     Код МО
-                                    <Button
-                                        variant='sorting'
-                                        fullWidth={false}
-                                        onClick={() => handleSort('organization_code')}>
-                                        <SortIcon column='organization_code' currentSort={sort} />
-                                    </Button>
                                 </div>
                             </th>
                             <th>

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import GorizontalSeporator from "../../Seporators/GorizontalSeporator";
 import styles from "./styles.module.scss";
 import Button from "../../Button/Button";
+import { useAuth } from "../../../app_auth/auth_service/AuthProvider";
 
 interface Props {
     logout: () => void;
@@ -12,6 +13,7 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownHeaderMenuRef = useRef<HTMLDivElement>(null);
+    const { isAdmin } = useAuth();
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
@@ -97,7 +99,7 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
 
                         <li>
                             <Link
-                                to='/docs'
+                                to='/manual'
                                 className={styles.linkItem}
                                 onClick={toggleOpen}>
                                 <span>Инструкция</span>
@@ -186,55 +188,60 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
                             </Link>
                         </li>
 
-                        <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
+                        {isAdmin && (
+                            <>
+                                <GorizontalSeporator size="xs" type="line" color="var(--gray-200)" />
 
-                        <div className={styles.menuItem}>
-                            <span className={styles.menuTitle}>Администрация</span>
-                        </div>
+                                <div className={styles.menuItem}>
+                                    <span className={styles.menuTitle}>Администрация</span>
+                                </div>
 
-                        <li>
-                            <Link
-                                to='/admin/rcontrol'
-                                className={styles.linkItem}
-                                onClick={toggleOpen}>
-                                <span>RControl Веб</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="22"
-                                    height="22"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        fill="none"
-                                        stroke="var(--black)"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                        d="M11.235 2.374c-.368.152-.697.482-1.356 1.14c-.659.66-.989.989-1.14 1.356a2 2 0 0 0 0 1.531c.151.368.48.697 1.14 1.356c.658.659.988.989 1.356 1.14a2 2 0 0 0 1.53 0c.368-.151.697-.48 1.356-1.14s.988-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.152-.368-.48-.697-1.14-1.356s-.988-.989-1.356-1.141a2 2 0 0 0-1.53 0M4.87 8.738c-.367.152-.697.481-1.355 1.14c-.66.66-.989.989-1.141 1.356a2 2 0 0 0 0 1.531c.152.368.482.697 1.14 1.356c.66.659.989.988 1.356 1.14a2 2 0 0 0 1.531 0c.368-.152.697-.481 1.356-1.14s.988-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.152-.368-.48-.698-1.14-1.357s-.988-.988-1.356-1.14a2 2 0 0 0-1.53 0m11.372 1.14c-.659.66-.988.989-1.14 1.356a2 2 0 0 0 0 1.531c.152.368.481.697 1.14 1.356s.989.988 1.356 1.14a2 2 0 0 0 1.53 0c.368-.152.698-.481 1.357-1.14s.987-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.153-.368-.481-.698-1.14-1.357c-.66-.659-.989-.988-1.356-1.14a2 2 0 0 0-1.531 0c-.367.152-.697.481-1.356 1.14m-5.008 5.224c-.368.152-.697.482-1.356 1.14c-.659.66-.989.989-1.14 1.357a2 2 0 0 0 0 1.53c.151.368.48.697 1.14 1.356c.658.659.988.989 1.356 1.14a2 2 0 0 0 1.53 0c.368-.151.697-.48 1.356-1.14s.988-.988 1.14-1.356c.203-.49.203-1.04 0-1.53c-.152-.368-.48-.698-1.14-1.356c-.659-.66-.988-.989-1.356-1.141a2 2 0 0 0-1.53 0" />
-                                </svg>
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link
+                                        to='/admin/rcontrol'
+                                        className={styles.linkItem}
+                                        onClick={toggleOpen}>
+                                        <span>RControl Веб</span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                fill="none"
+                                                stroke="var(--black)"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.8"
+                                                d="M11.235 2.374c-.368.152-.697.482-1.356 1.14c-.659.66-.989.989-1.14 1.356a2 2 0 0 0 0 1.531c.151.368.48.697 1.14 1.356c.658.659.988.989 1.356 1.14a2 2 0 0 0 1.53 0c.368-.151.697-.48 1.356-1.14s.988-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.152-.368-.48-.697-1.14-1.356s-.988-.989-1.356-1.141a2 2 0 0 0-1.53 0M4.87 8.738c-.367.152-.697.481-1.355 1.14c-.66.66-.989.989-1.141 1.356a2 2 0 0 0 0 1.531c.152.368.482.697 1.14 1.356c.66.659.989.988 1.356 1.14a2 2 0 0 0 1.531 0c.368-.152.697-.481 1.356-1.14s.988-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.152-.368-.48-.698-1.14-1.357s-.988-.988-1.356-1.14a2 2 0 0 0-1.53 0m11.372 1.14c-.659.66-.988.989-1.14 1.356a2 2 0 0 0 0 1.531c.152.368.481.697 1.14 1.356s.989.988 1.356 1.14a2 2 0 0 0 1.53 0c.368-.152.698-.481 1.357-1.14s.987-.988 1.14-1.356a2 2 0 0 0 0-1.53c-.153-.368-.481-.698-1.14-1.357c-.66-.659-.989-.988-1.356-1.14a2 2 0 0 0-1.531 0c-.367.152-.697.481-1.356 1.14m-5.008 5.224c-.368.152-.697.482-1.356 1.14c-.659.66-.989.989-1.14 1.357a2 2 0 0 0 0 1.53c.151.368.48.697 1.14 1.356c.658.659.988.989 1.356 1.14a2 2 0 0 0 1.53 0c.368-.151.697-.48 1.356-1.14s.988-.988 1.14-1.356c.203-.49.203-1.04 0-1.53c-.152-.368-.48-.698-1.14-1.356c-.659-.66-.988-.989-1.356-1.141a2 2 0 0 0-1.53 0" />
+                                        </svg>
+                                    </Link>
+                                </li>
 
-                        <li>
-                            <Link
-                                to='/admin/users_control'
-                                className={styles.linkItem}
-                                onClick={toggleOpen}>
-                                <span>Пользователи</span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="22"
-                                    height="22"
-                                    viewBox="0 0 24 24">
-                                    <path
-                                        fill="none"
-                                        stroke="var(--black)"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1.8"
-                                        d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6" />
-                                </svg>
-                            </Link>
-                        </li>
+                                <li>
+                                    <Link
+                                        to='/admin/users_control'
+                                        className={styles.linkItem}
+                                        onClick={toggleOpen}>
+                                        <span>Пользователи</span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="22"
+                                            height="22"
+                                            viewBox="0 0 24 24">
+                                            <path
+                                                fill="none"
+                                                stroke="var(--black)"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="1.8"
+                                                d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6" />
+                                        </svg>
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+
                     </ul>
                 </div>
             )

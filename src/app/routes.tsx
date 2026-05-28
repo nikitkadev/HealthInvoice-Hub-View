@@ -15,6 +15,7 @@ import Profile from "../components/pages/Profile";
 import LogicControlJournal from "../components/pages/LogicControlJournal";
 import FormatControlJournal from "../components/pages/FormatControlJournal/FormatControlJournal";
 import LogicControlErrors from '../components/pages/LogicControlErrors/LogicControlErrors';
+import Manual from "../components/pages/Manual";
 
 export const router = createBrowserRouter(
     [
@@ -67,6 +68,14 @@ export const router = createBrowserRouter(
                     element: (
                         <ProtectedRoute>
                             <Docs />
+                        </ProtectedRoute>
+                    )
+                },
+                {
+                    path: 'manual',
+                    element: (
+                        <ProtectedRoute>
+                            <Manual />
                         </ProtectedRoute>
                     )
                 },

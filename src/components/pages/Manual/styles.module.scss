@@ -1,0 +1,33 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    
+    min-height: 0;
+    overflow: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--default-element-border-color) transparent;
+}
+
+.manualRoot {
+    display: flex;
+    flex-direction: column;
+
+    width: 60rem;
+    margin: 2.5rem auto;
+    padding: var(--spacing-x4);
+    min-height: 0;
+    
+    border-radius: var(--rounding-l);
+    background-color: var(--card-background-color);
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.1);
+}
+
+.statusInfo {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+    gap: 1rem;
+}
