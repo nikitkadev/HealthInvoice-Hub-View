@@ -79,3 +79,14 @@
 .selectedRow {
     background-color: var(--gray-50);
 }
+
+.thSort {
+    display: flex;
+    align-items: center;
+}
+
+.thSortCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

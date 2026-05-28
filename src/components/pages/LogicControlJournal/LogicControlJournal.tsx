@@ -19,7 +19,9 @@ const LogicControlJournal = () => {
         refreshData,
         resetFilters,
         onChangeFilter,
-        isApplied } = useLogicControlJournalData();
+        isApplied,
+        sort,
+        handleSort } = useLogicControlJournalData();
 
     const { isAdmin } = useAuth();
 
@@ -46,7 +48,9 @@ const LogicControlJournal = () => {
                 refreshData={refreshData}
                 isLoading={isLoading}
                 goToPage={goToPage}
-                setPageSize={setPageSize} />
+                setPageSize={setPageSize}
+                sort={sort}
+                handleSort={handleSort} />
         </div>
     )
 };
