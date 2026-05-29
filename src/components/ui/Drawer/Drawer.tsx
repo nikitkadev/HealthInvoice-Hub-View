@@ -2,18 +2,22 @@ import type React from 'react';
 import styles from './styles.module.scss';
 import Button from '../Button/Button';
 
+export type DrawerVariant = 'invoicesUploading' | 'registerUsers';
+
 interface DrawerProps {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
     title: string;
+    type: DrawerVariant;
 }
 
 const Drawer = ({
     isOpen,
     onClose,
     children,
-    title
+    title,
+    type
 }: DrawerProps) => {
 
     if (!isOpen) {
@@ -22,7 +26,7 @@ const Drawer = ({
 
     return (
         <div className={styles.overlay}>
-            <div className={styles.drawerRoot}
+            <div className={`${styles.drawerRoot} ${styles[type]}`}
                 onClick={(e) => e.stopPropagation()}>
                 <div className={styles.drawerHeader}>
                     <h1>

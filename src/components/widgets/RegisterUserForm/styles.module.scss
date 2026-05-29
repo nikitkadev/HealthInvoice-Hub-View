@@ -1,0 +1,24 @@
+.registerUserFormRoot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 1rem;
+
+    form {
+        gap: 1rem;
+    }
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 0 1.5rem;
+}
+
+.action {
+    display: flex;
+    padding: 0 1.5rem;
+}

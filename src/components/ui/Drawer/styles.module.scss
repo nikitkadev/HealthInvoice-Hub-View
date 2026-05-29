@@ -15,7 +15,6 @@
 }
 
 .drawerRoot {
-    width: 40rem;
     z-index: 1011;
 
     display: flex;
@@ -29,6 +28,14 @@
 
     min-height: 0;
     overflow: hidden;
+}
+
+.invoicesUploading {
+    width: 40rem;
+}
+
+.registerUsers {
+    width: 22.5rem;
 }
 
 .drawerHeader {

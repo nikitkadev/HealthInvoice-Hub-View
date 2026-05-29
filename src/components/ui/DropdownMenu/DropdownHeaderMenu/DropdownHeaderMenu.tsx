@@ -220,7 +220,7 @@ const DropdownHeaderMenu = ({ logout }: Props) => {
 
                                 <li>
                                     <Link
-                                        to='/admin/users_control'
+                                        to='/admin/users'
                                         className={styles.linkItem}
                                         onClick={toggleOpen}>
                                         <span>Пользователи</span>

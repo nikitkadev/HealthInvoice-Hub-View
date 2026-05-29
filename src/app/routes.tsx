@@ -4,7 +4,6 @@ import { App } from "./App";
 import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
 import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
-import { UserControlPage } from "../components/app_admin/users/UserControlPage";
 import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
 
 import Login from "../components/pages/Login";
@@ -14,6 +13,7 @@ import LogicControlJournal from "../components/pages/LogicControlJournal";
 import FormatControlJournal from "../components/pages/FormatControlJournal/FormatControlJournal";
 import LogicControlErrors from '../components/pages/LogicControlErrors/LogicControlErrors';
 import Manual from "../components/pages/Manual";
+import Users from "../components/pages/Users";
 
 export const router = createBrowserRouter(
     [
@@ -80,11 +80,11 @@ export const router = createBrowserRouter(
                     )
                 },
                 {
-                    path: 'admin/users_control',
+                    path: 'admin/users',
                     element: (
                         <AdminOnlyRoute>
                             <ProtectedRoute>
-                                <UserControlPage />
+                                <Users />
                             </ProtectedRoute>
                         </AdminOnlyRoute>
                     )

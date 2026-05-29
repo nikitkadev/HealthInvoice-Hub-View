@@ -155,6 +155,7 @@ const LogicControlJournalActionPanel = ({
                 title='Окно загрузки счетов'
                 isOpen={isDrawerOpen}
                 onClose={closeDrawer}
+                type='invoicesUploading'
             >
                 <ZipDropped
                     onFilesDropped={handleFilesDropped}

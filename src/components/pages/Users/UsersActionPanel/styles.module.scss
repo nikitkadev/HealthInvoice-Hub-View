@@ -1,0 +1,21 @@
+.usersActionPanelRoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1.5rem;
+
+    border-bottom: 1px solid var(--default-element-border-color);
+}
+
+.usersInfo {
+    display: flex;
+    align-items: center;
+
+    gap: 1.5rem;
+}
+
+.action {
+    display: flex;
+    gap: 1rem;
+}
