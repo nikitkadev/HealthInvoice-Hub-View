@@ -6,13 +6,17 @@ import RegisterUserForm from '../../../widgets/RegisterUserForm';
 import styles from './styles.module.scss';
 
 interface UsersActionPanelProps {
+    totalUsers: number;
+    activeUsers: number;
     refreshUsers: () => void;
 }
 
 
 
 const UsersActionPanel = ({
-    refreshUsers
+    refreshUsers,
+    activeUsers,
+    totalUsers
 }: UsersActionPanelProps) => {
 
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +25,12 @@ const UsersActionPanel = ({
         <div className={styles.usersActionPanelRoot}>
             <div className={styles.usersInfo}>
                 <h1>Пользователи</h1>
+                <div className={styles.activeUsersCount}>
+                    {activeUsers}
+                </div>
+                <div className={styles.totalUsersCount}>
+                    {totalUsers}
+                </div>
             </div>
             <div className={styles.action}>
 

@@ -1,0 +1,11 @@
+.rControlGeneralFieldRoot {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+
+    padding: var(--spacing-x3);
+    gap: var(--spacing-x3);
+
+    border-bottom: 1px solid var(--default-element-border-color);
+
+}

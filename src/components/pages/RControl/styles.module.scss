@@ -1,0 +1,38 @@
+.rControlRoot {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    margin: 1rem;
+    min-height: 0;
+    overflow: hidden;
+
+    border-radius: var(--rounding-l);
+    background-color: var(--card-background-color);
+
+    box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.1);
+}
+
+.generalSpace {
+    display: flex;
+    flex: 1;
+
+    min-height: 0;
+}
+
+.secondColumn,
+.firstColumn {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
+    overflow: hidden;
+    padding: var(--spacing-x3);
+}
+
+@media (min-width: 1921px) {
+    .rControlRoot {
+        width: 1920px;
+        margin: 1rem auto;
+    }
+}

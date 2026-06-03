@@ -55,7 +55,19 @@
     transition: 0.2s ease;
 }
 
+.smallIcon {
+    padding: .25rem;
+
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-m);
+    background: none;
+
+    transition: 0.2s ease;
+
+}
+
 .icon:hover,
+.smallIcon:hover,
 .secondary:hover {
     background-color: var(--button-secondary-background-hover-color);
     border-color: var(--gray-300);

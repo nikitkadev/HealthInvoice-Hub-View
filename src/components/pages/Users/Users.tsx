@@ -9,15 +9,20 @@ const Users = () => {
 
     const {
         users,
+        totalUsers,
+        onlineUsers,
         isLoading,
         isActive,
-        refreshUsers } = useUsersData();
+        refreshUsers,
+        removeUser } = useUsersData();
 
     return (
         <div className={styles.usersRoot}>
 
             <UsersActionPanel
                 refreshUsers={refreshUsers}
+                activeUsers={onlineUsers}
+                totalUsers={totalUsers}
             />
 
             <UsersFiltersPanel />
@@ -26,6 +31,7 @@ const Users = () => {
                 users={users}
                 isLoading={isLoading}
                 isActive={isActive}
+                removeUser={removeUser}
             />
         </div>
     )

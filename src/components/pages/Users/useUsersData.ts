@@ -40,6 +40,26 @@ export const useUsersData = () => {
         }
     };
 
+    const removeUser = async (userUid: number) => {
+
+        setIsLoading(true);
+
+        try {
+            await api.postWithoutContent('/admin/users/remove', userUid);
+
+            fetchUsers();
+
+            toast.success("Пользователь удален!");
+        }
+        catch {
+            toast.error("Ошибка при попытке удалить пользователя!");
+        }
+        finally {
+            setIsLoading(false);
+        }
+
+    };
+
     useEffect(() => {
         fetchUsers();
     }, []);
@@ -48,9 +68,10 @@ export const useUsersData = () => {
         users,
         isLoading,
         totalUsers: users.length,
-        onlineUsers: users.filter(user => isActive(user.lastActivity)),
+        onlineUsers: users.filter(user => isActive(user.lastActivity)).length,
         isActive,
-        refreshUsers: fetchUsers
+        refreshUsers: fetchUsers,
+        removeUser
     };
 
 }

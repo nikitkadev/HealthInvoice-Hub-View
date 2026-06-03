@@ -3,7 +3,6 @@ import { createBrowserRouter } from "react-router";
 import { App } from "./App";
 import { ProtectedRoute } from "../components/app_protectedroutes/ProtectedRoute";
 import { PublicOnlyRoute } from "../components/app_protectedroutes/PublicOnlyRoute";
-import { RControlPage } from "../components/app_admin/rcontrol/main_field/RControlPage";
 import { AdminOnlyRoute } from "../components/app_protectedroutes/AdminOnlyRoute";
 
 import Login from "../components/pages/Login";
@@ -14,6 +13,7 @@ import FormatControlJournal from "../components/pages/FormatControlJournal/Forma
 import LogicControlErrors from '../components/pages/LogicControlErrors/LogicControlErrors';
 import Manual from "../components/pages/Manual";
 import Users from "../components/pages/Users";
+import RControl from "../components/pages/RControl";
 
 export const router = createBrowserRouter(
     [
@@ -74,7 +74,7 @@ export const router = createBrowserRouter(
                     element: (
                         <AdminOnlyRoute>
                             <ProtectedRoute>
-                                <RControlPage />
+                                <RControl />
                             </ProtectedRoute>
                         </AdminOnlyRoute>
                     )
