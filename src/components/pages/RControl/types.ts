@@ -37,3 +37,10 @@ export interface Case {
     sump: number;
     smoSump: number;
 }
+
+export interface FinishedCasesResponse {
+    items: FinishedCase[];
+    total: number;
+    page: number;
+    pageSize: number;
+}

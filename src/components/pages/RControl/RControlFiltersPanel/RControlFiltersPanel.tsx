@@ -137,6 +137,17 @@ const RControlFiltersPanel = ({ setFilterParams }: RControlFiltersPanelProps) =>
         });
     }, [selectedMonth]);
 
+    useEffect(() => {
+        
+        const clearAllLocalFilters = () => {
+            setSelectedOrg(null);
+            setSelectedMonth(null);
+            setSelectedYear(null);
+        };
+
+        clearAllLocalFilters();
+    }, [journalType])
+
     return (
         <div className={styles.rControlFiltersPanelRoot}>
 

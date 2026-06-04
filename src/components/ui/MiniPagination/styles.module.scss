@@ -1,0 +1,14 @@
+.miniPaginationRoot {
+    display: flex;
+}
+
+.action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.action span {
+    font-size: var(--font-size-default-very-small);
+    font-weight: 400;
+}

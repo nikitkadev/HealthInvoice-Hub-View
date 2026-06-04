@@ -1,27 +1,23 @@
-.dropdownHeaderMenuRoot {
-    position: relative;
+.categoriesMenuRoot {
+    display: flex;
+    width: 19rem;
+
 }
 
-.menuRoot {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: 1000;
-
+.menu {
     display: flex;
     flex-direction: column;
-    text-align: center;
     align-items: center;
+    justify-content: space-between;
 
-    min-width: 13.5rem;
-    margin-top: .25rem;
+
+    width: 100%;
 
     border: 1px solid var(--default-element-border-color);
     border-radius: var(--rounding-l);
-    background-color: var(--default-element-background-color);
 
-    animation: slideIn 0.3s ease-out;
-    transform-origin: top right;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gray-200) transparent;
 
     ul {
         width: 100%;
@@ -41,12 +37,11 @@
 
     span {
         font-size: var(--font-size-default);
-        font-weight: 500;
+        font-weight: 400;
     }
-
 }
 
-.menuRoot button {
+.menu button {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,10 +53,9 @@
     background: none;
 }
 
-.menuRoot button:active {
+.menu button:active {
     transform: scale(1);
 }
-
 
 .menuTitle {
     color: var(--gray-400) !important;
@@ -76,35 +70,4 @@
     justify-content: left;
 
     padding: 1rem 0 .25rem 1rem;
-}
-
-.linkItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: .5rem;
-
-    text-decoration: none;
-    color: var(--black);
-}
-
-.exitSpan {
-    color: var(--error);
-}
-
-li:hover {
-    background-color: var(--default-element-background-hover-color);
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }

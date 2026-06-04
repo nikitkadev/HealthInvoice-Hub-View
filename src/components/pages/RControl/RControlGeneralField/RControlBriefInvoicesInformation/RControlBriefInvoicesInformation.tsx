@@ -5,20 +5,20 @@ import styles from './styles.module.scss';
 interface RControlBriefInvoicesInformationProps {
     isBriefInvoicesFetching: boolean;
     data: InvoiceShortly[];
-    fetchFinishedInvoices: (schetUid: number) => void;
+    setSelectedInvoice: (invoice: InvoiceShortly) => void;
 
 };
 
 const RControlBriefInvoicesInformation = ({
     data,
-    fetchFinishedInvoices,
-    isBriefInvoicesFetching }: RControlBriefInvoicesInformationProps) => {
+    isBriefInvoicesFetching,
+    setSelectedInvoice }: RControlBriefInvoicesInformationProps) => {
     return (
         <div className={styles.rControlBriefInvoicesInformationRoot}>
             <RControlBriefInvoicesTable
                 data={data}
-                fetchFinishedInvoices={fetchFinishedInvoices}
                 isLoading={isBriefInvoicesFetching}
+                setSelectedInvoice={setSelectedInvoice}
             />
         </div>
     );

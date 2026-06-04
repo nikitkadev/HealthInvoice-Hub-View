@@ -15,8 +15,12 @@ const RControl = () => {
         shortlyInvoices,
         finishedCases,
         cases,
-        fetchFinishedCases,
-        fetchCases } = useRControlData();
+        fetchCases,
+        setSelectedInvoice,
+        finishedCasesPagination,
+        goToPage,
+        setGlobalSearchString
+    } = useRControlData();
 
     return (
 
@@ -27,14 +31,17 @@ const RControl = () => {
             />
 
             <RControlGeneralField
+                setGlobalSearchString={setGlobalSearchString}
                 isBriefInvoicesFetching={isBriefInvoicesFetching}
                 isFinishedCasesFetching={isFinishedCasesFetching}
                 isCasesFetching={isCasesFetching}
                 briefInvoices={shortlyInvoices}
                 finishedCases={finishedCases}
-                fetchFinishedInvoices={fetchFinishedCases}
                 cases={cases}
                 fetchCases={fetchCases}
+                setSelectedInvoice={setSelectedInvoice}
+                pagination={finishedCasesPagination}
+                goToPage={goToPage}
             />
 
             <RControlCategoriesField

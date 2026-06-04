@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import DefaultLoader from '../../../../../../ui/Loaders/DefaultLoader';
 import type { FinishedCase } from '../../../../types';
 import styles from './styles.module.scss';
+import { useJournal } from '../../../../../../../app/contexts/JournalTypeContext';
 
 interface FinishedCasesTableProps {
     isLoading: boolean;
@@ -12,10 +14,20 @@ const FinishedCasesTable = ({
     isLoading,
     data,
     fetchCases }: FinishedCasesTableProps) => {
+
+    const [activeRecord, setActiveRecord] = useState<number | null>(null);
+
+    const { journalType } = useJournal();
+
+    useEffect(() => {
+        setActiveRecord(null);
+    }, [journalType])
+
     return (
         <div className={styles.FinishedCasesTableRoot}>
             <div className={styles.tableContainer}>
                 <table>
+
                     <colgroup>
                         <col style={{ width: '3rem' }} />
                         <col style={{ width: '3rem' }} />
@@ -29,6 +41,7 @@ const FinishedCasesTable = ({
                         <col style={{ width: '5rem' }} />
                         <col style={{ width: '5rem' }} />
                     </colgroup>
+
                     <thead className={styles.tableHead}>
                         <tr>
                             <th>№ поз.</th>
@@ -44,6 +57,7 @@ const FinishedCasesTable = ({
                             <th>Принято СМО</th>
                         </tr>
                     </thead>
+
                     <tbody>
 
                         {isLoading ? (
@@ -60,22 +74,27 @@ const FinishedCasesTable = ({
                             </tr>
                         ) : (
                             data.map(item => (
-                                <tr onClick={() => fetchCases(item.zSlUid)}>
+                                <tr
+                                    className={activeRecord === item.zSlUid ? styles.activeRow : ''}
+                                    onClick={() => {
+                                        fetchCases(item.zSlUid)
+                                        setActiveRecord(item.zSlUid)
+                                    }}>
                                     <td>{item.positionNumber}</td>
                                     <td>{item.recordNumber}</td>
                                     <td>{item.surname}</td>
                                     <td>{item.name}</td>
                                     <td>{item.patronymic}</td>
                                     <td>{item.uslOk}</td>
-                                    <td>{item.sPolis}</td>
+                                    <td>{item.sPolis ?? '-'}</td>
                                     <td>{item.nPolis}</td>
                                     <td>{item.sumv}</td>
-                                    <td>{item.sump}</td>
-                                    <td>{item.smoSump}</td>
+                                    <td>{item.sump ?? '-'}</td>
+                                    <td>{item.smoSump ?? '-'}</td>
                                 </tr>
                             ))
                         )}
-                        
+
                     </tbody>
                 </table>
             </div>

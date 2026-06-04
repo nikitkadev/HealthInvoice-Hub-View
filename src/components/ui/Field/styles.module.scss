@@ -1,0 +1,12 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.field span {
+    font-size: var(--font-size-default);
+    font-weight: 400;
+    color: var(--text-primary);
+    word-break: break-word;
+}

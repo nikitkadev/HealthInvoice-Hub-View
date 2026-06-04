@@ -4,20 +4,34 @@ import FinishedCasesTable from './FinishedCasesTable';
 import styles from './styles.module.scss';
 
 interface FinishedCasesProps {
+    pagination: {
+        currentPage: number,
+        pageSize: number,
+        totalPages: number,
+        totalItems: number
+    },
     isLoading: boolean;
     data: FinishedCase[];
+    setGlobalSearchString: (value: string) => void;
     fetchCases: (zSlUid: number) => void;
-
+    goToPage: (page: number) => void;
 }
 
 const FinishedCases = ({
+    pagination,
     data,
     fetchCases,
-    isLoading }: FinishedCasesProps) => {
+    isLoading,
+    goToPage,
+    setGlobalSearchString }: FinishedCasesProps) => {
     return (
         <div className={styles.FinishedCasesRoot}>
 
             <FinishedCasesActionPanel
+                data={data}
+                setGlobalSearchString={setGlobalSearchString}
+                pagination={pagination}
+                goToPage={goToPage}
             />
 
             <FinishedCasesTable

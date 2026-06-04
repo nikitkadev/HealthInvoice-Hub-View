@@ -6,41 +6,56 @@ import RControlExtendedInvoicesInformation from './RControlExtendedInvoicesInfor
 import styles from './styles.module.scss';
 
 interface RControlGeneralFieldProps {
+    pagination: {
+        currentPage: number,
+        pageSize: number,
+        totalPages: number,
+        totalItems: number
+    },
     isBriefInvoicesFetching: boolean;
     isFinishedCasesFetching: boolean;
     isCasesFetching: boolean;
     briefInvoices: InvoiceShortly[];
     finishedCases: FinishedCase[];
     cases: Case[];
-    fetchFinishedInvoices: (schetUid: number) => void;
     fetchCases: (zSlUid: number) => void;
+    goToPage: (page: number) => void;
+    setGlobalSearchString: (value: string) => void;
+    setSelectedInvoice: (invoice: InvoiceShortly) => void;
 }
 
 const RControlGeneralField = ({
+    setSelectedInvoice,
+    pagination,
     isBriefInvoicesFetching,
     isFinishedCasesFetching,
     isCasesFetching,
     briefInvoices,
     finishedCases,
     cases,
-    fetchFinishedInvoices,
-    fetchCases }: RControlGeneralFieldProps) => {
+    fetchCases,
+    goToPage,
+    setGlobalSearchString }: RControlGeneralFieldProps) => {
+
 
     return (
         <div className={styles.rControlGeneralFieldRoot}>
 
             <RControlBriefInvoicesInformation
                 data={briefInvoices}
-                fetchFinishedInvoices={fetchFinishedInvoices}
                 isBriefInvoicesFetching={isBriefInvoicesFetching}
+                setSelectedInvoice={setSelectedInvoice}
             />
 
             <RControlExtendedInvoicesInformation
+                setGlobalSearchString={setGlobalSearchString}
+                pagination={pagination}
                 finishedCases={finishedCases}
                 cases={cases}
                 fetchCases={fetchCases}
                 isCasesFetching={isCasesFetching}
                 isFinishedCasesFetching={isFinishedCasesFetching}
+                goToPage={goToPage}
             />
 
         </div>

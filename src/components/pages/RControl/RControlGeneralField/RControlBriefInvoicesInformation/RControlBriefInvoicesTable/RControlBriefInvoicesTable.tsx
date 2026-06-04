@@ -3,17 +3,27 @@ import type { InvoiceShortly } from '../../../types';
 import dayjs from 'dayjs';
 import styles from './styles.module.scss';
 import DefaultLoader from '../../../../../ui/Loaders/DefaultLoader';
+import { useEffect, useState } from 'react';
+import { useJournal } from '../../../../../../app/contexts/JournalTypeContext';
 
 interface RControlBriefInvoicesTableProps {
     isLoading: boolean;
     data: InvoiceShortly[];
-    fetchFinishedInvoices: (schetUid: number) => void;
+    setSelectedInvoice: (invoice: InvoiceShortly) => void;
 };
 
 const RControlBriefInvoicesTable = ({
     data,
-    fetchFinishedInvoices,
-    isLoading }: RControlBriefInvoicesTableProps) => {
+    isLoading,
+    setSelectedInvoice }: RControlBriefInvoicesTableProps) => {
+
+    const [activeInvoice, setActiveInvoice] = useState<number | null>(null);
+
+    const { journalType } = useJournal();
+
+    useEffect(() => {
+        setActiveInvoice(null);
+    }, [journalType])
 
     return (
         <div className={styles.rControlBriefInvoicesTableRoot}>
@@ -44,7 +54,12 @@ const RControlBriefInvoicesTable = ({
                             </tr>
                         ) : (
                             data.map(item => (
-                                <tr onClick={() => fetchFinishedInvoices(item.schetUid)}>
+                                <tr
+                                    className={activeInvoice === item.schetUid ? styles.activeRow : ''}
+                                    onClick={() => {
+                                        setSelectedInvoice(item)
+                                        setActiveInvoice(item.schetUid)
+                                    }}>
                                     <td>{item.nSchet}</td>
                                     <td>{dayjs(item.dSchet).format('DD.MM.YYYY')}</td>
                                     <td>{item.summav}</td>

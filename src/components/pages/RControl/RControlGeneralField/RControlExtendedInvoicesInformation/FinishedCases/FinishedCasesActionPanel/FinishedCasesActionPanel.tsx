@@ -1,10 +1,28 @@
+import { useState } from 'react';
+
+import MiniPagination from '../../../../../../ui/MiniPagination';
+
 import styles from './styles.module.scss';
+import type { FinishedCase } from '../../../../types';
 
 interface FinishedCasesActionPanelProps {
-
+    data: FinishedCase[],
+    pagination: {
+        currentPage: number,
+        pageSize: number,
+        totalPages: number,
+        totalItems: number
+    },
+    goToPage: (page: number) => void;
+    setGlobalSearchString: (value: string) => void;
 };
 
-const FinishedCasesActionPanel = ({ }: FinishedCasesActionPanelProps) => {
+const FinishedCasesActionPanel = ({
+    pagination,
+    goToPage,
+    setGlobalSearchString }: FinishedCasesActionPanelProps) => {
+
+    const [localGlobalString, setLocalGlobalString] = useState('');
 
     return (
         <div className={styles.finishedCasesActionPanelRoot}>
@@ -19,9 +37,21 @@ const FinishedCasesActionPanel = ({ }: FinishedCasesActionPanelProps) => {
                     </svg>
 
                     <input
-                        placeholder='Поиск по законченным случаям' />
+                        placeholder='Поиск по законченным случаям'
+                        value={localGlobalString}
+                        onChange={(e) => setLocalGlobalString(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setGlobalSearchString(localGlobalString);
+                            }
+                        }}
+                    />
                 </div>
             </div>
+            <MiniPagination
+                pagination={pagination}
+                onPageChange={goToPage}
+            />
         </div>
     );
 };
