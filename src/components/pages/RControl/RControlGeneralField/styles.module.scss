@@ -1,10 +1,14 @@
 .rControlGeneralFieldRoot {
     display: flex;
-    flex: 1;
-    min-height: 0;
+    flex-direction: column;
 
-    padding: var(--spacing-x3);
-    gap: var(--spacing-x3);
+    padding: var(--spacing-x2);
+    gap: 2.5rem;
+
+
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--default-element-border-color) transparent;
 
     border-bottom: 1px solid var(--default-element-border-color);
 

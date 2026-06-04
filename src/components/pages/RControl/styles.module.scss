@@ -1,15 +1,13 @@
 .rControlRoot {
     display: flex;
     flex-direction: column;
-    flex: 1;
 
     margin: 1rem;
     min-height: 0;
-    overflow: hidden;
-
+    
     border-radius: var(--rounding-l);
     background-color: var(--card-background-color);
-
+    
     box-shadow: 0 1rem 4rem rgb(0, 0, 0, 0.1);
 }
 

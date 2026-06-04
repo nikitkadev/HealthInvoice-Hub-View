@@ -3,7 +3,6 @@ import RControlFiltersPanel from './RControlFiltersPanel';
 import useRControlData from './useRControlData';
 import styles from './styles.module.scss';
 import RControlGeneralField from './RControlGeneralField';
-import RControlCategoriesField from './RControlCategoriesField/RControlCategoriesField';
 
 const RControl = () => {
 
@@ -42,9 +41,6 @@ const RControl = () => {
                 setSelectedInvoice={setSelectedInvoice}
                 pagination={finishedCasesPagination}
                 goToPage={goToPage}
-            />
-
-            <RControlCategoriesField
             />
 
         </div>

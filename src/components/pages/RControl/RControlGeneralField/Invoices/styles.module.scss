@@ -1,0 +1,40 @@
+.invoicesRoot {
+    display: flex;
+
+    gap: 1rem;
+
+    h2 {
+        font-weight: 500;
+    }
+
+    .general {
+
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+
+        border: 1px solid var(--default-element-border-color);
+        border-radius: var(--rounding-s);
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: .75rem;
+
+            border-bottom: 1px solid var(--default-element-border-color);
+
+        }
+    }
+
+    .summary {
+        display: flex;
+        flex-direction: column;
+
+        border: 1px solid var(--default-element-border-color);
+        border-radius: var(--rounding-s);
+    }
+
+}

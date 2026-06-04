@@ -1,7 +1,7 @@
 import type { Case, FinishedCase, InvoiceShortly } from '../types';
-
-import RControlBriefInvoicesInformation from './RControlBriefInvoicesInformation/RControlBriefInvoicesInformation';
-import RControlExtendedInvoicesInformation from './RControlExtendedInvoicesInformation';
+import Cases from './Cases';
+import FinishedCases from './FinishedCases';
+import Invoices from './Invoices/Invoices';
 
 import styles from './styles.module.scss';
 
@@ -40,24 +40,24 @@ const RControlGeneralField = ({
 
     return (
         <div className={styles.rControlGeneralFieldRoot}>
-
-            <RControlBriefInvoicesInformation
+            <Invoices
                 data={briefInvoices}
-                isBriefInvoicesFetching={isBriefInvoicesFetching}
-                setSelectedInvoice={setSelectedInvoice}
-            />
+                isLoading={isBriefInvoicesFetching}
+                setSelectedInvoice={setSelectedInvoice} />
 
-            <RControlExtendedInvoicesInformation
-                setGlobalSearchString={setGlobalSearchString}
+            <FinishedCases
                 pagination={pagination}
-                finishedCases={finishedCases}
-                cases={cases}
+                isLoading={isFinishedCasesFetching}
+                data={finishedCases}
                 fetchCases={fetchCases}
-                isCasesFetching={isCasesFetching}
-                isFinishedCasesFetching={isFinishedCasesFetching}
                 goToPage={goToPage}
+                setGlobalSearchString={setGlobalSearchString}
             />
 
+            <Cases
+                data={cases}
+                isLoading={isCasesFetching}
+            />
         </div>
     )
 };

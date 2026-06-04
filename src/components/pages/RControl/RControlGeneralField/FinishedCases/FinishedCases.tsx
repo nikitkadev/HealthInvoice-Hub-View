@@ -1,4 +1,4 @@
-import type { FinishedCase } from '../../../types';
+import type { FinishedCase } from '../../types';
 import FinishedCasesActionPanel from './FinishedCasesActionPanel/FinishedCasesActionPanel';
 import FinishedCasesTable from './FinishedCasesTable';
 import styles from './styles.module.scss';
@@ -24,8 +24,14 @@ const FinishedCases = ({
     isLoading,
     goToPage,
     setGlobalSearchString }: FinishedCasesProps) => {
+        
     return (
+
         <div className={styles.FinishedCasesRoot}>
+
+            <div className={styles.header}>
+                <h2>Законченные случаи по счету {}</h2>
+            </div>
 
             <FinishedCasesActionPanel
                 data={data}

@@ -1,4 +1,5 @@
-import type { Case } from '../../../types';
+
+import type { Case } from '../../types';
 
 import CasesTable from './CasesTable/CasesTable';
 import styles from './styles.module.scss';
@@ -14,6 +15,7 @@ const Cases = ({
     isLoading }: CasesProps) => {
     return (
         <div className={styles.casesRoot}>
+            
             <CasesTable
                 isLoading={isLoading}
                 data={data}

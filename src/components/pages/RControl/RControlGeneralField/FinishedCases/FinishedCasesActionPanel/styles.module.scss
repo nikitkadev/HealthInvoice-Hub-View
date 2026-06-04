@@ -1,0 +1,44 @@
+.finishedCasesActionPanelRoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid var(--default-element-border-color);
+    padding: .75rem;
+
+    h2 {
+        font-weight: 500;
+    }
+
+    .filters {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+
+        gap: 1rem;
+
+        .filter {
+            display: flex;
+            align-items: center;
+
+            background-color: var(--input-background-color);
+            border: 1px solid var(--input-background-color);
+            border-radius: var(--rounding-m);
+
+            input {
+                margin: 0;
+                padding: .25rem 0rem;
+                width: 20rem;
+
+            }
+
+            svg {
+                margin: 0 .5rem;
+            }
+
+            input:focus {
+                background-color: var(--input-background-color);
+            }
+        }
+    }
+}

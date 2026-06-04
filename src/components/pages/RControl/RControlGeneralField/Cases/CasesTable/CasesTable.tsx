@@ -1,5 +1,7 @@
-import DefaultLoader from '../../../../../../ui/Loaders/DefaultLoader';
-import type { Case } from '../../../../types';
+
+import type { Case } from '../../../types';
+
+import DefaultLoader from '../../../../../ui/Loaders/DefaultLoader';
 
 import styles from './styles.module.scss';
 import dayjs from 'dayjs';
