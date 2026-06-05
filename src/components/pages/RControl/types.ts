@@ -44,3 +44,28 @@ export interface FinishedCasesResponse {
     page: number;
     pageSize: number;
 }
+
+export interface InvoicesResponse {
+    items: InvoiceShortly[];
+    total: number;
+    page: number;
+    pageSize: number;
+}
+
+export interface SummaryResponse {
+
+    filename: string;
+    schetUid: number;
+    uploadDate: Date;
+    summav: number;
+
+    summap: number;
+    sankMek: number;
+    sankMee: number;
+    sankEkmp: number;
+
+    smoSummap: number;
+    smoSankMek: number;
+    smoSankMee: number;
+    smoSankEkmp: number;
+}

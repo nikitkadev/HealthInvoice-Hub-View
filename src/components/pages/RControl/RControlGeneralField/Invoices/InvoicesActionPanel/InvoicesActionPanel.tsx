@@ -1,20 +1,18 @@
 import { useState } from 'react';
-
-import styles from './styles.module.scss';
-import MiniPagination from '../../../../../ui/MiniPagination';
 import { useRControlStore } from '../../../useRControlStore';
+import MiniPagination from '../../../../../ui/MiniPagination';
+import styles from './styles.module.scss';
 
-
-const FinishedCasesActionPanel = () => {
+const InvoicesActionPanel = () => {
 
     const [localGlobalString, setLocalGlobalString] = useState('');
-    const { setGlobalSearchString,
-        finishedCasesTablePagination,
-        goToFinishedTablePage
-    } = useRControlStore();
+    const {
+        invoicesTablePagination,
+        setGlobalSearchString,
+        goToInvoiceTablePage } = useRControlStore();
 
     return (
-        <div className={styles.finishedCasesActionPanelRoot}>
+        <div className={styles.invoicesActionPanelRoot}>
             <div className={styles.filters}>
                 <div className={`${styles.filter}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
@@ -30,19 +28,21 @@ const FinishedCasesActionPanel = () => {
                         onChange={(e) => setLocalGlobalString(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
-                                setGlobalSearchString('finishedCases', localGlobalString);
+                                setGlobalSearchString('invoices', localGlobalString);
                             }
                         }}
                     />
                 </div>
             </div>
+
             <MiniPagination
-                pagination={finishedCasesTablePagination}
-                onPageChange={goToFinishedTablePage}
+                pagination={invoicesTablePagination}
+                onPageChange={goToInvoiceTablePage}
             />
+
         </div>
 
     );
 };
 
-export default FinishedCasesActionPanel;
+export default InvoicesActionPanel;

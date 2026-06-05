@@ -7,16 +7,9 @@ import styles from './styles.module.scss';
 import Select, { type StylesConfig } from 'react-select';
 import useFiltersPanelData from './useFiltersPanelData';
 import useDateExtension from '../../../../shared/extension/useDateExtension';
+import { useRControlStore } from '../useRControlStore';
 
-interface RControlFiltersPanelProps {
-    setFilterParams: (params: {
-        codeMo?: string,
-        year?: number,
-        month?: number
-    }) => void;
-}
-
-const RControlFiltersPanel = ({ setFilterParams }: RControlFiltersPanelProps) => {
+const RControlFiltersPanel = () => {
 
     const customSelectStylesProp: StylesConfig = {
 
@@ -82,6 +75,7 @@ const RControlFiltersPanel = ({ setFilterParams }: RControlFiltersPanelProps) =>
     const [selectedMonth, setSelectedMonth] = useState<{ value: number, label: number } | null>(null);
 
     const { journalType, setJournalType } = useJournal();
+    const { setFilters } = useRControlStore();
     const { monthToString } = useDateExtension();
 
     const {
@@ -130,7 +124,7 @@ const RControlFiltersPanel = ({ setFilterParams }: RControlFiltersPanelProps) =>
     }, [selectedYear]);
 
     useEffect(() => {
-        setFilterParams({
+        setFilters({
             codeMo: selectedOrg?.value,
             month: selectedMonth?.value,
             year: selectedYear?.value
@@ -138,7 +132,7 @@ const RControlFiltersPanel = ({ setFilterParams }: RControlFiltersPanelProps) =>
     }, [selectedMonth]);
 
     useEffect(() => {
-        
+
         const clearAllLocalFilters = () => {
             setSelectedOrg(null);
             setSelectedMonth(null);

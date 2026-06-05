@@ -15,6 +15,7 @@ const Status = ({ status }: StatusProps) => {
         [InvoiceStatus.Rewrite]: { text: "Перезапись", className: styles.rewriting, color: "var(--rewriting)" },
         [InvoiceStatus.NotAllowed]: { text: "Не допущен", className: styles.fatalError, color: "var(--black)" },
         [InvoiceStatus.Processing]: { text: "В процессе", className: styles.processing, color: "var(--processing)" },
+        [InvoiceStatus.WaitingEnd]: { text: "Ожидает", className: styles.processing, color: "var(--processing)" },
     };
 
     const config = statusConfig[status] || { text: "Неизвестно", className: styles.default, color: "var(--black)" };

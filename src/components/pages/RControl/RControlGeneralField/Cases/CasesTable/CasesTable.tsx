@@ -1,19 +1,9 @@
 
-import type { Case } from '../../../types';
-
-import DefaultLoader from '../../../../../ui/Loaders/DefaultLoader';
-
 import styles from './styles.module.scss';
-import dayjs from 'dayjs';
 
-interface CasesTableProps {
-    isLoading: boolean;
-    data: Case[];
-};
 
-const CasesTable = ({
-    data,
-    isLoading }: CasesTableProps) => {
+const CasesTable = () => {
+
     return (
         <div className={styles.casesTableRoot}>
             <div className={styles.tableContainer}>
@@ -47,36 +37,6 @@ const CasesTable = ({
                         </tr>
                     </thead>
                     <tbody>
-
-                        {isLoading ? (
-                            <tr className={styles.loaderRow}>
-                                <td colSpan={11} className={styles.loaderCell}>
-                                    <DefaultLoader />
-                                </td>
-                            </tr>
-                        ) : data.length === 0 ? (
-                            <tr className={styles.emptyDataRow}>
-                                <td colSpan={11}>
-                                    <span>Данных не найдено</span>
-                                </td>
-                            </tr>
-                        ) : (
-                            data.map(item => (
-                                <tr>
-                                    <td>{item.profil}</td>
-                                    <td>{item.det}</td>
-                                    <td>{item.prvs}</td>
-                                    <td>{dayjs(item.startingAt).format('DD.MM.YYYY')}</td>
-                                    <td>{dayjs(item.endingAt).format('DD.MM.YYYY')}</td>
-                                    <td>{item.ds1}</td>
-                                    <td>{item.edCol}</td>
-                                    <td>{item.tarif}</td>
-                                    <td>{item.sumM}</td>
-                                    <td>{item.sump}</td>
-                                    <td>{item.smoSump}</td>
-                                </tr>
-                            ))
-                        )}
 
                     </tbody>
                 </table>

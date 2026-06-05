@@ -1,4 +1,6 @@
 export enum InvoiceStatus {
+    WaitingEnd = -11,
+    Accepted = 11,
     NotAllowed = -3,
     Fatal = -2,
     LogicControlError = -1,

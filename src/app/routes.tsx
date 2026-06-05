@@ -72,7 +72,11 @@ export const router = createBrowserRouter(
                 {
                     path: 'admin/rcontrol',
                     element: (
-                        <RControl />
+                        <AdminOnlyRoute>
+                            <ProtectedRoute>
+                                <RControl />
+                            </ProtectedRoute>
+                        </AdminOnlyRoute>
                     )
                 },
                 {

@@ -1,0 +1,78 @@
+.invoiceSummartCardRoot {
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-s);
+
+    .header {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: .75rem;
+
+        border-bottom: 1px solid var(--default-element-border-color);
+
+        .waiting {
+            color: var(--gray-400);
+            font-weight: 400;
+        }
+
+        h2 {
+            font-weight: 500;
+        }
+    }
+
+    .section {
+
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+
+        gap: 1rem;
+
+        .grid2 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid3 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+
+            gap: .5rem;
+            padding: var(--spacing-x2);
+            border: 1px solid var(--default-element-border-color);
+            border-radius: var(--rounding-l);
+
+            label {
+                font-size: .875rem;
+            }
+
+            span {
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+
+            .success {
+                color: var(--success);
+            }
+        }
+    }
+
+
+}
