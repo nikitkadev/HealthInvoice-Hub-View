@@ -10,9 +10,10 @@ import useFinishedCasesTableData from './useFinishedCasesTableData';
 const FinishedCasesTable = () => {
 
     const [activeRecord, setActiveRecord] = useState<number | null>(null);
-    const { data } = useFinishedCasesTableData();
-    const { isLoading } = useRControlStore();
+    const { isLoading, finishedCasesData, setSelectedFinishedCase } = useRControlStore();
     const { journalType } = useJournal();
+
+    useFinishedCasesTableData();
 
     useEffect(() => {
         setActiveRecord(null);
@@ -20,8 +21,11 @@ const FinishedCasesTable = () => {
 
     return (
         <div className={styles.FinishedCasesTableRoot}>
+
             {isLoading.finishedCases && <OverlayLoader />}
+
             <table>
+
                 <colgroup>
                     <col style={{ width: '3rem' }} />
                     <col style={{ width: '3rem' }} />
@@ -54,18 +58,19 @@ const FinishedCasesTable = () => {
 
                 <tbody>
 
-                    {data.length === 0 ? (
+                    {finishedCasesData.length === 0 ? (
                         <tr className={styles.emptyDataRow}>
                             <td colSpan={11}>
                                 <span>Данных не найдено</span>
                             </td>
                         </tr>
                     ) : (
-                        data.map(item => (
+                        finishedCasesData.map(item => (
                             <tr
                                 className={activeRecord === item.zSlUid ? styles.activeRow : ''}
                                 onClick={() => {
-                                    setActiveRecord(item.zSlUid)
+                                    setSelectedFinishedCase(item);
+                                    setActiveRecord(item.zSlUid);
                                 }}>
                                 <td>{item.positionNumber}</td>
                                 <td>{item.recordNumber}</td>

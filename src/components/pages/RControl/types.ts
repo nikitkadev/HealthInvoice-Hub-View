@@ -25,6 +25,7 @@ export interface FinishedCase {
 }
 
 export interface Case {
+    uid: number,
     profil: number,
     det: number,
     prvs: number;

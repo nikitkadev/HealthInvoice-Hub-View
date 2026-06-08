@@ -1,7 +1,29 @@
 .rControlCategoriesFieldRoot {
     display: flex;
+    flex-direction: column;
 
-    height: 27.5rem;
-    padding: var(--spacing-x3);
-    gap: var(--spacing-x3);
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-l);
+
+    h2 {
+        font-weight: 500;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: .75rem;
+
+        border-bottom: 1px solid var(--default-element-border-color);
+    }
+
+    .content {
+        position: relative;
+        display: flex;
+        width: 100%;
+
+        padding: var(--spacing-x2);
+    }
 }

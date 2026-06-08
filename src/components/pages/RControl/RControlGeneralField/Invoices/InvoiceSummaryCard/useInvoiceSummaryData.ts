@@ -1,13 +1,15 @@
 import type { SummaryResponse } from "../../../types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRControlStore } from "../../../useRControlStore";
 import { api } from "../../../../../../shared/api/ApiClient";
 import { useJournal } from "../../../../../../app/contexts/JournalTypeContext";
 
 const useInvoiceSummaryData = () => {
 
-    const [data, setData] = useState<SummaryResponse | null>(null);
-    const { setLoading, selectedInvoice } = useRControlStore();
+    const {
+        setLoading,
+        selectedInvoice,
+        setInvoiceSummary } = useRControlStore();
     const { journalType } = useJournal();
 
     useEffect(() => {
@@ -32,7 +34,7 @@ const useInvoiceSummaryData = () => {
                     return;
                 }
 
-                setData(response);
+                setInvoiceSummary(response);
 
             }
             catch (error) {
@@ -46,8 +48,6 @@ const useInvoiceSummaryData = () => {
 
         fetchInvoiceSummaryData();
     }, [selectedInvoice]);
-
-    return { data };
 
 };
 

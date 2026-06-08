@@ -1,73 +1,84 @@
 .categoriesMenuRoot {
     display: flex;
-    width: 19rem;
+    width: 100%;
 
+    border-bottom: 1px solid var(--default-element-border-color);
 }
 
 .menu {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-
-
     width: 100%;
 
-    border: 1px solid var(--default-element-border-color);
-    border-radius: var(--rounding-l);
-
-    scrollbar-width: thin;
-    scrollbar-color: var(--gray-200) transparent;
+    user-select: none;
 
     ul {
+        display: flex;
         width: 100%;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
     li {
-        margin: .25rem;
-        padding: .45rem .75rem;
-        text-align: left;
-        border-radius: var(--rounding-s);
+        margin: 0;
+        padding: 1rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
 
-        transition: 0.2s ease-out;
+        &:hover {
+            background-color: transparent !important;
+
+            span {
+                color: var(--black);
+                transition: 0.3s ease;
+
+            }
+        }
+
+        &:active {
+            transform: scale(0.97);
+        }
     }
 
     span {
         font-size: var(--font-size-default);
         font-weight: 400;
+        color: var(--gray-400);
+        white-space: nowrap;
+
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.2s ease;
+        flex-shrink: 0;
     }
 }
 
-.menu button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.active {
+    background-color: var(--bg-selected-card-light);
 
-    margin: 0;
-    width: 100%;
+    span {
+        color: var(--primary);
+    }
 
-    border: none;
-    background: none;
+    svg {
+        transform: rotate(90deg);
+    }
 }
 
-.menu button:active {
-    transform: scale(1);
-}
+@media (max-width: 768px) {
+    .categoriesMenuRoot {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-.menuTitle {
-    color: var(--gray-400) !important;
-    font-size: var(--font-size-default-small) !important;
-    font-weight: 500 !important;
-}
-
-.menuItem {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    justify-content: left;
-
-    padding: 1rem 0 .25rem 1rem;
+    .menu ul {
+        min-width: max-content;
+    }
 }

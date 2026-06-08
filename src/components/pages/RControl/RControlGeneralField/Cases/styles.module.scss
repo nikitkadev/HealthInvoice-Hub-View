@@ -1,4 +1,21 @@
 .casesRoot {
     display: flex;
     flex-direction: column;
+
+    border: 1px solid var(--default-element-border-color);
+    border-radius: var(--rounding-s);
+
+    h2 {
+        font-weight: 500;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: .75rem;
+
+        border-bottom: 1px solid var(--default-element-border-color);
+    }
 }

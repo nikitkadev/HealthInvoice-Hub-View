@@ -2,14 +2,14 @@ import PatientCard from "./PatientCard/PatientCard";
 import SmoCard from "./SmoCard/SmoCard";
 import styles from "./styles.module.scss";
 
-const PatientCategory = () => {
+const PatientSmoCategory = () => {
     return (
-        <div className={styles.patientCategoryRoot}>
+        <div className={styles.patientSmoCategoryCategoryRoot}>
             <PatientCard />
             <SmoCard />
         </div>
     );
 };
 
-export default PatientCategory;
+export default PatientSmoCategory;
 

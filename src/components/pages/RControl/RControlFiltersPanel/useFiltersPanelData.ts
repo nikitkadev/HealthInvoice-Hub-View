@@ -29,7 +29,7 @@ const useFiltersPanelData = () => {
             setOrgs(response);
         }
         catch (error) {
-            console.log(error)
+            console.debug(error);
             toast.error("Ошибка при попытке получить данные по МО!");
         }
         finally {
@@ -54,13 +54,13 @@ const useFiltersPanelData = () => {
             setPeriods(response);
         }
         catch (error) {
-            console.log(error)
+            console.debug(error);
             toast.error("Ошибка при попытке получить данные по периодам!");
         }
         finally {
             setIsLoading(false);
         };
-        
+
     };
 
     return {

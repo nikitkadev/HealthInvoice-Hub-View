@@ -50,7 +50,7 @@ const MiniPagination = ({
                     variant='smallIcon'
                     fullWidth={false}
                     onClick={() => onPageChange(pagination.currentPage + 1)}
-                    disabled={pagination.currentPage === pagination.totalPages}>
+                    disabled={pagination.currentPage >= pagination.totalPages}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"

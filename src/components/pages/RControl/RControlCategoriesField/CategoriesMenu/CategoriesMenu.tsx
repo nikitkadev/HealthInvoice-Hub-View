@@ -1,157 +1,61 @@
+import { toast } from 'react-toastify';
+import { useRControlStore } from '../../useRControlStore';
 import styles from './styles.module.scss';
+import { type CategoryId } from '../CategoryRenderer/CategoryRenderer';
 
 const CategoriesMenu = () => {
+
+    const { setCategory, selectedCase } = useRControlStore();
+
+    const showCategory = (category: CategoryId) => {
+        if (!selectedCase) {
+            toast.info("Выберите случай!");
+            return;
+        };
+
+        setCategory(category);
+    }
+
     return (
         <div className={styles.categoriesMenuRoot}>
+
             <div className={styles.menu}>
+
                 <ul>
 
-                    <div className={styles.menuItem}>
-                        <span className={styles.menuTitle}>Категории Таопао</span>
-                    </div>
-
-                    <li>
-                        <button>
-                            <span className={styles.exitSpan}>Пациент / СМО </span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                    <li
+                        onClick={() => showCategory('patient-smo')}>
+                        <span>
+                            Пациент / СМО
+                        </span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Случай / Законченный случай</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Случай / Законченный случай</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Covid</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Covid</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Онкозаболевания / Консилиум</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Онкозаболевания / Консилиум</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Услуги</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Услуги</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>КСГ / ВМП</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>КСГ / ВМП</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Назначения / Направления</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Назначения / Направления</span>
                     </li>
 
                     <li>
-                        <button>
-                            <span className={styles.exitSpan}>Дефекты / Санкции СМО</span>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24">
-                                <path
-                                    fill="none"
-                                    stroke="var(--black)"
-                                    stroke-linecap="round"
-                                    stroke-width="1.5"
-                                    d="m9.583 17.5l4.858-4.859a.2.2 0 0 0 0-.282L9.583 7.5" />
-                            </svg>
-                        </button>
+                        <span>Дефекты / Санкции СМО</span>
                     </li>
 
                 </ul>

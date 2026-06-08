@@ -7,8 +7,12 @@ import useInvoiceSummaryData from './useInvoiceSummaryData';
 
 const InvoiceSummaryCard = () => {
 
-    const { selectedInvoice, isLoading } = useRControlStore();
-    const { data } = useInvoiceSummaryData();
+    const {
+        selectedInvoice,
+        isLoading,
+        invoiceSummary } = useRControlStore();
+
+    useInvoiceSummaryData();
 
     return (
         <div className={styles.invoiceSummartCardRoot}>
@@ -25,57 +29,66 @@ const InvoiceSummaryCard = () => {
                 <>
                     <div className={styles.section}>
 
-                        <div className={styles.grid3}>
+                        <div className={styles.grid1}>
 
                             <div className={styles.card}>
                                 <label>Предъявлено</label>
-                                <span>{data?.summav} ₽</span>
+                                <span>{invoiceSummary?.summav} ₽</span>
                             </div>
+                        </div>
+
+                        <div className={styles.grid2}>
 
                             <div className={styles.card}>
                                 <label>Принято ТФОМС</label>
-                                <span className={styles.success}>{data?.summap} ₽</span>
+                                <span className={styles.success}>{invoiceSummary?.summap} ₽</span>
                             </div>
 
                             <div className={styles.card}>
                                 <label>Принято СМО</label>
-                                <span className={styles.success}>{data?.smoSummap} ₽</span>
+                                <span className={styles.success}>{invoiceSummary?.smoSummap} ₽</span>
                             </div>
                         </div>
+
+
 
                         <div className={styles.grid3}>
                             <div className={styles.card}>
                                 <label>Снято МЭК ТФОМС</label>
-                                <span>{data?.sankMek} ₽</span>
-                            </div>
-
-                            <div className={styles.card}>
-                                <label>Снято МЭК СМО</label>
-                                <span>{data?.smoSankMek} ₽</span>
+                                <span>{invoiceSummary?.sankMek} ₽</span>
                             </div>
 
                             <div className={styles.card}>
                                 <label>Снято МЭЭ ТФОМС</label>
-                                <span>{data?.sankMee} ₽</span>
+                                <span>{invoiceSummary?.sankMee} ₽</span>
                             </div>
-                        </div>
-
-                        <div className={styles.grid3}>
-                            <div className={styles.card}>
-                                <label>Снято МЭЭ СМО</label>
-                                <span>{data?.smoSankMee} ₽</span>
-                            </div>
-
 
                             <div className={styles.card}>
                                 <label>Снято ЭКМР ТФОМС</label>
-                                <span>{data?.sankEkmp} ₽</span>
+                                <span>{invoiceSummary?.sankEkmp} ₽</span>
+                            </div>
+
+                        </div>
+
+
+
+                        <div className={styles.grid3}>
+
+                            <div className={styles.card}>
+                                <label>Снято МЭК СМО</label>
+                                <span>{invoiceSummary?.smoSankMek} ₽</span>
+                            </div>
+
+                            <div className={styles.card}>
+                                <label>Снято МЭЭ СМО</label>
+                                <span>{invoiceSummary?.smoSankMee} ₽</span>
                             </div>
 
                             <div className={styles.card}>
                                 <label>Снято ЭКМР СМО</label>
-                                <span>{data?.smoSankEkmp} ₽</span>
+                                <span>{invoiceSummary?.smoSankEkmp} ₽</span>
                             </div>
+
                         </div>
 
                     </div>
@@ -85,18 +98,18 @@ const InvoiceSummaryCard = () => {
                         <div className={styles.grid3}>
                             <div className={styles.card}>
                                 <label>Имя файла</label>
-                                <span>{data?.filename} </span>
+                                <span>{invoiceSummary?.filename} </span>
                             </div>
 
 
                             <div className={styles.card}>
                                 <label>UID счета</label>
-                                <span>{data?.schetUid}</span>
+                                <span>{invoiceSummary?.schetUid}</span>
                             </div>
 
                             <div className={styles.card}>
                                 <label>Дата загрузки</label>
-                                <span>{dayjs(data?.uploadDate).format('DD.MM.YYYY HH:mm:ss')}</span>
+                                <span>{dayjs(invoiceSummary?.uploadDate).format('DD.MM.YYYY HH:mm:ss')}</span>
                             </div>
                         </div>
 

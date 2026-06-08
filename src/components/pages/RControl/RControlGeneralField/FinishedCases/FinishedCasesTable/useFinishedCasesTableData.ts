@@ -1,29 +1,39 @@
-import type { FinishedCase, FinishedCasesResponse } from "../../../types";
-import { useEffect, useState } from "react";
+import type { FinishedCasesResponse } from "../../../types";
+import { useEffect } from "react";
 import { useRControlStore } from "../../../useRControlStore";
 import { api } from "../../../../../../shared/api/ApiClient";
 import { useJournal } from "../../../../../../app/contexts/JournalTypeContext";
 
 const useFinishedCasesTableData = () => {
 
-    const [data, setData] = useState<FinishedCase[]>([]);
     const { journalType } = useJournal();
     const {
         setLoading,
         selectedInvoice,
         finishedCasesTablePagination,
         globalSearchString,
-        setFinishedCasesTablePagination } = useRControlStore();
+        setFinishedCasesTablePagination,
+        setFinishedCasesData } = useRControlStore();
+
+    useEffect(() => {
+        setFinishedCasesTablePagination({
+            currentPage: 1,
+        });
+    }, [selectedInvoice])
 
     useEffect(() => {
 
         const fetchFinishedCases = async () => {
-
             setLoading("finishedCases", true);
 
             try {
 
                 if (!selectedInvoice) {
+                    setFinishedCasesTablePagination({
+                        currentPage: 1,
+                        totalPages: 1
+                    });
+                    setFinishedCasesData([]);
                     return;
                 }
 
@@ -41,7 +51,7 @@ const useFinishedCasesTableData = () => {
                     return;
                 }
 
-                setData(response.items);
+                setFinishedCasesData(response.items);
                 setFinishedCasesTablePagination({
                     totalItems: response.total,
                     totalPages: Math.ceil(response.total / response.pageSize)
@@ -58,9 +68,10 @@ const useFinishedCasesTableData = () => {
 
         fetchFinishedCases();
 
-    }, [selectedInvoice, finishedCasesTablePagination.currentPage]);
-
-    return { data };
+    }, [
+        selectedInvoice,
+        finishedCasesTablePagination.currentPage,
+        globalSearchString.finishedCases]);
 
 };
 

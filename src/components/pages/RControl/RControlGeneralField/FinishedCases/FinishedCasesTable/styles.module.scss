@@ -1,55 +1,68 @@
 .FinishedCasesTableRoot {
     position: relative;
+
     display: flex;
     flex-direction: column;
 
     scrollbar-width: thin;
     scrollbar-color: var(--default-element-border-color) transparent;
 
-    tbody tr {
-        cursor: pointer;
-
-        .loaderRow:hover {
-            background-color: transparent !important;
-            cursor: default !important;
-        }
-
-        .emptyDataRow:hover {
-            background-color: var(--gray-50) !important;
-            cursor: default !important;
-        }
-    }
-
     table {
         width: 100%;
-        border-collapse: collapse;
         table-layout: fixed;
-    }
+        border-collapse: collapse;
 
-    th {
-        background-color: var(--card-background-color);
-        font-weight: 500;
-    }
+        thead {
+            th {
 
-
-    .emptyDataRow {
-        text-align: center;
-        background-color: var(--gray-50);
-
-        span {
-            font-size: var(--font-size-small-default);
-            color: var(--gray-500);
+                background-color: var(--card-background-color);
+                font-weight: 500;
+            }
         }
-    }
 
-    .tdCenter,
-    .thCenter {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
+        tbody {
 
-    .activeRow {
-        background-color: var(--gray-100);
+            tr {
+                cursor: pointer;
+            }
+
+            tr:hover {
+                background-color: var(--gray-50);
+                transition: 0.2s ease;
+            }
+
+
+            .loaderRow:hover {
+                background-color: transparent !important;
+                cursor: default !important;
+            }
+
+            .emptyDataRow:hover {
+                background-color: var(--gray-50) !important;
+                cursor: default !important;
+            }
+
+            .emptyDataRow {
+                text-align: center;
+                background-color: var(--gray-50);
+
+                span {
+                    font-size: var(--font-size-small-default);
+                    color: var(--gray-500);
+                }
+            }
+
+            .activeRow {
+                background-color: var(--gray-100);
+            }
+
+        }
+
+        .tdCenter,
+        .thCenter {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
     }
 }

@@ -1,3 +1,4 @@
+import RControlCategoriesField from '../RControlCategoriesField/RControlCategoriesField';
 import Cases from './Cases';
 import FinishedCases from './FinishedCases';
 import Invoices from './Invoices/Invoices';
@@ -13,6 +14,7 @@ const RControlGeneralField = () => {
             <Invoices />
             <FinishedCases />
             <Cases />
+            <RControlCategoriesField />
 
         </div>
 

@@ -20,6 +20,7 @@ const RControlFiltersPanel = () => {
             fontSize: 'var(--font-size-default-very-small)',
             fontWeight: '600',
             padding: '.1rem',
+            width: '10rem',
             '&:hover': {
                 borderColor: 'var(--gray-300)'
             },
@@ -75,7 +76,7 @@ const RControlFiltersPanel = () => {
     const [selectedMonth, setSelectedMonth] = useState<{ value: number, label: number } | null>(null);
 
     const { journalType, setJournalType } = useJournal();
-    const { setFilters } = useRControlStore();
+    const { setFilters, resetSelected } = useRControlStore();
     const { monthToString } = useDateExtension();
 
     const {
@@ -105,10 +106,13 @@ const RControlFiltersPanel = () => {
 
     useEffect(() => {
         document.title = "HIH - RControl Веб";
+        resetSelected();
         fetchOrganizations();
     }, []);
 
     useEffect(() => {
+
+        resetSelected();
 
         setSelectedMonth(null);
         setSelectedYear(null);

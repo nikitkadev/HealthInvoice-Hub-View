@@ -47,7 +47,7 @@ const PatientCard = () => {
             <GorizontalSeparator size='xs' type='line' color="var(--gray-200)" />
 
             <div className={styles.section}>
-                <h3>Представитель</h3>
+                <h2>Представитель</h2>
                 <div className={styles.grid2}>
                     <Field label="Фамилия" value={patientData.representative.surname} />
                     <Field label="Имя" value={patientData.representative.name} />
@@ -61,9 +61,8 @@ const PatientCard = () => {
 
             <GorizontalSeparator size='xs' type='line' color="var(--gray-200)" />
 
-
             <div className={styles.section}>
-                <h3>Документ</h3>
+                <h2>Документ</h2>
                 <Field label="Тип" value={patientData.document.type} />
                 <div className={styles.grid2}>
                     <Field label="Серия" value={patientData.document.series} />

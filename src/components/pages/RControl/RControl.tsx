@@ -13,7 +13,14 @@ const RControl = () => {
         resetFilters();
         resetPagination();
         resetSelected();
-    }, [])
+
+        return () => {
+            resetFilters();
+            resetPagination();
+            resetSelected();
+        };
+
+    }, []);
 
     return (
 

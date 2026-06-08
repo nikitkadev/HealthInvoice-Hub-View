@@ -38,6 +38,12 @@
 
         gap: 1rem;
 
+        .grid1 {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(1, 1fr);
+        }
+
         .grid2 {
             display: grid;
             gap: 1rem;
@@ -54,17 +60,16 @@
             display: flex;
             flex-direction: column;
 
-            gap: .5rem;
             padding: var(--spacing-x2);
             border: 1px solid var(--default-element-border-color);
             border-radius: var(--rounding-l);
 
             label {
-                font-size: .875rem;
+                font-size: var(--font-size-default-small);
             }
 
             span {
-                font-size: 1.2rem;
+                font-size: var(--font-size-default);
                 font-weight: 500;
             }
 

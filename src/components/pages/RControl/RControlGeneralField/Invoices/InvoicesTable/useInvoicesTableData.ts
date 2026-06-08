@@ -1,22 +1,21 @@
-import { type InvoiceShortly, type InvoicesResponse } from "../../../types";
+import { type InvoicesResponse } from "../../../types";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { api } from "../../../../../../shared/api/ApiClient";
 import { useRControlStore } from "../../../useRControlStore";
 import { useJournal } from "../../../../../../app/contexts/JournalTypeContext";
 
 const useInvoicesTableData = () => {
 
-    const [data, setData] = useState<InvoiceShortly[]>([]);
-
     const {
         filters,
         setLoading,
         invoicesTablePagination,
         globalSearchString,
-        setInvoicesTablePagination } = useRControlStore();
+        setInvoicesTablePagination,
+        setInvoiceData } = useRControlStore();
 
-    const { journalType } = useJournal()
+    const { journalType } = useJournal();
 
     useEffect(() => {
 
@@ -27,6 +26,11 @@ const useInvoicesTableData = () => {
             try {
 
                 if (!filters.codeMo || !filters.month || !filters.year) {
+                    setInvoicesTablePagination({
+                        currentPage: 1,
+                        totalPages: 1
+                    });
+                    setInvoiceData([]);
                     return;
                 };
 
@@ -46,7 +50,7 @@ const useInvoicesTableData = () => {
                     return;
                 }
 
-                setData(response.items);
+                setInvoiceData(response.items);
                 setInvoicesTablePagination({
                     totalItems: response.total,
                     totalPages: Math.ceil(response.total / response.pageSize)
@@ -64,9 +68,9 @@ const useInvoicesTableData = () => {
 
         fetchShortlyInvoices();
 
-    }, [filters, invoicesTablePagination.currentPage]);
-
-    return { data }
+    }, [
+        filters,
+        invoicesTablePagination.currentPage]);
 
 };
 

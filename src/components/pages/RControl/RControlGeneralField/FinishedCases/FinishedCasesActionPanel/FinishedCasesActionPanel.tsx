@@ -10,6 +10,7 @@ const FinishedCasesActionPanel = () => {
     const [localGlobalString, setLocalGlobalString] = useState('');
     const { setGlobalSearchString,
         finishedCasesTablePagination,
+        setFinishedCasesTablePagination,
         goToFinishedTablePage
     } = useRControlStore();
 
@@ -30,6 +31,9 @@ const FinishedCasesActionPanel = () => {
                         onChange={(e) => setLocalGlobalString(e.target.value)}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter') {
+                                setFinishedCasesTablePagination({
+                                    currentPage: 1
+                                });
                                 setGlobalSearchString('finishedCases', localGlobalString);
                             }
                         }}

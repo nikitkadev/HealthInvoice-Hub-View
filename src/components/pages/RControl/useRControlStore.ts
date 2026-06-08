@@ -1,7 +1,18 @@
-import type { Case, FinishedCase, InvoiceShortly } from "./types";
+import type { CategoryId } from "./RControlCategoriesField/CategoryRenderer/CategoryRenderer";
+import type { Case, FinishedCase, InvoiceShortly, SummaryResponse } from "./types";
 import { create } from "zustand";
 
 interface RControlStore {
+
+    invoicesData: InvoiceShortly[];
+    finishedCasesData: FinishedCase[];
+    casesData: Case[];
+    invoiceSummary: SummaryResponse | null;
+
+    setInvoiceData: (data: InvoiceShortly[]) => void;
+    setFinishedCasesData: (data: FinishedCase[]) => void;
+    setCasesData: (data: Case[]) => void;
+    setInvoiceSummary: (data: SummaryResponse) => void;
 
     finishedCasesTablePagination: {
         currentPage: number;
@@ -25,6 +36,7 @@ interface RControlStore {
     selectedInvoice: InvoiceShortly | null;
     selectedFinishedCase: FinishedCase | null;
     selectedCase: Case | null;
+    selectedCategory: CategoryId;
 
     isLoading: {
         invoices: boolean;
@@ -33,6 +45,7 @@ interface RControlStore {
         cases: boolean;
     };
 
+    setCategory: (selectedCategory: CategoryId) => void;
     setFilters: (filters: Partial<RControlStore['filters']>) => void;
     setSelectedInvoice: (selectedInvoice: InvoiceShortly | null) => void;
     setSelectedFinishedCase: (selectedFinishedCase: FinishedCase | null) => void;
@@ -51,6 +64,16 @@ interface RControlStore {
 }
 
 export const useRControlStore = create<RControlStore>((set) => ({
+
+    invoicesData: [],
+    finishedCasesData: [],
+    casesData: [],
+    invoiceSummary: null,
+
+    setInvoiceData: (data) => set({ invoicesData: data }),
+    setFinishedCasesData: (data) => set({ finishedCasesData: data }),
+    setCasesData: (data) => set({ casesData: data }),
+    setInvoiceSummary: (data) => set({ invoiceSummary: data }),
 
     finishedCasesTablePagination: {
         currentPage: 1,
@@ -80,6 +103,7 @@ export const useRControlStore = create<RControlStore>((set) => ({
     selectedInvoice: null,
     selectedFinishedCase: null,
     selectedCase: null,
+    selectedCategory: 'default',
 
     isLoading: {
         invoices: false,
@@ -87,6 +111,8 @@ export const useRControlStore = create<RControlStore>((set) => ({
         finishedCases: false,
         cases: false,
     },
+
+    setCategory: (selectedCategory) => set({ selectedCategory: selectedCategory }),
 
     setFilters: (newFilters) => set((state) => ({
         filters: { ...state.filters, ...newFilters }
@@ -119,7 +145,11 @@ export const useRControlStore = create<RControlStore>((set) => ({
         globalSearchString: {
             finishedCases: '',
             invoices: ''
-        }
+        },
+
+        invoicesData: [],
+        finishedCasesData: [],
+        casesData: []
     }),
 
     resetPagination: () => set({
