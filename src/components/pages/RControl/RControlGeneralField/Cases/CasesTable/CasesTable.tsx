@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { useRControlStore } from '../../../useRControlStore';
 import styles from './styles.module.scss';
 import dayjs from 'dayjs';
@@ -9,8 +8,8 @@ import OverlayLoader from '../../../../../ui/Loaders/OverlayLoader';
 
 const CasesTable = () => {
 
-    const [activeRecord, setActiveRecord] = useState<number | null>(null);
     const { casesData, isLoading, setSelectedCase } = useRControlStore();
+    const { selectedCase } = useRControlStore();
 
     useCasesTableData();
 
@@ -53,17 +52,16 @@ const CasesTable = () => {
                 <tbody>
                     {casesData.length === 0 ? (
                         <tr className={styles.emptyDataRow}>
-                            <td colSpan={11}>
+                            <td colSpan={12}>
                                 <span>Данных не найдено</span>
                             </td>
                         </tr>
                     ) : (
                         casesData.map(item => (
                             <tr
-                                className={activeRecord === item.uid ? styles.activeRow : ''}
+                                className={selectedCase?.uid === item.uid ? styles.activeRow : ''}
                                 onClick={() => {
-                                    setSelectedCase(item),
-                                        setActiveRecord(item.uid)
+                                    setSelectedCase(item)
                                 }}>
                                 <td>{item.uid}</td>
                                 <td>{item.profil}</td>

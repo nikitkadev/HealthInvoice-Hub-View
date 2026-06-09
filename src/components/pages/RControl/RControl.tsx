@@ -7,17 +7,23 @@ import styles from './styles.module.scss';
 
 const RControl = () => {
 
-    const { resetFilters, resetPagination, resetSelected } = useRControlStore();
+    const {
+        resetFilters,
+        resetPagination,
+        resetSelected,
+        setCategory } = useRControlStore();
 
     useEffect(() => {
         resetFilters();
         resetPagination();
         resetSelected();
+        setCategory('default');
 
         return () => {
             resetFilters();
             resetPagination();
             resetSelected();
+            setCategory('default');
         };
 
     }, []);

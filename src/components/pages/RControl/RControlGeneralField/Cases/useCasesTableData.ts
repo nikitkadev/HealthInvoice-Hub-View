@@ -9,6 +9,7 @@ const useCasesTableData = () => {
     const {
         setCasesData,
         selectedFinishedCase,
+        setSelectedCase,
         setLoading } = useRControlStore();
     const { journalType } = useJournal();
 
@@ -37,6 +38,7 @@ const useCasesTableData = () => {
                 }
 
                 setCasesData(response);
+                setSelectedCase(response[0]);
             }
             catch (error) {
                 console.debug(error);

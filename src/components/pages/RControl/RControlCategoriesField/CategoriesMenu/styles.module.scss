@@ -58,17 +58,12 @@
         transition: transform 0.2s ease;
         flex-shrink: 0;
     }
-}
 
-.active {
-    background-color: var(--bg-selected-card-light);
-
-    span {
-        color: var(--primary);
-    }
-
-    svg {
-        transform: rotate(90deg);
+    .active {
+        span {
+            color: var(--black);
+            font-weight: 500;
+        }
     }
 }
 

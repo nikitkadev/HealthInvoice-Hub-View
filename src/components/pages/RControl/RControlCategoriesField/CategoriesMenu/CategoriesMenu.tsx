@@ -5,7 +5,10 @@ import { type CategoryId } from '../CategoryRenderer/CategoryRenderer';
 
 const CategoriesMenu = () => {
 
-    const { setCategory, selectedCase } = useRControlStore();
+    const {
+        setCategory,
+        selectedCategory,
+        selectedCase } = useRControlStore();
 
     const showCategory = (category: CategoryId) => {
         if (!selectedCase) {
@@ -24,13 +27,16 @@ const CategoriesMenu = () => {
                 <ul>
 
                     <li
+                        className={selectedCategory == 'patient-smo' ? styles.active : ''}
                         onClick={() => showCategory('patient-smo')}>
                         <span>
                             Пациент / СМО
                         </span>
                     </li>
 
-                    <li>
+                    <li
+                        className={selectedCategory == 'all-cases' ? styles.active : ''}
+                        onClick={() => showCategory('all-cases')}>
                         <span>Случай / Законченный случай</span>
                     </li>
 

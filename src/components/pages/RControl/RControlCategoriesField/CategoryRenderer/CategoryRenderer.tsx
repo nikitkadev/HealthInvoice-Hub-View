@@ -3,10 +3,12 @@ import OverlayLoader from "../../../../ui/Loaders/OverlayLoader";
 
 const Default = lazy(() => import('../DefaultCategory/DefaultCategory'));
 const PatientSmo = lazy(() => import('../PatientSmoCategory/PatientSmoCategory'));
+const AllCases = lazy(() => import('../AllCasesCategory/AllCasesCategory'));
 
 const categoryMap = {
     'default': Default,
     'patient-smo': PatientSmo,
+    'all-cases': AllCases
 
 } as const;
 
