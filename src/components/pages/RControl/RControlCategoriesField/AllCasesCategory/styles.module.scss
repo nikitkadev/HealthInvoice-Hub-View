@@ -6,6 +6,8 @@
     width: 100%;
     min-height: 0;
     overflow: auto;
+    padding: var(--spacing-x2);
+
 
     .section {
         display: flex;

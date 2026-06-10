@@ -70,3 +70,4 @@ export interface SummaryResponse {
     smoSankMee: number;
     smoSankEkmp: number;
 }
+

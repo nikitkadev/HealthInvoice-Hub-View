@@ -8,6 +8,7 @@ const RControlCategoriesField = () => {
     const { selectedCategory } = useRControlStore();
 
     return (
+        
         <div className={styles.rControlCategoriesFieldRoot}>
 
             <div className={styles.header}>
@@ -21,6 +22,7 @@ const RControlCategoriesField = () => {
                     categoryId={selectedCategory} />
             </div>
         </div>
+        
     )
 };
 

@@ -41,14 +41,11 @@ const CategoriesMenu = () => {
                     </li>
 
                     <li>
-                        <span>Covid</span>
-                    </li>
-
-                    <li>
                         <span>Онкозаболевания / Консилиум</span>
                     </li>
 
-                    <li>
+                    <li className={selectedCategory == 'service' ? styles.active : ''}
+                        onClick={() => showCategory('service')}>
                         <span>Услуги</span>
                     </li>
 

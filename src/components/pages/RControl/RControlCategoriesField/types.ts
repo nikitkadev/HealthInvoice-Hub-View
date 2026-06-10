@@ -65,3 +65,26 @@ export interface AllCasesDto {
     cZab?: number | null;
     comentsl?: string | null;
 }
+
+export interface ServicesDto {
+    uid: number;
+    codeUsl: string;
+    vidVme?: string | null;
+    profil: number;
+    prvs: number;
+    det: number;
+    dateIn: Date;
+    dateOut: Date;
+    ds: string;
+    kolUsl: number;
+    tarif?: number | null;
+    sumvUsl: number;
+    comentu?: string | null
+}
+
+export interface MedDevs {
+
+    medDate: Date,
+    codeMedDev: number;
+    seriesNumber: string;
+}
