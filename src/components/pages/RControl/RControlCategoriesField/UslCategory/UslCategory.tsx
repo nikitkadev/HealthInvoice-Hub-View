@@ -9,6 +9,7 @@ const UslCategory = () => {
 
     const {
         services,
+        selectedService,
         medDevs,
         setSelectedService } = useRControlCategoriesStore();
 
@@ -44,7 +45,7 @@ const UslCategory = () => {
                             </tr>
                         ) : (
                             services.map(service => (
-                                <tr
+                                <tr className={service.uid === selectedService?.uid ? styles.activeRow : ''}
                                     onClick={() => setSelectedService(service)}>
 
                                     <td>{service.codeUsl}</td>

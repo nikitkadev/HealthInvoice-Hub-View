@@ -88,3 +88,43 @@ export interface MedDevs {
     codeMedDev: number;
     seriesNumber: string;
 }
+
+export interface KsgHmpCategoryDataDto {
+    cardData: CardData;
+    crits: CritEntity[];
+    slKoefs: SlKoefEntity[];
+}
+
+export interface CardData {
+    ksgKpgUid: number;
+    ksg?: string | null;
+    nKsg: string;
+    verKsg: number;
+    ksgPg: number;
+    nKpg?: string | null;
+    koefZ: number;
+    koefUp: number;
+    bztsz: number;
+    koefD: number;
+    koefU: number;
+    slK: number;
+    itSl?: number | null;
+    vidHmp?: string | null;
+    metodHmp?: number | null;
+    talD?: Date | null;
+    talNum?: string | null;
+    talP?: string | null;
+}
+
+export interface CritEntity {
+    uid: number;
+    ksgKpgUid: number;
+    crit: string;
+}
+
+export interface SlKoefEntity {
+    uid: number;
+    ksgKpgUid: number;
+    idSl: string;
+    zSl: number;
+}

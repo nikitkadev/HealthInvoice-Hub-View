@@ -49,7 +49,8 @@ const CategoriesMenu = () => {
                         <span>Услуги</span>
                     </li>
 
-                    <li>
+                    <li className={selectedCategory == 'ksg-vmp' ? styles.active : ''}
+                        onClick={() => showCategory('ksg-vmp')}>
                         <span>КСГ / ВМП</span>
                     </li>
 
@@ -63,7 +64,7 @@ const CategoriesMenu = () => {
 
                 </ul>
             </div>
-        </div>
+        </div >
     );
 };
 
