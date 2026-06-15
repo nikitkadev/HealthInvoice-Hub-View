@@ -83,7 +83,6 @@ export interface ServicesDto {
 }
 
 export interface MedDevs {
-
     medDate: Date,
     codeMedDev: number;
     seriesNumber: string;
@@ -95,7 +94,7 @@ export interface KsgHmpCategoryDataDto {
     slKoefs: SlKoefEntity[];
 }
 
-export interface CardData {
+interface CardData {
     ksgKpgUid: number;
     ksg?: string | null;
     nKsg: string;
@@ -116,15 +115,66 @@ export interface CardData {
     talP?: string | null;
 }
 
-export interface CritEntity {
+interface CritEntity {
     uid: number;
     ksgKpgUid: number;
     crit: string;
 }
 
-export interface SlKoefEntity {
+interface SlKoefEntity {
     uid: number;
     ksgKpgUid: number;
     idSl: string;
     zSl: number;
+}
+
+export interface NazNaprCategoryDto {
+    naprs: NaprEntity[];
+    nazs: NazEntity[];
+}
+
+interface NaprEntity {
+    uid: number;
+    sluchUId: number;
+    naprDate: Date;
+    naprMo?: string | null;
+    naprV: number;
+    metIssl?: number | null;
+    naprUsl?: string | null;
+}
+
+interface NazEntity {
+    uid: number;
+    sluchUId: number;
+    nazN: number;
+    nazR: number;
+    nazIddokt: string;
+    nazV?: number | null;
+    nazUsl?: string | null;
+    naprDate?: Date | null;
+    naprMo?: string | null;
+    nazPmp?: number | null;
+    nazPk?: string | null;
+}
+
+export interface DeffectDto {
+    kod: number;
+    comment: string;
+}
+
+export interface SankDto {
+    uid: number;
+    sCode: string;
+    sSum: number;
+    sTip: string;
+    sOsn: number;
+    sEdCol: number;
+    dateAct: Date;
+    numAct: string;
+    codeExp?: string | null;
+    sCom?: string | null;
+    filename: string | null;
+    year: number | null;
+    month: number | null;
+    uploaddate: Date | null;
 }

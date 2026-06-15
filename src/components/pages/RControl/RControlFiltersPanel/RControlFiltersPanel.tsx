@@ -76,7 +76,7 @@ const RControlFiltersPanel = () => {
     const [selectedMonth, setSelectedMonth] = useState<{ value: number, label: number } | null>(null);
 
     const { journalType, setJournalType } = useJournal();
-    const { setFilters, resetSelected } = useRControlStore();
+    const { setFilters, resetSelected, filters, setCategory } = useRControlStore();
     const { monthToString } = useDateExtension();
 
     const {
@@ -109,6 +109,10 @@ const RControlFiltersPanel = () => {
         resetSelected();
         fetchOrganizations();
     }, []);
+
+    useEffect(() => {
+        setCategory('default');
+    }, [filters])
 
     useEffect(() => {
 
@@ -144,6 +148,7 @@ const RControlFiltersPanel = () => {
         };
 
         clearAllLocalFilters();
+        setCategory('default');
     }, [journalType])
 
     return (

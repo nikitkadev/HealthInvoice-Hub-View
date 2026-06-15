@@ -6,13 +6,17 @@ const PatientSmo = lazy(() => import('../PatientSmoCategory/PatientSmoCategory')
 const AllCases = lazy(() => import('../AllCasesCategory/AllCasesCategory'));
 const Usl = lazy(() => import('../UslCategory/UslCategory'));
 const KsgVmp = lazy(() => import('../KsgVmpCategory/KsgVmpCategory'));
+const NazNapr = lazy(() => import('../NazNaprCategory/NazNaprCategory'));
+const DeffectsSanks = lazy(() => import('../DeffectsSanksCategory'));
 
 const categoryMap = {
     'default': Default,
     'patient-smo': PatientSmo,
     'all-cases': AllCases,
     'service': Usl,
-    'ksg-vmp': KsgVmp
+    'ksg-vmp': KsgVmp,
+    'naz-napr': NazNapr,
+    'deffects-sanks': DeffectsSanks
 
 } as const;
 

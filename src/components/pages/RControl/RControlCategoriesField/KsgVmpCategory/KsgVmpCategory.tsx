@@ -1,14 +1,15 @@
 import { useRControlCategoriesStore } from '../useRControlCategoriesStore';
+import { useKsgVmpCategoryData } from './useKsgVmpCategoryData';
 import Field from '../../../../ui/Field/Field';
 import styles from './styles.module.scss';
 import dayjs from 'dayjs';
-import { useKsgVmpCategoryData } from './useKsgVmpCategoryData';
 
 const KsgVmpCategory = () => {
 
-    useKsgVmpCategoryData();
     const { ksgHmpCategoryData } = useRControlCategoriesStore();
 
+    useKsgVmpCategoryData();
+    
     if (!ksgHmpCategoryData) {
         return;
     }

@@ -1,11 +1,10 @@
-.uslCategoryRoot {
+.nazNaprCategoryRoot {
     display: flex;
     flex-direction: column;
     width: 100%;
 
-    .medDevTableContainer,
-    .uslTableContainer {
-
+    .naprTableContainer,
+    .nazTableContainer {
         table {
             width: 100%;
             table-layout: fixed;
@@ -60,7 +59,7 @@
         }
     }
 
-    .uslTableContainer {
+    .nazTableContainer {
         border-bottom: 1px solid var(--default-element-border-color);
         min-height: 20rem;
     }

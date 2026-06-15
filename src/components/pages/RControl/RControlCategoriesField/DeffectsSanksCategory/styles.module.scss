@@ -1,11 +1,7 @@
-.uslCategoryRoot {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+.deffectsSanksCategoryRoot {
 
-    .medDevTableContainer,
-    .uslTableContainer {
-
+    .sanksTableContainer,
+    .deffectsTableContainer {
         table {
             width: 100%;
             table-layout: fixed;
@@ -60,8 +56,5 @@
         }
     }
 
-    .uslTableContainer {
-        border-bottom: 1px solid var(--default-element-border-color);
-        min-height: 20rem;
-    }
+
 }
