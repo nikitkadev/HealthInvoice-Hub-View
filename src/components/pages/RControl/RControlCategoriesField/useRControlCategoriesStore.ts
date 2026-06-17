@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { DeffectDto, KsgHmpCategoryDataDto, MedDevs, NazNaprCategoryDto, SankDto, ServicesDto } from "./types";
+import type { DefectDto, KsgHmpCategoryDataDto, MedDevs, NazNaprCategoryDto, OnkAdditionalData, OnkSluchDto, SankDto, ServicesDto } from "./types";
 
 interface RControlCategoriesStore {
     selectedService: ServicesDto | null;
@@ -7,10 +7,12 @@ interface RControlCategoriesStore {
     medDevs: MedDevs[];
     ksgHmpCategoryData: KsgHmpCategoryDataDto | null;
     nazNaprCategoryData: NazNaprCategoryDto | null;
-    deffects: DeffectDto[];
+    onkSluch: OnkSluchDto | null;
+    defects: DefectDto[];
     sanks: SankDto[];
+    onkAdditionalInformation: OnkAdditionalData | null;
 
-    deffectsTablePagination: {
+    defectsTablePagination: {
         currentPage: number;
         pageSize: number;
         totalPages: number;
@@ -18,8 +20,9 @@ interface RControlCategoriesStore {
     },
 
     isLoading: {
-        deffects: boolean;
+        defects: boolean;
         sanks: boolean;
+        additional: boolean;
     };
 
     setSelectedService: (service: ServicesDto) => void;
@@ -27,11 +30,13 @@ interface RControlCategoriesStore {
     setMedDevs: (medDevs: MedDevs[]) => void;
     setKsgHmpData: (data: KsgHmpCategoryDataDto) => void;
     setNazNaprCategoryData: (data: NazNaprCategoryDto) => void;
-    setDeffects: (data: DeffectDto[]) => void;
+    setOnkSluch: (data: OnkSluchDto) => void;
+    setDefects: (data: DefectDto[]) => void;
     setSanks: (data: SankDto[]) => void;
-    setDeffectsTablePagination: (pagination: Partial<RControlCategoriesStore['deffectsTablePagination']>) => void;
+    setOnkAdditionalData: (data: OnkAdditionalData) => void;
+    setDefectsTablePagination: (pagination: Partial<RControlCategoriesStore['defectsTablePagination']>) => void;
     resetPagination: () => void;
-    deffectsTableGoToPage: (page: number) => void;
+    defectsTableGoToPage: (page: number) => void;
     setLoading: (key: keyof RControlCategoriesStore['isLoading'], value: boolean) => void;
 }
 
@@ -41,10 +46,12 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
     medDevs: [],
     ksgHmpCategoryData: null,
     nazNaprCategoryData: null,
-    deffects: [],
+    onkSluch: null,
+    defects: [],
     sanks: [],
+    onkAdditionalInformation: null,
 
-    deffectsTablePagination: {
+    defectsTablePagination: {
         currentPage: 1,
         pageSize: 20,
         totalItems: 0,
@@ -52,8 +59,9 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
     },
 
     isLoading: {
-        deffects: false,
-        sanks: false
+        defects: false,
+        sanks: false,
+        additional: false
     },
 
     setSelectedService: (service) => set({
@@ -76,20 +84,28 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
         nazNaprCategoryData: data
     }),
 
-    setDeffects: (data) => set({
-        deffects: data
+    setOnkSluch: (data) => set({
+        onkSluch: data
+    }),
+
+    setDefects: (data) => set({
+        defects: data
     }),
 
     setSanks: (data) => set({
         sanks: data
     }),
 
-    setDeffectsTablePagination: (newPaginationState) => set((state) => ({
-        deffectsTablePagination: { ...state.deffectsTablePagination, ...newPaginationState }
+    setOnkAdditionalData: (data) => set({
+        onkAdditionalInformation: data
+    }),
+
+    setDefectsTablePagination: (newPaginationState) => set((state) => ({
+        defectsTablePagination: { ...state.defectsTablePagination, ...newPaginationState }
     })),
 
     resetPagination: () => set({
-        deffectsTablePagination: {
+        defectsTablePagination: {
             currentPage: 1,
             pageSize: 20,
             totalItems: 0,
@@ -97,8 +113,8 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
         }
     }),
 
-    deffectsTableGoToPage: (page) => set((state) => ({
-        deffectsTablePagination: { ...state.deffectsTablePagination, currentPage: page }
+    defectsTableGoToPage: (page) => set((state) => ({
+        defectsTablePagination: { ...state.defectsTablePagination, currentPage: page }
     })),
 
     setLoading: (key, value) => set((state) => ({

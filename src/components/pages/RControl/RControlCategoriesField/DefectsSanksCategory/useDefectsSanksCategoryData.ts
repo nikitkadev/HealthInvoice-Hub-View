@@ -3,22 +3,22 @@ import { useRControlCategoriesStore } from "../useRControlCategoriesStore";
 import { useRControlStore } from "../../useRControlStore";
 import { useJournal } from "../../../../../app/contexts/JournalTypeContext";
 import { api } from "../../../../../shared/api/ApiClient";
-import type { DeffectDto, SankDto } from "../types";
+import type { DefectDto, ResponseWithPagination, SankDto } from "../types";
 
-export const useDeffectsSanksCategoryData = () => {
+export const useDefectsSanksCategoryData = () => {
 
     const { selectedCase } = useRControlStore();
     const { journalType } = useJournal();
     const {
-        deffectsTablePagination,
+        defectsTablePagination,
         setLoading,
-        setDeffects,
+        setDefects,
         setSanks,
         resetPagination } = useRControlCategoriesStore();
 
-    const fetchDeffects = async () => {
+    const fetchDefects = async () => {
 
-        setLoading("deffects", true);
+        setLoading("defects", true);
 
         try {
 
@@ -29,23 +29,23 @@ export const useDeffectsSanksCategoryData = () => {
             const params: Record<string, string> = {
                 sluchUid: selectedCase.uid.toString(),
                 journalType: journalType.toString(),
-                page: deffectsTablePagination.currentPage.toString(),
-                pageSize: deffectsTablePagination.pageSize.toString()
+                page: defectsTablePagination.currentPage.toString(),
+                pageSize: defectsTablePagination.pageSize.toString()
             };
 
-            const response = await api.get<DeffectDto[]>('/admin/rcontrol/category/deffects-sanks/deffects', params);
+            const response = await api.get<ResponseWithPagination<DefectDto[]>>('/admin/rcontrol/category/defects-sanks/defects', params);
 
             if (!response) {
                 return;
             }
 
-            setDeffects(response);
+            setDefects(response.items);
         }
         catch (error) {
             console.debug(error);
         }
         finally {
-            setLoading("deffects", false);
+            setLoading("defects", false);
         }
     }
 
@@ -64,7 +64,7 @@ export const useDeffectsSanksCategoryData = () => {
                 journalType: journalType.toString()
             };
 
-            const response = await api.get<SankDto[]>('/admin/deffects-sanks-category/sanks', params);
+            const response = await api.get<SankDto[]>('/admin/rcontrol/category/defects-sanks/sanks', params);
 
             if (!response) {
                 return;
@@ -83,11 +83,11 @@ export const useDeffectsSanksCategoryData = () => {
 
     useEffect(() => {
         resetPagination();
-        fetchDeffects();
+        fetchDefects();
         fetchSanks();
     }, [selectedCase]);
 
     useEffect(() => {
-        fetchDeffects();
-    }, [deffectsTablePagination.currentPage])
+        fetchDefects();
+    }, [defectsTablePagination.currentPage])
 };

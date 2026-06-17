@@ -42,7 +42,9 @@ const CategoriesMenu = () => {
                         </span>
                     </li>
 
-                    <li>
+                    <li
+                        className={selectedCategory == 'onk' ? styles.active : ''}
+                        onClick={() => showCategory('onk')}>
                         <span>Онкозаболевания / Консилиум</span>
                     </li>
 

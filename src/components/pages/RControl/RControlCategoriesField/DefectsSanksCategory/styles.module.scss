@@ -1,7 +1,7 @@
-.deffectsSanksCategoryRoot {
+.defectsSanksCategoryRoot {
 
     .sanksTableContainer,
-    .deffectsTableContainer {
+    .defectsTableContainer {
         table {
             width: 100%;
             table-layout: fixed;
@@ -54,6 +54,11 @@
                 }
             }
         }
+    }
+
+    .defectsTableContainer {
+        min-height: 20rem;
+        border-bottom: 1px solid var(--default-element-border-color);
     }
 
 

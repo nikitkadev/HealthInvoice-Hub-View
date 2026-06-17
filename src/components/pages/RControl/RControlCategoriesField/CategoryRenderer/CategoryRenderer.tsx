@@ -7,7 +7,8 @@ const AllCases = lazy(() => import('../AllCasesCategory/AllCasesCategory'));
 const Usl = lazy(() => import('../UslCategory/UslCategory'));
 const KsgVmp = lazy(() => import('../KsgVmpCategory/KsgVmpCategory'));
 const NazNapr = lazy(() => import('../NazNaprCategory/NazNaprCategory'));
-const DeffectsSanks = lazy(() => import('../DeffectsSanksCategory'));
+const DeffectsSanks = lazy(() => import('../DefectsSanksCategory'));
+const Onk = lazy(() => import('../OnkCategory/OnkCategory'));
 
 const categoryMap = {
     'default': Default,
@@ -16,7 +17,8 @@ const categoryMap = {
     'service': Usl,
     'ksg-vmp': KsgVmp,
     'naz-napr': NazNapr,
-    'deffects-sanks': DeffectsSanks
+    'deffects-sanks': DeffectsSanks,
+    'onk': Onk
 
 } as const;
 

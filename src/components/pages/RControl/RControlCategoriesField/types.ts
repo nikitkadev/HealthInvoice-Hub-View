@@ -157,8 +157,8 @@ interface NazEntity {
     nazPk?: string | null;
 }
 
-export interface DeffectDto {
-    kod: number;
+export interface DefectDto {
+    kod?: number;
     comment: string;
 }
 
@@ -173,8 +173,61 @@ export interface SankDto {
     numAct: string;
     codeExp?: string | null;
     sCom?: string | null;
-    filename: string | null;
-    year: number | null;
-    month: number | null;
-    uploaddate: Date | null;
+    filename?: string | null;
+    year?: number | null;
+    month?: number | null;
+    uploaddate?: Date | null;
+}
+
+export interface ResponseWithPagination<T> {
+    items: T;
+    total: number;
+    page: number;
+    pageSize: number;
+}
+
+export interface OnkSluchDto {
+    uid: number;
+    ds1T?: number | null;
+    stad?: number | null;
+    onkT?: number | null;
+    onkN?: number | null;
+    onkM?: number | null;
+    mtstz?: number | null;
+    sod?: number | null;
+    kFr?: number | null;
+    wei?: number | null;
+    hei?: number | null;
+    bsa?: number | null;
+}
+
+export interface OnkAdditionalData {
+    services: OnkUslDto[];
+    bDiags: BDiagDto[];
+    bProts: BProtDto[];
+}
+
+interface OnkUslDto {
+    uid: number;
+    uslTip: number;
+    hirTip?: number | null;
+    lekTipL?: number | null;
+    lekTipV?: number | null;
+    pptR?: number | null;
+    luchTip?: number | null;
+}
+
+interface BDiagDto {
+    uid: number;
+    diagDate?: Date | string | null;
+    diagTip?: number | null;
+    diagCode?: number | null;
+    diagRslt?: number | null;
+    recRslt?: number | null;
+}
+
+interface BProtDto {
+    uid: number;
+    prot: number;
+    dProt: Date | string;
 }

@@ -1,24 +1,25 @@
-import dayjs from 'dayjs';
 import { useRControlCategoriesStore } from '../useRControlCategoriesStore';
+import { useDefectsSanksCategoryData } from './useDefectsSanksCategoryData';
 import styles from './styles.module.scss';
-import { useDeffectsSanksCategoryData } from './useDeffectsSanksCategoryData';
+import dayjs from 'dayjs';
 
 const DeffectsSanksCategory = () => {
 
     const {
-        deffects,
+        defects,
         sanks
     } = useRControlCategoriesStore();
 
-    useDeffectsSanksCategoryData();
+    useDefectsSanksCategoryData();
 
     return (
-        <div className={styles.deffectsSanksCategoryRoot}>
+        <div className={styles.defectsSanksCategoryRoot}>
 
-            <div className={styles.deffectsTableContainer}>
+            <div className={styles.defectsTableContainer}>
                 <table>
                     <colgroup>
-                        <tr style={{ width: '1rem' }} />
+                        <col style={{ width: '1.5rem' }} />
+                        <col style={{ width: '20rem' }} />
                     </colgroup>
                     <thead>
                         <tr>
@@ -27,10 +28,10 @@ const DeffectsSanksCategory = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {deffects.length > 0 ? (
-                            deffects.map(item => (
+                        {defects?.length > 0 ? (
+                            defects.map(item => (
                                 <tr>
-                                    <td>{item.kod}</td>
+                                    <td>{item.kod ?? '-'}</td>
                                     <td>{item.comment}</td>
                                 </tr>
                             ))
@@ -63,7 +64,7 @@ const DeffectsSanksCategory = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {sanks.length > 0 ? (
+                        {sanks?.length > 0 ? (
                             sanks.map(item => (
                                 <tr>
                                     <td>{item.uid}</td>
