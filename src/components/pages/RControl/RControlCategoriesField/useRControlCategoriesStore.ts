@@ -1,8 +1,10 @@
 import { create } from "zustand";
-import type { DefectDto, KsgHmpCategoryDataDto, MedDevs, NazNaprCategoryDto, OnkAdditionalData, OnkSluchDto, SankDto, ServicesDto } from "./types";
+import type { DefectDto, InjData, KsgHmpCategoryDataDto, LekPrDto, MedDevs, NazNaprCategoryDto, OnkAdditionalData, OnkSluchDto, OnkUslDto, SankDto, ServicesDto } from "./types";
 
 interface RControlCategoriesStore {
     selectedService: ServicesDto | null;
+    selectedOnkService: OnkUslDto | null;
+    selectedLekPr: LekPrDto | null;
     services: ServicesDto[];
     medDevs: MedDevs[];
     ksgHmpCategoryData: KsgHmpCategoryDataDto | null;
@@ -11,6 +13,8 @@ interface RControlCategoriesStore {
     defects: DefectDto[];
     sanks: SankDto[];
     onkAdditionalInformation: OnkAdditionalData | null;
+    lekPrs: LekPrDto[];
+    InjData: InjData | null;
 
     defectsTablePagination: {
         currentPage: number;
@@ -23,9 +27,13 @@ interface RControlCategoriesStore {
         defects: boolean;
         sanks: boolean;
         additional: boolean;
+        lekPr: boolean;
+        inj: boolean;
     };
 
     setSelectedService: (service: ServicesDto) => void;
+    setSelectedOnkService: (service: OnkUslDto) => void;
+    setSelectedLekPr: (lekPr: LekPrDto) => void;
     setServices: (services: ServicesDto[]) => void;
     setMedDevs: (medDevs: MedDevs[]) => void;
     setKsgHmpData: (data: KsgHmpCategoryDataDto) => void;
@@ -34,6 +42,8 @@ interface RControlCategoriesStore {
     setDefects: (data: DefectDto[]) => void;
     setSanks: (data: SankDto[]) => void;
     setOnkAdditionalData: (data: OnkAdditionalData) => void;
+    setLekPrs: (data: LekPrDto[]) => void;
+    setInjData: (data: InjData) => void;
     setDefectsTablePagination: (pagination: Partial<RControlCategoriesStore['defectsTablePagination']>) => void;
     resetPagination: () => void;
     defectsTableGoToPage: (page: number) => void;
@@ -42,6 +52,8 @@ interface RControlCategoriesStore {
 
 export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) => ({
     selectedService: null,
+    selectedOnkService: null,
+    selectedLekPr: null,
     services: [],
     medDevs: [],
     ksgHmpCategoryData: null,
@@ -50,6 +62,8 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
     defects: [],
     sanks: [],
     onkAdditionalInformation: null,
+    lekPrs: [],
+    InjData: null,
 
     defectsTablePagination: {
         currentPage: 1,
@@ -61,11 +75,21 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
     isLoading: {
         defects: false,
         sanks: false,
-        additional: false
+        additional: false,
+        lekPr: false,
+        inj: false
     },
 
     setSelectedService: (service) => set({
         selectedService: service
+    }),
+
+    setSelectedOnkService: (onkService) => set({
+        selectedOnkService: onkService
+    }),
+
+    setSelectedLekPr: (lekPr) => set({
+        selectedLekPr: lekPr
     }),
 
     setServices: (services) => set({
@@ -98,6 +122,14 @@ export const useRControlCategoriesStore = create<RControlCategoriesStore>((set) 
 
     setOnkAdditionalData: (data) => set({
         onkAdditionalInformation: data
+    }),
+
+    setLekPrs: (data) => set({
+        lekPrs: data
+    }),
+
+    setInjData: (data) => set({
+        InjData: data
     }),
 
     setDefectsTablePagination: (newPaginationState) => set((state) => ({

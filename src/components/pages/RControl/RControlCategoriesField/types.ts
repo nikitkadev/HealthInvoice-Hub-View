@@ -207,7 +207,7 @@ export interface OnkAdditionalData {
     bProts: BProtDto[];
 }
 
-interface OnkUslDto {
+export interface OnkUslDto {
     uid: number;
     uslTip: number;
     hirTip?: number | null;
@@ -230,4 +230,32 @@ interface BProtDto {
     uid: number;
     prot: number;
     dProt: Date | string;
+}
+
+export interface LekPrDto {
+    uid: number;
+    regnum: string;
+    regnumDop?: string | null;
+    codeSh?: string | null;
+}
+
+export interface InjData {
+    dateInjs: DateInjDto[];
+    injs: InjDto[];
+}
+
+interface DateInjDto {
+    uid: number;
+    dateInj: Date;
+}
+
+interface InjDto {
+    uid: number;
+    dateinj: Date;
+    kvInj?: number | null;
+    kizInj?: number | null;
+    sInj: number | null;
+    svInj?: number | null;
+    sizInj?: number | null;
+    redInj?: number | null;
 }

@@ -1,14 +1,23 @@
-import dayjs from 'dayjs';
+import { useRControlCategoriesStore } from '../useRControlCategoriesStore';
+import { useOnkCategoryData } from './useOnkCategoryData';
 import Field from '../../../../ui/Field/Field';
 import OverlayLoader from '../../../../ui/Loaders/OverlayLoader';
 import GorizontalSeparator from '../../../../ui/Seporators/GorizontalSeporator';
-import { useRControlCategoriesStore } from '../useRControlCategoriesStore';
+import dayjs from 'dayjs';
 import styles from './styles.module.scss';
-import { useOnkCategoryData } from './useOnkCategoryData';
 
 const OnkCategory = () => {
 
-    const { onkSluch, onkAdditionalInformation, isLoading } = useRControlCategoriesStore();
+    const {
+        onkSluch,
+        onkAdditionalInformation,
+        isLoading,
+        setSelectedOnkService,
+        selectedOnkService,
+        lekPrs,
+        setSelectedLekPr,
+        selectedLekPr,
+        InjData } = useRControlCategoriesStore();
 
     useOnkCategoryData();
 
@@ -37,45 +46,7 @@ const OnkCategory = () => {
 
             </div>
 
-            <div className={styles.section}>
 
-                <div className={styles.onkUslTableContainer}>
-
-                    {isLoading.additional && (<OverlayLoader />)}
-
-                    <table>
-                        <thead>
-
-                            <tr>
-                                <th>Тип услуги</th>
-                                <th>Тип хирургического лечения</th>
-                                <th>Линия лек. терапии</th>
-                                <th>Профиль тошноты</th>
-                                <th>Тип лучевой терапии</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            {onkAdditionalInformation?.services.length === 0 ? (
-                                <tr className={styles.emptyDataRow}>
-                                    <td colSpan={5}>Данных не найдено</td>
-                                </tr>
-                            ) : (
-                                onkAdditionalInformation?.services.map(service => (
-                                    <tr>
-                                        <td>{service.uslTip}</td>
-                                        <td>{service.hirTip ?? '-'}</td>
-                                        <td>{service.lekTipL ?? '-'}</td>
-                                        <td>{service.pptR ?? '-'}</td>
-                                        <td>{service.luchTip ?? '-'}</td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
 
             <div className={styles.section}>
 
@@ -154,8 +125,55 @@ const OnkCategory = () => {
 
             <div className={styles.section}>
 
-                <div className={styles.lekPrTableContainer}>
+                <div className={styles.onkUslTableContainer}>
+
+                    {isLoading.additional && (<OverlayLoader />)}
+
                     <table>
+                        <thead>
+
+                            <tr>
+                                <th>Тип услуги</th>
+                                <th>Тип хирургического лечения</th>
+                                <th>Линия лек. терапии</th>
+                                <th>Профиль тошноты</th>
+                                <th>Тип лучевой терапии</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            {onkAdditionalInformation?.services.length === 0 ? (
+                                <tr className={styles.emptyDataRow}>
+                                    <td colSpan={5}>Данных не найдено</td>
+                                </tr>
+                            ) : (
+                                onkAdditionalInformation?.services.map(service => (
+                                    <tr
+                                        className={service.uid === selectedOnkService?.uid ? styles.activeRow : ''}
+                                        onClick={() => setSelectedOnkService(service)}>
+
+                                        <td>{service.uslTip}</td>
+                                        <td>{service.hirTip ?? '-'}</td>
+                                        <td>{service.lekTipL ?? '-'}</td>
+                                        <td>{service.pptR ?? '-'}</td>
+                                        <td>{service.luchTip ?? '-'}</td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div className={styles.section}>
+
+                <div className={styles.lekPrTableContainer}>
+
+                    {isLoading.lekPr && (<OverlayLoader />)}
+
+                    <table>
+
                         <thead>
 
                             <tr>
@@ -164,23 +182,110 @@ const OnkCategory = () => {
                             </tr>
 
                         </thead>
+
+                        <tbody>
+
+                            {lekPrs.length === 0 ? (
+                                <tr className={styles.emptyDataRow}>
+                                    <td colSpan={2}>Данных не найдено</td>
+                                </tr>
+                            ) : (
+                                lekPrs.map(lekPr => (
+                                    <tr
+                                        className={lekPr.uid === selectedLekPr?.uid ? styles.activeRow : ''}
+                                        onClick={() => setSelectedLekPr(lekPr)}>
+                                        <td>{lekPr.regnum}</td>
+                                        <td>{lekPr.codeSh ?? '-'}</td>
+                                    </tr>
+                                ))
+                            )}
+
+                        </tbody>
+
                     </table>
+
                 </div>
 
             </div>
 
             <div className={styles.section}>
 
-                <div className={styles.dateInjTableContainer}>
-                    <table>
-                        <thead>
+                {isLoading.inj && (<OverlayLoader />)}
 
+                <div className={styles.dateInjTableContainer}>
+
+                    <table>
+
+                        <thead>
                             <tr>
                                 <th>Дата введения лекарственного препарата</th>
                             </tr>
-
                         </thead>
+
+                        <tbody>
+
+                            {(InjData?.dateInjs.length === 0 || !InjData) ? (
+                                <tr className={styles.emptyDataRow}>
+                                    <td colSpan={1}>Данных не найдено</td>
+                                </tr>
+                            ) : (
+                                InjData?.dateInjs.map(dateInj => (
+                                    <tr>
+                                        <td>{dayjs(dateInj.dateInj).format('DD.MM.YYYY')}</td>
+                                    </tr>
+                                ))
+                            )}
+
+                        </tbody>
                     </table>
+
+                </div>
+
+            </div>
+
+            <div className={styles.section}>
+
+                {isLoading.inj && (<OverlayLoader />)}
+
+                <div className={styles.injTableContainer}>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Дата инъекции</th>
+                                <th>Количество введенного л. п.</th>
+                                <th>Количество израсходованного л. п.</th>
+                                <th>Фактическая стоимость л.п.</th>
+                                <th>Стоимость введенного л. п.</th>
+                                <th>Стоимость израсходованного л. п.</th>
+                                <th>Признак применения редукции</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {((InjData?.injs.length) === 0 || !InjData) ? (
+                                <tr className={styles.emptyDataRow}>
+                                    <td colSpan={7}>Данных не найдено</td>
+                                </tr>
+                            ) : (
+                                InjData?.injs.map(inj => (
+                                    <tr>
+                                        <td>{dayjs(inj.dateinj).format('DD.MM.YYYY')}</td>
+                                        <td>{inj.kvInj ?? '-'}</td>
+                                        <td>{inj.kizInj ?? '-'}</td>
+                                        <td>{inj.sInj ?? '-'}</td>
+                                        <td>{inj.svInj ?? '-'}</td>
+                                        <td>{inj.sizInj ?? '-'}</td>
+                                        <td>{inj.redInj ?? '-'}</td>
+                                    </tr>
+                                ))
+                            )}
+
+                        </tbody>
+                    </table>
+
                 </div>
 
             </div>

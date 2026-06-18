@@ -1,5 +1,6 @@
 export interface InvoiceShortly {
     status: number;
+    statusMEK: number;
     nSchet: string;
     dSchet: Date;
     summav: number;

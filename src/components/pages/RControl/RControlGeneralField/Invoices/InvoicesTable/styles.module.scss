@@ -18,9 +18,18 @@
             font-weight: 500;
         }
 
+        td {
+            text-align: left;
+            justify-content: left;
+        }
+
         .tableHead {
             position: sticky;
             top: 0;
+        }
+
+        .thCenter{
+            text-align: center;
         }
     }
 
