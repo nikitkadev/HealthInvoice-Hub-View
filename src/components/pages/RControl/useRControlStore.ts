@@ -43,6 +43,7 @@ interface RControlStore {
         invoiceSummary: boolean;
         finishedCases: boolean;
         cases: boolean;
+        generalMek: boolean;
     };
 
     setCategory: (selectedCategory: CategoryId) => void;
@@ -110,6 +111,7 @@ export const useRControlStore = create<RControlStore>((set) => ({
         invoiceSummary: false,
         finishedCases: false,
         cases: false,
+        generalMek: false
     },
 
     setCategory: (selectedCategory) => set({ selectedCategory: selectedCategory }),

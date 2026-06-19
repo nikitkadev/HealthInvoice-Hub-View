@@ -8,6 +8,7 @@ import Select, { type StylesConfig } from 'react-select';
 import useFiltersPanelData from './useFiltersPanelData';
 import useDateExtension from '../../../../shared/extension/useDateExtension';
 import { useRControlStore } from '../useRControlStore';
+import Button from '../../../ui/Button/Button';
 
 const RControlFiltersPanel = () => {
 
@@ -91,10 +92,10 @@ const RControlFiltersPanel = () => {
         label: org.code
     }));
 
-    const yearsOptions = periods
-        .map(period => ({
-            value: period.year,
-            label: period.year
+    const yearsOptions = [...new Set(periods.map(period => period.year))]
+        .map(year => ({
+            value: year,
+            label: year
         }));
 
     const monthOptions = periods

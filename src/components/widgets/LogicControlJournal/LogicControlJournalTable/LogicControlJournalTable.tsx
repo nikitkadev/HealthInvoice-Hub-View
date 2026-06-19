@@ -202,6 +202,7 @@ const LogicControlJournalTable = ({
     }
 
     const viewErrors = () => {
+        
         const correctInvoices = selected.filter(item => item.status === InvoiceStatus.LogicControlError);
 
         if (correctInvoices.length === 0) {

@@ -9,6 +9,8 @@ interface RControlInvoicesContextMenuProps {
     invoice?: InvoiceShortly | null;
     sendInvoiceToMEC: () => void;
     fetchInvoices: () => void;
+    removeInvoices: () => void;
+    viewDefects: () => void;
 }
 
 const RControlInvoicesContextMenu = ({
@@ -17,7 +19,9 @@ const RControlInvoicesContextMenu = ({
     posY,
     invoice,
     sendInvoiceToMEC,
-    fetchInvoices
+    fetchInvoices,
+    removeInvoices,
+    viewDefects
 }: RControlInvoicesContextMenuProps) => {
 
     if (!visiable) return null;
@@ -55,7 +59,8 @@ const RControlInvoicesContextMenu = ({
                 </li>
 
                 <li>
-                    <button>
+                    <button
+                        onClick={viewDefects}>
                         <span>Просмотреть ошибки</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +79,8 @@ const RControlInvoicesContextMenu = ({
                 </li>
 
                 <li>
-                    <button>
+                    <button
+                        onClick={removeInvoices}>
                         <span className={styles.exitSpan}>Удалить счета</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

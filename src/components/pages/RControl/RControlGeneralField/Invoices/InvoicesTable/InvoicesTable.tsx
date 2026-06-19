@@ -20,7 +20,8 @@ const InvoicesTable = () => {
     const {
         setSelectedInvoice,
         isLoading,
-        invoicesData } = useRControlStore();
+        invoicesData,
+        setLoading } = useRControlStore();
     const { journalType } = useJournal();
 
     const [contextMenu, setContextMenu] = useState<{
@@ -89,6 +90,59 @@ const InvoicesTable = () => {
 
     };
 
+    const removeInvoices = async () => {
+
+        setLoading('invoices', true);
+
+        try {
+
+            if (!contextMenu.record) {
+                toast.error("Невозможно удалить счет!");
+                return;
+            }
+
+            if (contextMenu.record.statusMEK === InvoiceStatus.Processing) {
+                toast.warning("Счет не удален - проходит МЭК!");
+                return;
+            }
+
+            const schetUids: Array<number> = [contextMenu.record.schetUid]
+
+            await api.postWithoutContent('/invoices/remove', {
+                schetUids: schetUids,
+                journalType: journalType
+            });
+
+            fetchShortlyInvoices();
+
+
+            toast.success("Счета удалены!");
+        }
+        catch {
+            toast.error("Произошла ошибка при удаление счетов!");
+        }
+        finally {
+            setLoading('invoices', false);
+        }
+    };
+
+    const viewDefects = async () => {
+
+        if (!contextMenu.record) {
+            toast.error("Нечего отправить не МЭК!");
+            return;
+        }
+
+        if (contextMenu.record.statusMEK === InvoiceStatus.Processing) {
+            toast.warning("Счет уже проходит МЭК!");
+            return;
+        }
+
+        window.open(`/errors/${contextMenu.record.schetUid}?journalType=${journalType}`, '_blank');
+    };
+
+
+
 
     useEffect(() => {
         setActiveInvoice(null);
@@ -109,6 +163,14 @@ const InvoicesTable = () => {
                 {isLoading.invoices && (<OverlayLoader />)}
 
                 <table>
+                    <colgroup>
+                        <col style={{ width: '2.5rem' }} />
+                        <col style={{ width: '1.5rem' }} />
+                        <col style={{ width: '1.5rem' }} />
+                        <col style={{ width: '1.5rem' }} />
+                        <col style={{ width: '1rem' }} />
+                        <col style={{ width: '2.5rem' }} />
+                    </colgroup>
                     <thead className={styles.tableHead}>
                         <tr>
                             <th>№ счета</th>
@@ -143,7 +205,7 @@ const InvoicesTable = () => {
                                     <td>{item.summav}</td>
                                     <td>{item.sdZ}</td>
                                     <td>{item.status}</td>
-                                    <td>
+                                    <td className={styles.tdCenter}>
                                         <Status status={item.statusMEK} />
                                     </td>
                                 </tr>
@@ -163,6 +225,8 @@ const InvoicesTable = () => {
                 invoice={contextMenu.record}
                 sendInvoiceToMEC={sendInvoiceToMEC}
                 fetchInvoices={fetchShortlyInvoices}
+                removeInvoices={removeInvoices}
+                viewDefects={viewDefects}
             />
         </>
 
